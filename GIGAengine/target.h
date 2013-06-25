@@ -1,6 +1,5 @@
-
-#ifndef FBO_H
-#define FBO_H
+#ifndef TARGET_H
+#define TARGET_H
 
 class target {
 	private:
