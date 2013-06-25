@@ -2,9 +2,16 @@
 #define declaregl
 #include "main.h"
 
-window::window(int width, int height, bool fullScreen, char * ptitle) :width (width), height(height), fullScreen(fullScreen) {
-	ZeroMemory(title, 512);
-	memcpy(title, ptitle, strlen(ptitle));
+LRESULT CALLBACK wndproc(HWND windowHandle, UINT message, WPARAM wParam, LPARAM lParam) {
+	if(message==WM_DESTROY) {
+		PostQuitMessage(0);
+		return 0;
+	}
+	else
+		return DefWindowProc(windowHandle, message, wParam, lParam);
+}
+
+window::window(int width, int height, bool fullScreen, std::wstring ptitle) :width (width), height(height), fullScreen(fullScreen), title(ptitle) {
 	
 	windowHandle = 0;
 	deviceContext = 0;
@@ -14,15 +21,15 @@ window::window(int width, int height, bool fullScreen, char * ptitle) :width (wi
 	windowClass.cbSize = sizeof(windowClass);
 	windowClass.hInstance = GetModuleHandle(0);
 	windowClass.style = CS_OWNDC;
-	windowClass.lpfnWndProc = DefWindowProc;
-	windowClass.lpszClassName = "classy class";
+	windowClass.lpfnWndProc = wndproc;
+	windowClass.lpszClassName = L"classy class";
 
 	ZeroMemory(keyDown, 256*sizeof(bool));
 	mouseLeft = mouseRight = false;
 
 	RegisterClassEx(&windowClass);
 
-	HWND temporaryWindow = CreateWindowEx(WS_EX_APPWINDOW, "classy class", "temporary", WS_SYSMENU|WS_BORDER|WS_MINIMIZEBOX, 0, 0, 0, 0, 0, 0, windowClass.hInstance, 0);
+	HWND temporaryWindow = CreateWindowEx(WS_EX_APPWINDOW, L"classy class", L"temporary", WS_SYSMENU|WS_BORDER|WS_MINIMIZEBOX, 0, 0, 0, 0, 0, 0, windowClass.hInstance, 0);
 	HDC temporaryDeviceContext = GetDC(temporaryWindow);
 	
 	PIXELFORMATDESCRIPTOR pixelFormat = {0};
@@ -82,7 +89,7 @@ window::window(int width, int height, bool fullScreen, char * ptitle) :width (wi
 		windowArea.top  = (GetSystemMetrics(SM_CYSCREEN)-windowArea.bottom)/2;
 	}
 	
-	windowHandle = CreateWindowEx(WS_EX_APPWINDOW, "classy class", title, displayFlags, windowArea.left, windowArea.top, windowArea.right, windowArea.bottom, 0, 0, windowClass.hInstance, 0);
+	windowHandle = CreateWindowEx(WS_EX_APPWINDOW, L"classy class", title.c_str(), displayFlags, windowArea.left, windowArea.top, windowArea.right, windowArea.bottom, 0, 0, windowClass.hInstance, 0);
 	deviceContext = GetDC(windowHandle);
 	
 	((PFNWGLCHOOSEPIXELFORMATARBPROC)wglGetProcAddress("wglChoosePixelFormatARB"))(deviceContext, formatAttributes, 0, 1, &format, (UINT*)&formatcount);
@@ -96,6 +103,8 @@ window::window(int width, int height, bool fullScreen, char * ptitle) :width (wi
 	wglDeleteContext(temporaryRenderingContext);
 	ReleaseDC(temporaryWindow, temporaryDeviceContext);
 	DestroyWindow(temporaryWindow);
+	MSG message;
+	while(PeekMessage(&message, 0, 0, 0, PM_REMOVE));
 
 	#include "glloading.h"
 
@@ -108,10 +117,14 @@ window::window(int width, int height, bool fullScreen, char * ptitle) :width (wi
 	ZeroMemory(&gdiInput, sizeof(gdiInput));
 	gdiInput.GdiplusVersion = 1;
 
-	Gdiplus::GdiplusStartup(&gdiToken, &gdiInput, 0);
+	Gdiplus::GdiplusStartup((ULONG_PTR*)&gdiToken, &gdiInput, 0);
 
 	startTime = GetTickCount()+1000;
 	frameCount = 0;
+}
+
+int _vsnprintf( wchar_t *buff, size_t sizeofbuff, size_t count, const wchar_t *format, va_list argptr) {
+	return 0;
 }
 
 int window::loop() {
@@ -119,9 +132,9 @@ int window::loop() {
 	DWORD curTime = GetTickCount();
 
 	if(startTime<curTime) {
-		char newTitle[512] = {0};
-		sprintf_s(newTitle, "%s - %dfps", title, frameCount);
-		SetWindowText(windowHandle, newTitle);
+		std::wstringstream newTitle;
+		newTitle << title << L" - " << frameCount;
+		SetWindowText(windowHandle, newTitle.str().c_str());
 
 		startTime = curTime+1000;
 		frameCount = 0;
@@ -148,8 +161,8 @@ int window::loop() {
 		if(message.message==WM_RBUTTONUP)
 			mouseRight = false;
 		if(message.message==WM_MOUSEMOVE) {
-			mousex = message.lParam%65536;
-			mousey = message.lParam/65536;
+			mousex = int(message.lParam)%65536;
+			mousey = int(message.lParam)/65536;
 		}
 	}
 	return 1;
@@ -164,7 +177,7 @@ window::~window() {
 	wglDeleteContext(renderingContext);
 	ReleaseDC(windowHandle, deviceContext);
 	DestroyWindow(windowHandle);
-	UnregisterClass("classy class", GetModuleHandle(0));
+	UnregisterClass(L"classy class", GetModuleHandle(0));
 	ExitProcess(0);
 	return;
 }

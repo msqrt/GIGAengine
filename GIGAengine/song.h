@@ -4,7 +4,7 @@
 
 class song {
 	private:
-		long double songLength;
+		long double length;
 		bool playing;
 		IMediaControl * mediaControl;
 		IMediaSeeking * mediaSeeking;

@@ -19,6 +19,8 @@ GIGAengine/assets/
 
 # Visual Studio cruft
 CodeAnalyst/
+GIGAengine/Debug
+GIGAengine/Release
 Debug/
 Release/
 bin/

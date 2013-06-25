@@ -66,6 +66,7 @@ int target::attach(int width, int height) {
 	glViewport(0, 0, width, height);
 	int i;
 	for(i = 0; i<maxtex && attachments[i]!=0; i++);
-		glDrawBuffers(i, attachments);
+	glDrawBuffers(i, attachments);
+
 	return 0;
 }

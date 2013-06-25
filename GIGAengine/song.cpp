@@ -5,7 +5,7 @@ song::song(std::wstring path): playing(false) {
 	IPin * pin;
 	IBaseFilter * base;
 	IBasicAudio * audioControl;
-	__int64 songDuration;
+	__int64 trackLength;
 	IGraphBuilder * graph;
 
 	CoInitialize(0);
@@ -14,10 +14,8 @@ song::song(std::wstring path): playing(false) {
 	graph->QueryInterface(IID_IMediaControl, (void**)&mediaControl);
 	graph->QueryInterface(IID_IMediaSeeking, (void**)&mediaSeeking);
 	graph->QueryInterface(IID_IBasicAudio  , (void**)&audioControl);
-
-	graph->AddSourceFilter(path.c_str(), L"mp3", &base);
-	base->FindPin(L"Output", &pin);
-	HRESULT hr = graph->Render(pin);
+	
+	HRESULT hr = graph->RenderFile(path.c_str(), 0);
 
 	if(hr==S_OK)
 		printf("Song succesfully rendered!\n");
@@ -32,8 +30,8 @@ song::song(std::wstring path): playing(false) {
 	graph->Release();
 
 	mediaSeeking->SetTimeFormat(&TIME_FORMAT_MEDIA_TIME);
-	mediaSeeking->GetDuration(&songDuration);
-	songLength = (long double)(songDuration)/(long double)10000000.0;
+	mediaSeeking->GetDuration(&trackLength);
+	length = (long double)(trackLength)/(long double)10000000.0;
 
 	__int64 position = 0;
 	mediaSeeking->SetPositions(&position, AM_SEEKING_AbsolutePositioning, &position, AM_SEEKING_NoPositioning);
@@ -67,8 +65,8 @@ int song::toggle() {
 
 int song::seek(long double position) {
 	
-	if(position>songLength)
-		position = songLength;
+	if(position>length)
+		position = length;
 	if(position<.0)
 		position = .0;
 	

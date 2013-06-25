@@ -2,6 +2,8 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#define UNICODE
+
 #include <windows.h>
 #include <Gdiplus.h>
 #include <gl/gl.h>
@@ -9,6 +11,7 @@
 #include "wglext.h"
 #include <cmath>
 #include <string>
+#include <sstream>
 
 #pragma warning(disable:995)
 #include <dshow.h>

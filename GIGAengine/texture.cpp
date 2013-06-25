@@ -30,8 +30,7 @@ texture::texture(std::wstring path, GLint filter) {
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-texture::texture(int width, int height, bool pdepth, GLint filter, GLint repeat): width(width), height(height) {
-	depth = pdepth;
+texture::texture(int width, int height, bool depth, GLint filter, GLint repeat): width(width), height(height), depth(depth) {
 
 	glGenTextures(1, &id);
 	glBindTexture(GL_TEXTURE_2D, id);
@@ -54,6 +53,7 @@ texture::~texture() {
 }
 
 int texture::resize(int w, int h) {
+	bind(0);
 	width = w;
 	height = h;
 

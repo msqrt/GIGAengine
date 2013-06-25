@@ -9,9 +9,9 @@ class window {
 		unsigned long gdiToken;
 		bool fullScreen;
 		DWORD startTime; int fps, frameCount;
-		char title[512];
+		std::wstring title;
 	public:
-		window(int width, int height, bool fullScreen, char * title);
+		window(int width, int height, bool fullScreen, std::wstring title);
 	   ~window();
 		bool keyDown[256], keyHit[256];
 		int mousex, mousey, mouseLeft, mouseRight;
