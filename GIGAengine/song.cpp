@@ -2,8 +2,6 @@
 #include "main.h"
 
 song::song(std::wstring path): playing(false) {
-	IPin * pin;
-	IBaseFilter * base;
 	IBasicAudio * audioControl;
 	__int64 trackLength;
 	IGraphBuilder * graph;
@@ -24,8 +22,6 @@ song::song(std::wstring path): playing(false) {
 
 	audioControl->put_Volume(long(0));
 
-	pin->Release();
-	base->Release();
 	audioControl->Release();
 	graph->Release();
 
