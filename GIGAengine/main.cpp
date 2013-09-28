@@ -3,8 +3,10 @@
 #include "resource1.h"
 #include <commctrl.h>
 
+#include "timeline.h"
 #include "effect.h"
 #include "blobs.h"
+#include "quad.h"
 
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "gdi32.lib")
@@ -86,8 +88,6 @@ int main() {
 	
 	ShowCursor(0);
 
-	((PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT"))(1);
-
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
@@ -106,12 +106,19 @@ int main() {
 	float t = .0f;
 
 	bool flymode = false;
+	
+	Blobs b;
+	QuadEffect q;
+
+	TimeLine T;
+	T.addEntry(1.0, 10.0, b);
+	T.addEntry(10.0, 20.0, q);
+	T.addEntry(15.0, 20.0, b);
 
 	track.seek(.0);
 	track.play();
 	t = track.getTime();
-
-	Blobs b;
+	SyncMap sync;
 
 	while(win.loop() && t<200.0f) {
 		glBeginQuery(GL_TIME_ELAPSED, query);
@@ -127,7 +134,9 @@ int main() {
 				ShowCursor(1);
 		}
 
-		b.render(t);
+		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+		
+		T.render(t, sync);
 		
 		//while(t>track.getTime());
 		//while(t<track.getTime())

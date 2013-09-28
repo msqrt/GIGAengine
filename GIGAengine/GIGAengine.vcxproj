@@ -84,6 +84,7 @@
   <ItemGroup>
     <None Include="blobs.shader" />
     <None Include="display.shader" />
+    <None Include="quad.shader" />
     <None Include="simple.shader" />
     <None Include="slider.shader" />
     <None Include="spawn.shader" />
@@ -99,6 +100,7 @@
     <ClInclude Include="glloading.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="mesh.h" />
+    <ClInclude Include="quad.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="shader.h" />
@@ -106,6 +108,7 @@
     <ClInclude Include="target.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="texture3D.h" />
+    <ClInclude Include="timeline.h" />
     <ClInclude Include="video.h" />
     <ClInclude Include="wglext.h" />
     <ClInclude Include="window.h" />
@@ -113,12 +116,14 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="quad.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="song.cpp" />
     <ClCompile Include="blobs.cpp" />
     <ClCompile Include="target.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="texture3D.cpp" />
+    <ClCompile Include="timeline.cpp" />
     <ClCompile Include="video.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
