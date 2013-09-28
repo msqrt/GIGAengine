@@ -7,5 +7,5 @@ class Effect {
 		virtual ~Effect() { }
 		Effect(const Effect&) { }
 		const Effect& operator=(const Effect&) { }
-		virtual void render(float t) = 0;
+		virtual void render(SyncMap& sync) = 0;
 };

@@ -36,4 +36,8 @@
 
 #include "resource.h"
 
+#include <map>
+
+typedef std::map<std::string, float> SyncMap;
+
 #endif
