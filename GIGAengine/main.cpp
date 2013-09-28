@@ -3,6 +3,9 @@
 #include "resource1.h"
 #include <commctrl.h>
 
+#include "effect.h"
+#include "blobs.h"
+
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "gdi32.lib")
 #pragma comment(lib, "gdiplus.lib")
@@ -70,10 +73,13 @@ int main() {
 
 	InitCommonControls();
 
-	DialogBox(GetModuleHandle(0), MAKEINTRESOURCE(IDD_DIALOG1), 0, (DLGPROC)startupproc);
+	//DialogBox(GetModuleHandle(0), MAKEINTRESOURCE(IDD_DIALOG1), 0, (DLGPROC)startupproc);
 	
 	if(!runprogram)
 		ExitProcess(0);
+
+	screenw = 1280;
+	screenh = 720;
 
 	window win(screenw, screenh, full, L"ALTDEMO");
 	//window win(1920, 1080, 1, L"windy window");
@@ -105,10 +111,12 @@ int main() {
 	track.play();
 	t = track.getTime();
 
+	Blobs b;
+
 	while(win.loop() && t<200.0f) {
 		glBeginQuery(GL_TIME_ELAPSED, query);
 
-		if(0) { // if(win.keyHit[VK_SPACE]) {
+		if(win.keyHit[VK_SPACE]) {
 			flymode = !flymode;
 			if(flymode) {
 				win.mousex = win.width/2;
@@ -119,8 +127,7 @@ int main() {
 				ShowCursor(1);
 		}
 
-		if(flymode) {
-		}
+		b.render(t);
 		
 		//while(t>track.getTime());
 		//while(t<track.getTime())
