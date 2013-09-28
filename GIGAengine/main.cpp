@@ -1,160 +1,141 @@
 
-#include "resource.h"
 #include "main.h"
+#include "resource1.h"
+#include <commctrl.h>
 
-#define screenw 1280
-#define screenh 720
+#pragma comment(lib, "opengl32.lib")
+#pragma comment(lib, "gdi32.lib")
+#pragma comment(lib, "gdiplus.lib")
+#pragma comment(lib, "strmiids.lib")
+#pragma comment(lib, "ComCtl32.lib")
+#pragma comment(lib, "msvcrt.lib")
 
-int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmdline, int show) {
-//int main() {
-	window win(screenw, screenh, 0, L"the pointillist chaos enhanced motion picture reproduction contraption by msqrt - enter to load, space to pause");
-	shader simple(SIMPLE, SHADER), update(UPDATE, SHADER), spawn(SPAWN, SHADER), display(DISPLAY, SHADER), slider(SLIDER, SHADER);
+#pragma comment(linker, "/nodefaultlib:libcmt.lib")
+
+#ifdef _DEBUG
+#pragma comment(lib, "strmbasd.lib")
+#else
+#pragma comment(lib, "strmbase.lib")
+#endif
+
+#pragma comment(lib, "winmm.lib")
+
+bool runprogram = true, full = false;
+
+int screenw = 0, screenh = 0;
+
+INT_PTR CALLBACK startupproc(HWND dlg, UINT msg, WPARAM w, LPARAM l)
+{
+	if(msg==WM_INITDIALOG)
+	{
+		ComboBox_AddString(GetDlgItem(dlg, IDC_COMBO1), L"1280x720");
+		ComboBox_AddString(GetDlgItem(dlg, IDC_COMBO1), L"1920x1080");
+		ComboBox_AddString(GetDlgItem(dlg, IDC_COMBO1), L"3840x2160");
+		
+		ComboBox_SetCurSel(GetDlgItem(dlg, IDC_COMBO1), 0);
+	}
+	if(msg==WM_COMMAND)
+	{
+
+		if(HIWORD(w)==BN_CLICKED && LOWORD(w)==IDCANCEL)
+		{
+			runprogram=false;
+			EndDialog(dlg,0);
+			return 1;
+		}
+
+		if(HIWORD(w)==BN_CLICKED && LOWORD(w)==IDOK) // launch pressed
+		{
+			int len = 1+ComboBox_GetTextLength(GetDlgItem(dlg, IDC_COMBO1));
+			wchar_t * buff = new wchar_t[len];
+			ComboBox_GetText(GetDlgItem(dlg, IDC_COMBO1), buff, len);
+
+			swscanf_s(buff, L"%dx%d", &screenw, &screenh);
+
+			delete [] buff;
+
+			if(BST_CHECKED == IsDlgButtonChecked(dlg,IDC_CHECK1))
+				full = true;
+
+			EndDialog(dlg, 0);
+			return 1;
+		}
+	}
+	return 0;
+}
+
+
+//int CALLBACK main(HINSTANCE self, HINSTANCE prev, LPSTR cmdline, int show) {
+int main() {
+
+	InitCommonControls();
+
+	DialogBox(GetModuleHandle(0), MAKEINTRESOURCE(IDD_DIALOG1), 0, (DLGPROC)startupproc);
+	
+	if(!runprogram)
+		ExitProcess(0);
+
+	window win(screenw, screenh, full, L"ALTDEMO");
+	//window win(1920, 1080, 1, L"windy window");
+	
+	ShowCursor(0);
+
+	((PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT"))(1);
+
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
+
+	unsigned int loops = 0;
+	GLuint query; GLint res;
+	glGenQueries(1, &query);
+
 	mesh quad(QUAD);
 
-	video * clip = 0;
-	
-	texture particleDataOne  (2048, 1024, false, GL_NEAREST, GL_CLAMP_TO_BORDER),
-			particleDataTwo  (2048, 1024, false, GL_NEAREST, GL_CLAMP_TO_BORDER),
-			particleDataThree(2048, 1024, false, GL_NEAREST, GL_CLAMP_TO_BORDER),
-			particleDataFour (2048, 1024, false, GL_NEAREST, GL_CLAMP_TO_BORDER);
+	song track(L"track.mp3");
 
-	texture * pingDataOne = &particleDataOne  , * pingDataTwo = &particleDataTwo,
-			* pongDataOne = &particleDataThree, * pongDataTwo = &particleDataFour;
+	double dirx = .0, diry = .0, posx = .0, posy = .0, posz = 3.0;
+	POINT pt = {win.width/2, win.height/2};
 
-	float * dat = new float[2048*1024*2];
-	for(int i = 0; i<2048; i++)
-	for(int j = 0; j<1024; j++) {
-		dat[(i*1024+j)*2+0] = float(i)/2048.0f;
-		dat[(i*1024+j)*2+1] = float(j)/1024.0f;
-	}
+	float t = .0f;
 
-	mesh particleMesh;
-	particleMesh.data(0, 2048*1024, 2, dat);
+	bool flymode = false;
 
-	delete [] dat;
-	
-	target particleTarget, previousTarget;
-	texture previousFrame(1,1,false,GL_LINEAR,GL_REPEAT);
-	previousTarget.setTexture(GL_COLOR_ATTACHMENT0, &previousFrame, true);
+	track.seek(.0);
+	track.play();
+	t = track.getTime();
 
-	previousTarget.attach(1,1);
-	glClear(GL_COLOR_BUFFER_BIT);
-	previousFrame.bind(0);
-	previousFrame.bind(1);
+	while(win.loop() && t<200.0f) {
+		glBeginQuery(GL_TIME_ELAPSED, query);
 
-	DWORD start = GetTickCount();
-
-	glDepthFunc(GL_LEQUAL);
-	int rowCount = 0, k = 0;
-
-	while(win.loop()) {
-
-		if(win.keyHit[VK_RETURN]||k==0)
-		{
-			delete clip;
-			
-			wchar_t path[2048] = {0};
-			OPENFILENAME fileName = {0};
-			fileName.lStructSize = sizeof(OPENFILENAME);
-			fileName.hInstance = GetModuleHandle(0);
-			fileName.lpstrFilter = L"Video file\0*.avi;*.mp4;*.mpeg;*.mpg;*.mkv;*.mov;*.wmv\0Any file\0*.*\0";
-			fileName.lpstrFile = path;
-			fileName.nMaxFile = 2048;
-			fileName.lpstrTitle = L"Open video";
-			fileName.Flags = OFN_FILEMUSTEXIST|OFN_LONGNAMES;
-			if(GetOpenFileName(&fileName))
-				clip = new video(fileName.lpstrFile);
+		if(0) { // if(win.keyHit[VK_SPACE]) {
+			flymode = !flymode;
+			if(flymode) {
+				win.mousex = win.width/2;
+				win.mousey = win.height/2;
+				ShowCursor(0);
+			}
 			else
-				clip = 0;
-			if(clip && clip->isValid()) {
-				clip->play();
-				while(!clip->hasNewFrame());
-				clip->updateFrame();
-				previousFrame.resize(clip->texture.width, clip->texture.height);
-				previousTarget.setTexture(GL_COLOR_ATTACHMENT0, &clip->texture);
-				glClear(GL_COLOR_BUFFER_BIT);
-				previousTarget.attach(previousFrame.width, previousFrame.height);
-				previousTarget.setTexture(GL_COLOR_ATTACHMENT0, &previousFrame);
-				glClear(GL_COLOR_BUFFER_BIT);
-			}
-		}
-		if(clip && clip->isValid()) {
-			if(win.keyHit[VK_SPACE])
-				clip->toggle();
-			if(clip->hasNewFrame() && clip->playing()) {
-				previousTarget.attach(previousFrame.width, previousFrame.height);
-				simple.use();
-				clip->texture.bind(0);
-				glUniform1i(simple.getLoc("tex"),0);
-				quad.draw(GL_TRIANGLES);
-				clip->updateFrame();
-				rowCount+=64;
-				if(rowCount>=1024)
-					rowCount = 0;
-			}
-			clip->texture.bind(0);
-		}
-		particleTarget.attach(2048, 1024);
-		particleTarget.setTexture(GL_COLOR_ATTACHMENT0, pongDataOne);
-		particleTarget.setTexture(GL_COLOR_ATTACHMENT1, pongDataTwo);
-		
-		float t = float(GetTickCount()-start)*.001f;
-
-		update.use();
-		pingDataOne->bind(2);
-		pingDataTwo->bind(3);
-		glUniform1i(update.getLoc("pos"), 2);
-		glUniform1i(update.getLoc("col"), 3);
-		glUniform1f(update.getLoc("t"), t);
-		quad.draw(GL_TRIANGLES);
-
-		spawn.use();
-
-		glUniform1f(spawn.getLoc("row"), float(rowCount)/1024.0f*2.0f-1.0f);
-		glUniform1f(spawn.getLoc("rowh"), 64.0f/1024.0f);
-		glUniform1f(spawn.getLoc("t"), t);
-		previousFrame.bind(1);
-		glUniform1i(spawn.getLoc("tex1"), 0);
-		glUniform1i(spawn.getLoc("tex2"), 1);
-
-		quad.draw(GL_TRIANGLES);
-		
-		win.attach();
-		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-		
-		if(clip && clip->isValid()) {
-			if(win.mousex>63 && win.mousex<1216 && win.mousey>647 && win.mousey<684 && win.mouseLeft)
-				clip->seek(float(win.mousex-63)/float(1216-63)*clip->getDuration());
-			slider.use();
-			glUniform1f(slider.getLoc("t"), float(clip->getTime()/clip->getDuration()));
-			glUniform1f(slider.getLoc("hover"), float(win.mousex>63 && win.mousex<1216 && win.mousey>647 && win.mousey<684));
-			quad.draw(GL_TRIANGLES);
+				ShowCursor(1);
 		}
 
-		display.use();
-		pongDataOne->bind(2);
-		pongDataTwo->bind(3);
-		glUniform1i(display.getLoc("pos"), 2);
-		glUniform1i(display.getLoc("col"), 3);
-		glUniform1f(display.getLoc("t"), t);
-		glUniform1f(display.getLoc("aspect"), float(previousFrame.width)/float(previousFrame.height));
-
-		glEnable(GL_DEPTH_TEST);
-		particleMesh.draw(GL_POINTS);
-		glDisable(GL_DEPTH_TEST);
-
-		texture * temporaryTexture = pingDataOne;
-		pingDataOne = pongDataOne;
-		pongDataOne = temporaryTexture;
-
-		temporaryTexture = pingDataTwo;
-		pingDataTwo = pongDataTwo;
-		pongDataTwo = temporaryTexture;
-
-		k++;
+		if(flymode) {
+		}
+		
+		//while(t>track.getTime());
+		//while(t<track.getTime())
+		while(t<track.getTime())
+			t+=1.0f/60.0f;
+		//t = win.time();
+		glEndQuery(GL_TIME_ELAPSED);
+		glGetQueryObjectiv(query, GL_QUERY_RESULT, &res);
+		if(!(loops%60)) {
+			printf("frametime: %.2lfms\n", double(res)/1000000.0);
+			printf("gl error: 0x%X\n", glGetError());
+			printf("time: %f\n", t);
+		}
+		loops++;
 	}
-
-	delete clip;
 
 	return 0;
 }

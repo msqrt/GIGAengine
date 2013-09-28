@@ -10,6 +10,7 @@ class target {
 	public:
 		target();
 		~target();
+		int getID();
 		int setTexture(GLenum attachment, texture * texture, bool tach = false, int mip = 0);
 		int setTexture(GLenum attachment, texture3D * texture, bool tach = false, int mip = 0);
 		int attach(int width, int height);

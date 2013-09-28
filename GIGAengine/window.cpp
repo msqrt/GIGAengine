@@ -11,7 +11,7 @@ LRESULT CALLBACK wndproc(HWND windowHandle, UINT message, WPARAM wParam, LPARAM 
 		return DefWindowProc(windowHandle, message, wParam, lParam);
 }
 
-window::window(int width, int height, bool fullScreen, std::wstring ptitle) :width (width), height(height), fullScreen(fullScreen), title(ptitle) {
+window::window(int width, int height, bool fullScreen, std::wstring ptitle) : width (width), height(height), fullScreen(fullScreen), title(ptitle) {
 	
 	windowHandle = 0;
 	deviceContext = 0;
@@ -21,6 +21,7 @@ window::window(int width, int height, bool fullScreen, std::wstring ptitle) :wid
 	windowClass.cbSize = sizeof(windowClass);
 	windowClass.hInstance = GetModuleHandle(0);
 	windowClass.style = CS_OWNDC;
+	windowClass.hIcon = LoadIcon(windowClass.hInstance, MAKEINTRESOURCE(129));
 	windowClass.lpfnWndProc = wndproc;
 	windowClass.lpszClassName = L"classy class";
 
@@ -112,15 +113,37 @@ window::window(int width, int height, bool fullScreen, std::wstring ptitle) :wid
 
 	ShowWindow(windowHandle, SW_SHOW);
 	glViewport(0, 0, width, height);
+	glClearColor(.0f,.0f,.0f,.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+	SwapBuffers(deviceContext);
 
 	Gdiplus::GdiplusStartupInput gdiInput;
 	ZeroMemory(&gdiInput, sizeof(gdiInput));
 	gdiInput.GdiplusVersion = 1;
 
 	Gdiplus::GdiplusStartup((ULONG_PTR*)&gdiToken, &gdiInput, 0);
+	
+	/*int charsize = 64;
+	int fontsize = 16*charsize;
 
-	startTime = GetTickCount()+1000;
+	Gdiplus::Font f(L"Segoe UI Light", float(charsize)*.7f, Gdiplus::FontStyleItalic, Gdiplus::UnitPixel, 0);
+	Gdiplus::Bitmap canvas(fontsize, fontsize, PixelFormat32bppARGB);
+	Gdiplus::Graphics gfx((Gdiplus::Image*)&canvas);
+	gfx.Clear(Gdiplus::Color(0,0,0));
+	Gdiplus::SolidBrush brush(Gdiplus::Color(255,255,255));
+	Gdiplus::Rect r(0,0, fontsize, fontsize);
+
+	for(int i = 0; i<16; i++)
+	for(int j = 0; j<16; j++) {
+		wchar_t k = i*16+j;
+		Gdiplus::PointF point(float(charsize)*(float(i)+.2f), float(charsize)*(float(j)+.1f));
+		gfx.DrawString(&k, 1, &f, point, &brush);
+	}*/
+
+	startTime = GetTickCount();
+	frameStartTime = startTime+1000;
 	frameCount = 0;
+	defaultid = 0;
 }
 
 int _vsnprintf( wchar_t *buff, size_t sizeofbuff, size_t count, const wchar_t *format, va_list argptr) {
@@ -131,12 +154,12 @@ int window::loop() {
 	frameCount++;
 	DWORD curTime = GetTickCount();
 
-	if(startTime<curTime) {
+	if(frameStartTime<curTime) {
 		std::wstringstream newTitle;
 		newTitle << title << L" - " << frameCount;
 		SetWindowText(windowHandle, newTitle.str().c_str());
 
-		startTime = curTime+1000;
+		frameStartTime = curTime+1000;
 		frameCount = 0;
 	}
 
@@ -178,12 +201,22 @@ window::~window() {
 	ReleaseDC(windowHandle, deviceContext);
 	DestroyWindow(windowHandle);
 	UnregisterClass(L"classy class", GetModuleHandle(0));
-	ExitProcess(0);
 	return;
 }
 
-int window::attach() {
+int window::attach(int id) {
+	if(id<0)
+		id = defaultid;
 	glViewport(0, 0, width, height);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, id);
 	return 0;
+}
+
+int window::setDefaultTarget(int id) {
+	defaultid = id;
+	return 0;
+}
+
+double window::time() {
+	return double(GetTickCount()-startTime)*.001;
 }

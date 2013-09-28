@@ -4,7 +4,8 @@
 target::target() {
 	glGetIntegerv(GL_MAX_DRAW_BUFFERS, &maxtex);
 	attachments = new GLenum[maxtex];
-	ZeroMemory(attachments, sizeof(GLenum)*maxtex);
+	ZeroMemory(attachments, sizeof(GLenum)*(maxtex));
+	maxtex--;
 	glGenFramebuffers(1, &id);
 }
 
@@ -69,4 +70,8 @@ int target::attach(int width, int height) {
 	glDrawBuffers(i, attachments);
 
 	return 0;
+}
+
+int target::getID() {
+	return id;
 }

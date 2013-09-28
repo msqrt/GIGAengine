@@ -17,9 +17,6 @@
 #include <dshow.h>
 #pragma warning(default:995)
 
-#pragma comment(lib, "opengl32.lib")
-#pragma comment(lib, "gdiplus.lib")
-#pragma comment(lib, "strmiids.lib")
 
 //don't define this unless you're window.cpp or know what you're doing (in which case you know not to)
 #ifdef declaregl
@@ -36,5 +33,7 @@
 #include "window.h"
 #include "song.h"
 #include "video.h"
+
+#include "resource.h"
 
 #endif

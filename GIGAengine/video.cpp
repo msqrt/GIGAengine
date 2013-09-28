@@ -2,13 +2,6 @@
 #include "main.h"
 #include <comdef.h>
 
-#ifdef _DEBUG
-#pragma comment(lib, "strmbasd.lib")
-#else
-#pragma comment(lib, "strmbase.lib")
-#endif
-
-#pragma comment(lib, "winmm.lib")
 
 HRESULT textureGrabber::CheckMediaType(const CMediaType *mediaType) {
 	width = 0;

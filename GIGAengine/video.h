@@ -2,7 +2,7 @@
 #ifndef VIDEO_H
 #define VIDEO_H
 
-#include <streams.h>
+#include "dshowbaseclass.h"
 #include <comdef.h>
 
 struct __declspec(uuid("{bf5129ce-01b3-4120-aae8-8d8e6e33d22a}")) peisikVideoSystem;

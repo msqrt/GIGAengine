@@ -12,6 +12,7 @@ class texture {
 		~texture();
 		int bind(int slot);
 		int resize(int width, int height);
+		int addmiplevel(int w, int h, int mip = 0, GLint filter = GL_NEAREST, GLint repeat = GL_CLAMP_TO_EDGE);
 	friend class target;
 };
 

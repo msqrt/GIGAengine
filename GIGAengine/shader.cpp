@@ -5,14 +5,20 @@ shader::shader(std::string programPath, int pflags) {
 	error = 0;
 	flags = pflags;
 	path = programPath;
+	uniformCount = 0;
 	reload(1);
+	uniforms = 0;
+	use();
 }
 
 shader::~shader() {
 	reload(2);
+	delete [] uniforms;
 }
 
 shader::shader(int programName, int resourceType, int pflags) {
+	uniformCount = 0;
+	uniforms = 0;
 	flags = pflags | RESOURCE_SHADER;
 	HMODULE handle = GetModuleHandle(0);
 	HRSRC resource = FindResource(handle, MAKEINTRESOURCE(programName), MAKEINTRESOURCE(resourceType));
@@ -24,6 +30,7 @@ shader::shader(int programName, int resourceType, int pflags) {
 	data[size] = '\0';
 	compile(data);
 	delete [] data;
+	use();
 }
 
 int shader::reload(int mode) {
@@ -61,16 +68,11 @@ int shader::reload(int mode) {
 		fclose(sf);
 		compile(source);
 		delete [] source;
+
+		use();
+		for(int i = 0; i<uniformCount; i++)
+			uniforms[i].location = getLoc(uniforms[i].name);
 	}
-	return 0;
-}
-
-GLint shader::getLoc(std::string name) {
-	return glGetUniformLocation(p, name.c_str());
-}
-
-int shader::use() {
-	glUseProgram(p);
 	return 0;
 }
 
@@ -133,5 +135,61 @@ int shader::compile(char * source) {
 		error = 1;
 	}
 
+	return 0;
+}
+
+GLint shader::getLoc(std::string name) {
+	return glGetUniformLocation(p, name.c_str());
+}
+
+int shader::use() {
+	glUseProgram(p);
+	updateUniforms();
+	return 0;
+}
+
+int shader::addUniform(std::string name, void* data, uniformType type) {
+	uniformData * tmp = new uniformData[uniformCount+1];
+	memcpy(tmp, uniforms, sizeof(uniformData)*(uniformCount));
+	tmp[uniformCount].data = data;
+	tmp[uniformCount].name = name;
+	tmp[uniformCount].type = type;
+	tmp[uniformCount].location = getLoc(name);
+	delete [] uniforms;
+	uniforms = tmp;
+	uniformCount++;
+	return 0;
+}
+
+int shader::setUniform(std::string name, void* data, uniformType type) {
+	switch(type) {
+		case GFLOAT:   glUniform1fv      (getLoc(name), 1,    (float *)data); break;
+		case GVEC2:    glUniform2fv      (getLoc(name), 1,    (float *)data); break;
+		case GVEC3:    glUniform3fv      (getLoc(name), 1,    (float *)data); break;
+		case GVEC4:    glUniform4fv      (getLoc(name), 1,    (float *)data); break;
+		case GUINT:    glUniform1uiv     (getLoc(name), 1,    (GLuint*)data); break;
+		case GINT:     glUniform1iv      (getLoc(name), 1,    (int   *)data); break;
+		case GMATRIX2: glUniformMatrix2fv(getLoc(name), 1, 0, (float *)data); break;
+		case GMATRIX3: glUniformMatrix3fv(getLoc(name), 1, 0, (float *)data); break;
+		case GMATRIX4: glUniformMatrix4fv(getLoc(name), 1, 0, (float *)data); break;
+	}
+	return 0;
+}
+
+//enum uniformType { FLOAT, MATRIX4, MATRIX3, UINT, INT, VEC2, VEC3, VEC4 };
+
+int shader::updateUniforms() {
+	for(int i = 0; i<uniformCount; i++)
+	switch(uniforms[i].type) {
+		case GFLOAT:   glUniform1fv      (uniforms[i].location, 1,    (float *)uniforms[i].data); break;
+		case GVEC2:    glUniform2fv      (uniforms[i].location, 1,    (float *)uniforms[i].data); break;
+		case GVEC3:    glUniform3fv      (uniforms[i].location, 1,    (float *)uniforms[i].data); break;
+		case GVEC4:    glUniform4fv      (uniforms[i].location, 1,    (float *)uniforms[i].data); break;
+		case GUINT:    glUniform1uiv     (uniforms[i].location, 1,    (GLuint*)uniforms[i].data); break;
+		case GINT:     glUniform1iv      (uniforms[i].location, 1,    (int   *)uniforms[i].data); break;
+		case GMATRIX2: glUniformMatrix2fv(uniforms[i].location, 1, 0, (float *)uniforms[i].data); break;
+		case GMATRIX3: glUniformMatrix3fv(uniforms[i].location, 1, 0, (float *)uniforms[i].data); break;
+		case GMATRIX4: glUniformMatrix4fv(uniforms[i].location, 1, 0, (float *)uniforms[i].data); break;
+	}
 	return 0;
 }

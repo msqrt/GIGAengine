@@ -34,9 +34,9 @@ int texture3D::addmiplevel(int w, int h, int d, int c, int mip, GLint filter, GL
 	else if(c==1)
 		glTexImage3D(GL_TEXTURE_3D, mip, GL_R32UI, width, height, depth, 0, GL_RED_INTEGER, GL_UNSIGNED_INT, 0);
 	else if(c==2)
-		glTexImage3D(GL_TEXTURE_3D, mip, GL_RGB16F, width, height, depth, 0, GL_RGB, GL_FLOAT, 0);
-	else
 		glTexImage3D(GL_TEXTURE_3D, mip, GL_R8UI, width, height, depth, 0, GL_RED_INTEGER, GL_UNSIGNED_BYTE, 0);
+	else
+		glTexImage3D(GL_TEXTURE_3D, mip, GL_RGB16F, width, height, depth, 0, GL_RGB, GL_FLOAT, 0);
 	
 	glBindTexture(GL_TEXTURE_3D, 0);
 

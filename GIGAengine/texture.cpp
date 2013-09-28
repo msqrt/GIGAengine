@@ -70,3 +70,27 @@ int texture::bind(int slot) {
 	glBindTexture(GL_TEXTURE_2D, id);
 	return 0;
 }
+
+int texture::addmiplevel(int w, int h, int mip, GLint filter, GLint repeat) {
+	
+	width = w;
+	height = h;
+
+	glBindTexture(GL_TEXTURE_2D, id);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, repeat);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, repeat);
+	
+	if(filter == GL_LINEAR)
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	else
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
+	
+	glTexImage2D(GL_TEXTURE_2D, mip, GL_RGB32F, width, height, 0, GL_RGB, GL_FLOAT, 0);
+	
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	return 0;
+}
