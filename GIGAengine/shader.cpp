@@ -132,7 +132,7 @@ int shader::compile(char * source) {
 	//if len>0 there was an error
 	if(len>0) {
 		printf("\n%s(program):\n\n%s\n", path.c_str(), err);
-		error = 1;
+		//error = 1;
 	}
 
 	return 0;
