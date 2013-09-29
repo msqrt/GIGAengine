@@ -7,7 +7,7 @@ class Blobs : public Effect {
 	public:
 		Blobs();
 		~Blobs();
-		void render(SyncMap& l);
+		void render(ParameterMap& param);
 	private:
 		shader s;
 		mesh m;

@@ -7,7 +7,7 @@ class QuadEffect : public Effect {
 	public:
 		QuadEffect();
 		~QuadEffect();
-		void render(SyncMap& sync);
+		void render(ParameterMap& param);
 	private:
 		shader s;
 		mesh m;
