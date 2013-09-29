@@ -38,6 +38,5 @@
 
 #include <map>
 
-typedef std::map<std::string, float> SyncMap;
 
 #endif

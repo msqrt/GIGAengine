@@ -84,7 +84,10 @@
   <ItemGroup>
     <None Include="blobs.shader" />
     <None Include="display.shader" />
+    <None Include="gaussian.shader" />
+    <None Include="postprocess.shader" />
     <None Include="quad.shader" />
+    <None Include="redux.shader" />
     <None Include="simple.shader" />
     <None Include="slider.shader" />
     <None Include="spawn.shader" />
@@ -92,6 +95,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blobs.h" />
+    <ClInclude Include="curve.h" />
+    <ClInclude Include="demo.h" />
     <ClInclude Include="dshowbaseclass.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="gldeclare.h" />
@@ -100,6 +105,7 @@
     <ClInclude Include="glloading.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="mesh.h" />
+    <ClInclude Include="postprocess.h" />
     <ClInclude Include="quad.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="resource1.h" />
@@ -114,8 +120,10 @@
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="curve.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="postprocess.cpp" />
     <ClCompile Include="quad.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="song.cpp" />

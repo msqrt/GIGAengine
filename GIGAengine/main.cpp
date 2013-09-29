@@ -98,7 +98,7 @@ int main() {
 
 	mesh quad(QUAD);
 
-	song track(L"track.mp3");
+	song track(L"noise01_3.mp3", 114.0);
 
 	double dirx = .0, diry = .0, posx = .0, posy = .0, posz = 3.0;
 	POINT pt = {win.width/2, win.height/2};
@@ -111,18 +111,43 @@ int main() {
 	QuadEffect q;
 
 	TimeLine T;
-	T.addEntry(1.0, 10.0, b);
-	T.addEntry(10.0, 20.0, q);
-	T.addEntry(15.0, 20.0, b);
+	CurveMap p1,p2;
+	p1["r"](0.0f,1.0f,0.0f)(5.0f,0.0f,0.0f)(10.0f,1.0f,0.0f);
+	p1["g"](0.0f,1.0f,0.0f)(5.0f,0.0f,0.0f)(10.0f,1.0f,0.0f);
+	p1["b"](0.0f,1.0f,0.0f)(5.0f,0.0f,0.0f)(10.0f,1.0f,0.0f);
+	p1["t"](0.0f,0.0f,1.0f)(20.0f,20.0f,1.0f);
+	T.addEntry(0.0f, 20.0f, b, p1);
+	T.addEntry(20.0f, 40.0f, q);
+	p2["r"](0.0f,1.0f,0.0f)(10.0f,0.0f,0.0f)(15.0f,1.0f,0.0f);
+	p2["g"](0.0f,0.0f,0.0f)(10.0f,1.0f,0.0f)(15.0f,0.0f,0.0f);
+	p2["b"](0.0f,1.0f,0.0f)(10.0f,0.0f,0.0f)(15.0f,1.0f,0.0f);
+	p2["t"](0.0f,0.0f,1.0f)(20.0f,20.0f,1.0f);
+	T.addEntry(40.0f, 60.0f, b, p2);
 
-	track.seek(.0);
+	track.seekBeats(.0);
 	track.play();
+	
 	t = track.getTime();
-	SyncMap sync;
 
-	while(win.loop() && t<200.0f) {
+	while(win.loop()) {
 		glBeginQuery(GL_TIME_ELAPSED, query);
 
+		if(win.keyDown[VK_LEFT])
+			track.seekBeats(track.getBeats()-.5);
+		if(win.keyDown[VK_RIGHT])
+			track.seekBeats(track.getBeats()+.5);
+		if(win.keyHit[0x31]) track.seekBeats(T.getBeginning(0));
+		if(win.keyHit[0x32]) track.seekBeats(T.getBeginning(1));
+		if(win.keyHit[0x33]) track.seekBeats(T.getBeginning(2));
+		if(win.keyHit[0x34]) track.seekBeats(T.getBeginning(3));
+		if(win.keyHit[0x35]) track.seekBeats(T.getBeginning(4));
+		if(win.keyHit[0x36]) track.seekBeats(T.getBeginning(5));
+		if(win.keyHit[0x37]) track.seekBeats(T.getBeginning(6));
+		if(win.keyHit[0x38]) track.seekBeats(T.getBeginning(7));
+		if(win.keyHit[0x39]) track.seekBeats(T.getBeginning(8));
+		if(win.keyHit[0x40]) track.seekBeats(T.getBeginning(9));
+		if(win.keyHit[0x30]) track.seekBeats(T.getBeginning(10));
+		
 		if(win.keyHit[VK_SPACE]) {
 			flymode = !flymode;
 			if(flymode) {
@@ -136,13 +161,10 @@ int main() {
 
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 		
-		T.render(t, sync);
+		t = track.getBeats();
+
+		T.render(t);
 		
-		//while(t>track.getTime());
-		//while(t<track.getTime())
-		while(t<track.getTime())
-			t+=1.0f/60.0f;
-		//t = win.time();
 		glEndQuery(GL_TIME_ELAPSED);
 		glGetQueryObjectiv(query, GL_QUERY_RESULT, &res);
 		if(!(loops%60)) {

@@ -1,5 +1,6 @@
 
 #pragma once
+#include "timeline.h"
 
 class Effect {
 	public:
@@ -7,5 +8,5 @@ class Effect {
 		virtual ~Effect() { }
 		Effect(const Effect&) { }
 		const Effect& operator=(const Effect&) { }
-		virtual void render(SyncMap& sync) = 0;
+		virtual void render(ParameterMap& param) = 0;
 };

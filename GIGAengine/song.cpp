@@ -1,7 +1,7 @@
 
 #include "main.h"
 
-song::song(std::wstring path): playing(false) {
+song::song(std::wstring path, double BPM) : playing(false), BPM(BPM/60.0) {
 	IBasicAudio * audioControl;
 	__int64 trackLength;
 	IGraphBuilder * graph;
@@ -59,7 +59,7 @@ int song::toggle() {
 	return 0;
 }
 
-int song::seek(long double position) {
+int song::seekTime(long double position) {
 	
 	if(position>length)
 		position = length;
@@ -81,4 +81,13 @@ long double song::getTime() {
 	__int64 position;
 	mediaSeeking->GetCurrentPosition(&position);
 	return (long double)(position)/(long double)10000000.0;
+}
+
+int song::seekBeats(long double position) {
+	seekTime(position/BPM);
+	return 0;
+}
+
+long double song::getBeats() {
+	return getTime()*BPM;
 }

@@ -1,7 +1,4 @@
 
-uniform float t;
-uniform vec3 col;
-
 #ifdef vertexcompile
 
 layout(location=0) in vec2 pos;
@@ -18,6 +15,8 @@ void main() {
 
 smooth in vec2 uv;
 layout(location=0) out vec4 outcol;
+
+uniform vec2 screen;
 
 void main() {
 	vec3 c = vec3(.0);
