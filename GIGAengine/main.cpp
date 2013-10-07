@@ -112,7 +112,7 @@ int main() {
 
 	TimeLine T;
 	CurveMap p1,p2,p3;
-	p1["r"](0.0f,1.0f,0.0f)(5.0f,0.0f,0.0f)(10.0f,1.0f,0.0f);
+	p1["r"](0.0f,1.0f,0.0f)(5.0f,1.0f,0.0f)(10.0f,1.0f,0.0f);
 	p1["g"](0.0f,1.0f,0.0f)(5.0f,0.0f,0.0f)(10.0f,1.0f,0.0f);
 	p1["b"](0.0f,1.0f,0.0f)(5.0f,0.0f,0.0f)(10.0f,1.0f,0.0f);
 	p1["t"](0.0f,0.0f,1.0f)(20.0f,20.0f,1.0f);
@@ -131,7 +131,6 @@ int main() {
 	t = track.getTime();
 
 	PostProcess p(screenw, screenh);
-	p.bind();
 
 	while(win.loop()) {
 		glBeginQuery(GL_TIME_ELAPSED, query);
