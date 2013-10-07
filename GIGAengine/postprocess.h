@@ -7,7 +7,7 @@ class PostProcess {
 	public:
 		PostProcess(int width, int height);
 		void bind();
-		void render();
+		void render(float t);
 	private:
 		ParameterMap params;
 		mesh quad;

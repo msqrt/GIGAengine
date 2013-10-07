@@ -20,9 +20,7 @@ smooth in vec2 uv;
 layout(location=0) out vec4 outcol;
 
 void main() {
-	vec3 c = vec3(.0);
-	
-	c = col*.25*(2.0+sin(uv.x+t*2.1)+cos(uv.y+t*1.9));
+	vec3 c = vec3(.5<col*.25*(2.0+sin(uv.x*35.0*16.0/9.0+t*2.1)+cos(uv.y*35.0+t*1.9)));
 
 	outcol = vec4(c, 1.0);
 }

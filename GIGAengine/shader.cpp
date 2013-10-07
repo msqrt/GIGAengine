@@ -102,24 +102,32 @@ int shader::compile(char * source) {
 	}
 
 	char err[1024] = {'\0'};
-	glGetShaderInfoLog(v, 1024, &len, err);
-	//if len>0 there was an error
-	if(len>0)
-		printf("\n%s(vertex):\n\n%s\n", path.c_str(), err);
-	ZeroMemory(err, 1024*sizeof(char));
 
-	glGetShaderInfoLog(f, 1024, &len, err);
-	//if len>0 there was an error
-	if(len>0)
-		printf("\n%s(fragment):\n\n%s\n", path.c_str(), err);
-	ZeroMemory(err, 1024*sizeof(char));
+	int status;
 
-	if(flags & GEOMETRY_SHADER) {
-		glGetShaderInfoLog(g, 1024, &len, err);
-		//if len>0 there was an error
+	glGetShaderiv(v, GL_COMPILE_STATUS, &status);
+	if(status==GL_FALSE) {
+		glGetShaderInfoLog(v, 1024, &len, err);
 		if(len>0)
-			printf("\n%s(geometry):\n\n%s\n", path.c_str(), err);
+			printf("\n%s(vertex):\n\n%s\n", path.c_str(), err);
 		ZeroMemory(err, 1024*sizeof(char));
+	}
+	
+	glGetShaderiv(f, GL_COMPILE_STATUS, &status);
+	if(status==GL_FALSE) {
+		glGetShaderInfoLog(f, 1024, &len, err);
+		if(len>0)
+			printf("\n%s(fragment):\n\n%s\n", path.c_str(), err);
+		ZeroMemory(err, 1024*sizeof(char));
+	}
+	if(flags & GEOMETRY_SHADER) {
+		glGetShaderiv(g, GL_COMPILE_STATUS, &status);
+		if(status==GL_FALSE) {
+			glGetShaderInfoLog(g, 1024, &len, err);
+			if(len>0)
+				printf("\n%s(geometry):\n\n%s\n", path.c_str(), err);
+			ZeroMemory(err, 1024*sizeof(char));
+		}
 	}
 
 	glAttachShader(p, v);
@@ -127,14 +135,15 @@ int shader::compile(char * source) {
 	if(flags & GEOMETRY_SHADER)
 		glAttachShader(p, g);
 	glLinkProgram(p);
-		
-	glGetProgramInfoLog(p, 1024, &len, err);
-	//if len>0 there was an error
-	if(len>0) {
-		printf("\n%s(program):\n\n%s\n", path.c_str(), err);
-		//error = 1;
+	
+	glGetProgramiv(p, GL_LINK_STATUS, &status);
+	if(status==GL_FALSE && err[0] == '/0') {
+		glGetProgramInfoLog(p, 1024, &len, err);
+		if(len>0) {
+			printf("\n%s(program):\n\n%s\n", path.c_str(), err);
+			//error = 1;
+		}
 	}
-
 	return 0;
 }
 

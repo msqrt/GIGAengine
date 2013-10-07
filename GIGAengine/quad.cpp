@@ -9,5 +9,6 @@ QuadEffect::~QuadEffect() {}
 
 void QuadEffect::render(ParameterMap& param) {
 	s.use();
+	glUniform1f(s.getLoc("t"), param["t"]);
 	m.draw(GL_TRIANGLES);
 }
