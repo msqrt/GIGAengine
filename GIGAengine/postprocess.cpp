@@ -47,27 +47,29 @@ void PostProcess::render() {
 	glDisable(GL_DEPTH_TEST);
 
 	color.bind(0);
-
+	
+	renderTarget[0].attach(curwidth, curheight);
 	for(int i = 0; i<BLOOMSTAGES; i++) {
-		renderTarget[i].attach(curwidth, curheight);
-		renderTarget[0].setTexture(GL_COLOR_ATTACHMENT0, &tmpblur, false, i);
+		renderTarget[i].setTexture(GL_COLOR_ATTACHMENT0, &tmpblur, false, i);
 
 		gaussian.use();
 		glUniform1f(gaussian.getLoc("dir"), .0f);
 		quad.draw(GL_TRIANGLES);
 		
-		renderTarget[0].setTexture(GL_COLOR_ATTACHMENT0, &bloom, false, i);
+		renderTarget[i].setTexture(GL_COLOR_ATTACHMENT0, &bloom, false, i);
 		tmpblur.bind(0);
 
 		glUniform1f(gaussian.getLoc("dir"), 1.0f);
 		quad.draw(GL_TRIANGLES);
-		redux.use();
 		
 		if(i+1<BLOOMSTAGES) {
+			redux.use();
 			curwidth  /= 2;
 			curheight /= 2;
 
-			renderTarget[0].setTexture(GL_COLOR_ATTACHMENT0, &bloom, false, i);
+			renderTarget[i+1].attach(curwidth, curheight);
+			renderTarget[i+1].setTexture(GL_COLOR_ATTACHMENT0, &bloom, false, i+1);
+			quad.draw(GL_TRIANGLES);
 
 		}
 		quad.draw(GL_TRIANGLES);
