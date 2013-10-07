@@ -21,7 +21,7 @@ layout(location=0) out vec4 outcol;
 void main() {
 	vec3 c = vec3(.0);
 	
-	c = vec3(.1,.5,1.0)*.25*(2.0+sin(uv.x+t*2.1)+cos(uv.y+t*1.9));
+	c = vec3(.1,.5,1.0)*.125*(2.0+sin(uv.x+t*2.1)+cos(uv.y+t*1.9));
 
 	outcol = vec4(c, 1.0);
 }

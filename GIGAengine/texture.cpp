@@ -30,15 +30,15 @@ texture::texture(std::wstring path, GLint filter) {
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-texture::texture(int width, int height, bool depth, GLint filter, GLint repeat): width(width), height(height), depth(depth) {
+texture::texture(int width, int height, bool depth, GLint minFilter, GLint magFilter, GLint repeat): width(width), height(height), depth(depth) {
 
 	glGenTextures(1, &id);
 	glBindTexture(GL_TEXTURE_2D, id);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, repeat);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, repeat);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
 	
 	if(depth)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);

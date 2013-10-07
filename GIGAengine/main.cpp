@@ -7,6 +7,7 @@
 #include "effect.h"
 #include "blobs.h"
 #include "quad.h"
+#include "postprocess.h"
 
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "gdi32.lib")
@@ -98,7 +99,7 @@ int main() {
 
 	mesh quad(QUAD);
 
-	song track(L"noise01_3.mp3", 114.0);
+	song track(L"noise01_7.mp3", 114.0);
 
 	double dirx = .0, diry = .0, posx = .0, posy = .0, posz = 3.0;
 	POINT pt = {win.width/2, win.height/2};
@@ -111,13 +112,14 @@ int main() {
 	QuadEffect q;
 
 	TimeLine T;
-	CurveMap p1,p2;
-	p1["r"](0.0f,1.0f,0.0f)(5.0f,0.0f,0.0f)(10.0f,1.0f,0.0f);
+	CurveMap p1,p2,p3;
+	p1["r"](0.0f,1.0f,0.0f)(5.0f,1.0f,0.0f)(10.0f,1.0f,0.0f);
 	p1["g"](0.0f,1.0f,0.0f)(5.0f,0.0f,0.0f)(10.0f,1.0f,0.0f);
 	p1["b"](0.0f,1.0f,0.0f)(5.0f,0.0f,0.0f)(10.0f,1.0f,0.0f);
 	p1["t"](0.0f,0.0f,1.0f)(20.0f,20.0f,1.0f);
 	T.addEntry(0.0f, 20.0f, b, p1);
-	T.addEntry(20.0f, 40.0f, q);
+	p3["t"](0.0f,0.0f,1.0f)(20.0f,20.0f,1.0f);
+	T.addEntry(20.0f, 40.0f, q, p3);
 	p2["r"](0.0f,1.0f,0.0f)(10.0f,0.0f,0.0f)(15.0f,1.0f,0.0f);
 	p2["g"](0.0f,0.0f,0.0f)(10.0f,1.0f,0.0f)(15.0f,0.0f,0.0f);
 	p2["b"](0.0f,1.0f,0.0f)(10.0f,0.0f,0.0f)(15.0f,1.0f,0.0f);
@@ -128,6 +130,8 @@ int main() {
 	track.play();
 	
 	t = track.getTime();
+
+	PostProcess p(screenw, screenh);
 
 	while(win.loop()) {
 		glBeginQuery(GL_TIME_ELAPSED, query);
@@ -159,11 +163,12 @@ int main() {
 				ShowCursor(1);
 		}
 
-		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-		
+
 		t = track.getBeats();
 
 		T.render(t);
+
+		p.render(t);
 		
 		glEndQuery(GL_TIME_ELAPSED);
 		glGetQueryObjectiv(query, GL_QUERY_RESULT, &res);
