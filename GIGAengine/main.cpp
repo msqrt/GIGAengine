@@ -7,6 +7,7 @@
 #include "effect.h"
 #include "blobs.h"
 #include "quad.h"
+#include "nostatusEffect.h"
 #include "postprocess.h"
 
 #pragma comment(lib, "opengl32.lib")
@@ -109,6 +110,7 @@ int main() {
 	
 	Blobs b;
 	QuadEffect q;
+	NostatusEffect nostatus;
 
 	TimeLine T;
 	CurveMap p1,p2,p3;
@@ -125,7 +127,7 @@ int main() {
 	p2["t"](0.0f,0.0f,1.0f)(20.0f,20.0f,1.0f);
 	T.addEntry(144.0f, 183.0f, b, p2);
 	T.addEntry(183.0f, 248.0f, b, p2);
-	T.addEntry(248.0f, 400.0f, b, p2);
+	T.addEntry(248.0f, 400.0f, nostatus, p2);
 
 	track.seekBeats(.0);
 	track.play();

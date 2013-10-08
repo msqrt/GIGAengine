@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include "main.h"
+
 #define RESOURCE_SHADER 0x01
 #define GEOMETRY_SHADER 0x02
 
