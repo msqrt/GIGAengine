@@ -150,7 +150,10 @@ int main() {
 		if(win.keyHit[0x39]) track.seekBeats(T.getBeginning(8));
 		if(win.keyHit[0x40]) track.seekBeats(T.getBeginning(9));
 		if(win.keyHit[0x30]) track.seekBeats(T.getBeginning(10));
-		
+
+		if (win.keyHit[VK_RETURN])
+			track.toggle();
+
 		if(win.keyHit[VK_SPACE]) {
 			flymode = !flymode;
 			if(flymode) {
