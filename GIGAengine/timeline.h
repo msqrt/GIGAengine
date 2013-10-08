@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <map>
 #include "curve.h"
 
 typedef std::map<std::string, Curve> CurveMap;
