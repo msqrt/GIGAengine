@@ -135,13 +135,15 @@ int main() {
 	
 	t = track.getTime();
 
-	PostProcess p(screenw, screenh);
+	PostProcess post(screenw, screenh);
 
 	while(win.loop()) {
 		glBeginQuery(GL_TIME_ELAPSED, query);
 
-		if (win.keyHit[VK_F1]) 
+		if (win.keyHit[VK_F1]) {
 			shaderstorage.reloadAll();
+			post.bindUniforms();
+		}
 
 		if(win.keyDown[VK_LEFT])
 			track.seekBeats(track.getBeats()-.5);
@@ -178,7 +180,7 @@ int main() {
 
 		T.render(t);
 
-		p.render(t);
+		post.render(t);
 		
 		glEndQuery(GL_TIME_ELAPSED);
 		glGetQueryObjectiv(query, GL_QUERY_RESULT, &res);
