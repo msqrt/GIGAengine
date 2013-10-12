@@ -1,5 +1,6 @@
 
 #include "main.h"
+#include "shaderstorage.h"
 
 shader::shader(std::string programPath, int pflags) {
 	error = 0;
@@ -9,6 +10,7 @@ shader::shader(std::string programPath, int pflags) {
 	reload(1);
 	uniforms = 0;
 	use();
+	shaderstorage.addShader(this);
 }
 
 shader::~shader() {
@@ -201,4 +203,9 @@ int shader::updateUniforms() {
 		case GMATRIX4: glUniformMatrix4fv(uniforms[i].location, 1, 0, (float *)uniforms[i].data); break;
 	}
 	return 0;
+}
+
+std::string shader::getPath()
+{
+	return path;
 }

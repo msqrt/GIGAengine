@@ -28,6 +28,7 @@ class shader {
 		//parameter is for the (con|de)structor, leave to default (0=delete+load,1=load,2=delete)
 		int reload(int mode=0);
 		GLint getLoc(std::string name);
+		std::string getPath();
 		int addUniform(std::string name, void* data, uniformType type);
 		int setUniform(std::string name, void* data, uniformType type);
 		//use the program

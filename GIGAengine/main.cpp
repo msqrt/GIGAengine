@@ -9,6 +9,7 @@
 #include "quad.h"
 #include "nostatusEffect.h"
 #include "postprocess.h"
+#include "shaderstorage.h"
 
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "gdi32.lib")
@@ -138,6 +139,9 @@ int main() {
 
 	while(win.loop()) {
 		glBeginQuery(GL_TIME_ELAPSED, query);
+
+		if (win.keyHit[VK_F1]) 
+			shaderstorage.reloadAll();
 
 		if(win.keyDown[VK_LEFT])
 			track.seekBeats(track.getBeats()-.5);
