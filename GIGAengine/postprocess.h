@@ -8,6 +8,7 @@ class PostProcess {
 		PostProcess(int width, int height);
 		void bind();
 		void render(float t);
+		void bindUniforms();
 	private:
 		ParameterMap params;
 		mesh quad;
