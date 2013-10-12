@@ -12,12 +12,18 @@ mesh::mesh(meshInit init) : vertexCount(-1), isIndexed(0) {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 	glBindVertexArray(0);
 
-	if(init==QUAD) {
+	if(init==MESH_QUAD) {
 		float quadVertices[] = {-1.0f, -1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f};
 		unsigned int quadIndices[] = {0, 1, 2, 0, 2, 3};
 		data(4, 2*sizeof(float), quadVertices);
 		pointer(0, 0, 2);
 		indices(6, quadIndices);
+	} else if(init==MESH_TRI) {
+		float triVertices[] = {-1.0f, -1.0f, 1.0f, -1.0f, 1.0f, 1.0f};
+		unsigned int triIndices[] = {0, 1, 2};
+		data(3, 2*sizeof(float), triVertices);
+		pointer(0, 0, 2);
+		indices(3, triIndices);
 	}
 }
 

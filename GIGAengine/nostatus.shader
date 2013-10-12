@@ -23,7 +23,7 @@ void main() {
 	
 	c = vec3(.1,.5,1.0)*.125*(2.0+sin(uv.x+t*2.1)+cos(uv.y+t*1.9));
 
-	outcol = vec4(c, 1.0);
+	outcol = vec4(vec3(1.0, 0.0, 0.0), 1.0);
 }
 
 #endif

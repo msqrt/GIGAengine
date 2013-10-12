@@ -98,7 +98,7 @@ int main() {
 	GLuint query; GLint res;
 	glGenQueries(1, &query);
 
-	mesh quad(QUAD);
+	mesh quad(MESH_QUAD);
 
 	song track(L"assets/noise01_7.mp3", 114.0);
 
