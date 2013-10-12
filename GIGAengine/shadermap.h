@@ -19,6 +19,8 @@ class ShaderMap {
         /// Filename should be e.g. "shiny.glsl"
         shader* loadFile(std::string filename);
         shader* getShader(std::string basename);
+		shader* addShader(shader* shaderprogram);
+		void reloadAll();
 
         private:
         std::map<std::string, shader*> shaders;

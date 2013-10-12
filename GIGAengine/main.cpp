@@ -5,6 +5,7 @@
 
 #include "timeline.h"
 #include "effect.h"
+#include "shaderstorage.h"
 #include "blobs.h"
 #include "quad.h"
 #include "nostatusEffect.h"
@@ -140,6 +141,9 @@ int main() {
 
 	while(win.loop()) {
 		glBeginQuery(GL_TIME_ELAPSED, query);
+
+		if (win.keyHit[VK_F1]) 
+			shaderstorage.reloadAll();
 
 		if(win.keyDown[VK_LEFT])
 			track.seekBeats(track.getBeats()-.5);
