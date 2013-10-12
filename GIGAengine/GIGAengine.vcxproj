@@ -103,6 +103,7 @@
     <ClInclude Include="shader.h" />
     <ClInclude Include="shadermap.h" />
     <ClInclude Include="shaderstorage.h" />
+    <ClInclude Include="simpledraw.h" />
     <ClInclude Include="song.h" />
     <ClInclude Include="subdividemesh.h" />
     <ClInclude Include="target.h" />
@@ -125,6 +126,7 @@
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="shadermap.cpp" />
     <ClCompile Include="shaderstorage.cpp" />
+    <ClCompile Include="simpledraw.cpp" />
     <ClCompile Include="song.cpp" />
     <ClCompile Include="blobs.cpp" />
     <ClCompile Include="target.cpp" />

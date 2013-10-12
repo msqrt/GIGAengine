@@ -11,6 +11,6 @@ class NostatusEffect: public Effect {
 		~NostatusEffect();
 		void render(ParameterMap& param);
 	private:
-		shader s;
+		shader fill;
 		mesh m;
 };
