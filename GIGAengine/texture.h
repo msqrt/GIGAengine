@@ -1,6 +1,5 @@
 
-#ifndef TEXTURE_H
-#define TEXTURE_H
+#pragma once
 
 class texture {
 	private:
@@ -15,5 +14,3 @@ class texture {
 		int addmiplevel(int w, int h, int mip = 0, GLint filter = GL_NEAREST, GLint repeat = GL_CLAMP_TO_EDGE);
 	friend class target;
 };
-
-#endif

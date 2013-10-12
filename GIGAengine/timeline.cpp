@@ -15,12 +15,12 @@ void TimeLine::addEntry(float start, float end, Effect& effect, CurveMap& p) {
 
 void TimeLine::render(float t) {
 	for(auto e : entries)
-		if(e.start<=t && e.end>=t) {
-			ParameterMap p;
-			for(auto i : e.parameters)
-				p[i.first] = i.second.value(t-e.start);
-			e.effect.render(p);
-		}
+	if(e.start<=t && e.end>=t) {
+		ParameterMap p;
+		for(auto i : e.parameters)
+			p[i.first] = i.second.value(t-e.start);
+		e.effect.render(p);
+	}
 }
 
 float TimeLine::getBeginning(int n) {

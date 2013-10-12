@@ -1,6 +1,5 @@
 
-#ifndef TEXTURE3D_H
-#define TEXTURE3D_H
+#pragma once
 
 class texture3D {
 	private:
@@ -15,5 +14,3 @@ class texture3D {
 	
 	friend class target;
 };
-
-#endif

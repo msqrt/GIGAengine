@@ -1,6 +1,5 @@
 
-#ifndef VIDEO_H
-#define VIDEO_H
+#pragma once
 
 #include "dshowbaseclass.h"
 #include <comdef.h>
@@ -45,5 +44,3 @@ class video {
 		int updateFrame(int slot = 0);
 		int playing();
 };
-
-#endif

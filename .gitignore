@@ -14,9 +14,6 @@
 # Compiled executables
 *.exe
 
-# assets
-GIGAengine/assets/
-
 # Visual Studio cruft
 CodeAnalyst/
 GIGAengine/Debug

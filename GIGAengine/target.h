@@ -1,6 +1,5 @@
 
-#ifndef TARGET_H
-#define TARGET_H
+#pragma once
 
 class target {
 	private:
@@ -15,5 +14,3 @@ class target {
 		int setTexture(GLenum attachment, texture3D * texture, bool tach = false, int mip = 0);
 		int attach(int width, int height);
 };
-
-#endif

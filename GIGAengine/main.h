@@ -1,6 +1,5 @@
 
-#ifndef MAIN_H
-#define MAIN_H
+#pragma once
 
 #define UNICODE
 
@@ -18,7 +17,7 @@
 #pragma warning(default:995)
 
 
-//don't define this unless you're window.cpp or know what you're doing (in which case you know not to)
+//don't define this unless you're window.cpp
 #ifdef declaregl
 #include "gldeclare.h"
 #else
@@ -37,6 +36,3 @@
 #include "resource.h"
 
 #include <map>
-
-
-#endif

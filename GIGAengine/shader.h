@@ -1,6 +1,5 @@
 
-#ifndef SHADER_H
-#define SHADER_H
+#pragma once
 
 #define RESOURCE_SHADER 0x01
 #define GEOMETRY_SHADER 0x02
@@ -35,5 +34,3 @@ class shader {
 		int compile(char * source);
 		int error;
 };
-
-#endif

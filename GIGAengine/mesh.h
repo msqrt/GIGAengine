@@ -1,6 +1,5 @@
 
-#ifndef MESH_H
-#define MESH_H
+#pragma once
 
 enum meshInit { EMPTY, QUAD };
 
@@ -16,5 +15,3 @@ class mesh {
 		int indices(int newVertexCount, unsigned int * data, GLenum usage = GL_STATIC_DRAW);
 		int draw(GLenum mode, int instanceCount = 1);
 };
-
-#endif

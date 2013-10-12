@@ -1,6 +1,5 @@
 
-#ifndef SONG_H
-#define SONG_H
+#pragma once
 
 class song {
 	private:
@@ -20,5 +19,3 @@ class song {
 		long double getTime();
 		long double getBeats();
 };
-
-#endif
