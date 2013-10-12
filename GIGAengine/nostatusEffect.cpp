@@ -2,10 +2,14 @@
 #include "timeline.h"
 #include "simpledraw.h"
 
+namespace {
+float screensize[] = {1280.0f, 720.0f};
+}
+
 NostatusEffect::NostatusEffect()
  : Effect(), fill("nostatus.shader"), m(MESH_QUAD)
 {
-
+	fill.addUniform("screenSize", screensize, GVEC2);
 }
 
 NostatusEffect::~NostatusEffect()
@@ -18,6 +22,7 @@ NostatusEffect::~NostatusEffect()
 void NostatusEffect::render(ParameterMap& param)
 {
 
+	float ratio = 16.0f/9.0f;
 	int slices = 8;
 
 	fill.use();
@@ -26,6 +31,8 @@ void NostatusEffect::render(ParameterMap& param)
 
 	for (int i=0;i<slices;i++)  {
 		float rad = (2.0*M_PI)/float(slices);
+
+		glUniform1i(fill.getLoc("index"), i);
 
 		simple::tri(
 			0.0f, 0.0f, 

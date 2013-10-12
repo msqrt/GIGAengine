@@ -13,4 +13,5 @@ class NostatusEffect: public Effect {
 	private:
 		shader fill;
 		mesh m;
+		int sliceindex;
 };
