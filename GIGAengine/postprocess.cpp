@@ -7,9 +7,9 @@ PostProcess::PostProcess(int width, int height) :
 	width(width),
 	height(height),
 	quad(QUAD),
-	post("postprocess.shader"),
-	gaussian("gaussian.shader"),
-	redux("redux.shader"),
+	post("assets/postprocess.shader"),
+	gaussian("assets/gaussian.shader"),
+	redux("assets/redux.shader"),
 	color(width, height, false, GL_NEAREST, GL_NEAREST, GL_CLAMP_TO_BORDER),
 	additional(width, height, false, GL_NEAREST, GL_NEAREST, GL_CLAMP_TO_BORDER),
 	depth(width, height, true, GL_NEAREST, GL_NEAREST, GL_CLAMP_TO_BORDER),
@@ -39,6 +39,7 @@ PostProcess::PostProcess(int width, int height) :
 			renderTarget[i].setTexture(GL_DEPTH_ATTACHMENT, &depth, false, i);
 		}
 	}
+
 }
 
 void PostProcess::bind() {

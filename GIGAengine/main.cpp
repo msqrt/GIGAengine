@@ -30,7 +30,7 @@ bool runprogram = true, full = false;
 
 int screenw = 0, screenh = 0;
 
-INT_PTR CALLBACK startupproc(HWND dlg, UINT msg, WPARAM w, LPARAM l)
+INT_PTR CALLBACK launcherProc(HWND dlg, UINT msg, WPARAM w, LPARAM l)
 {
 	if(msg==WM_INITDIALOG)
 	{
@@ -76,7 +76,7 @@ int main() {
 
 	InitCommonControls();
 
-	//DialogBox(GetModuleHandle(0), MAKEINTRESOURCE(IDD_DIALOG1), 0, (DLGPROC)startupproc);
+	//DialogBox(GetModuleHandle(0), MAKEINTRESOURCE(IDD_DIALOG1), 0, (DLGPROC)launcherProc);
 	
 	if(!runprogram)
 		ExitProcess(0);
@@ -85,7 +85,6 @@ int main() {
 	screenh = 720;
 
 	window win(screenw, screenh, full, L"ALTDEMO");
-	//window win(1920, 1080, 1, L"windy window");
 	
 	ShowCursor(0);
 
@@ -99,7 +98,7 @@ int main() {
 
 	mesh quad(QUAD);
 
-	song track(L"noise01_7.mp3", 114.0);
+	song track(L"assets/noise01_7.mp3", 114.0);
 
 	double dirx = .0, diry = .0, posx = .0, posy = .0, posz = 3.0;
 	POINT pt = {win.width/2, win.height/2};
@@ -113,7 +112,7 @@ int main() {
 
 	TimeLine T;
 	CurveMap p1,p2,p3;
-	p1["r"](0.0f,1.0f,0.0f)(5.0f,1.0f,0.0f)(10.0f,1.0f,0.0f);
+	p1["r"](0.0f,1.0f,0.0f)(5.0f,0.0f,0.0f)(10.0f,1.0f,0.0f);
 	p1["g"](0.0f,1.0f,0.0f)(5.0f,0.0f,0.0f)(10.0f,1.0f,0.0f);
 	p1["b"](0.0f,1.0f,0.0f)(5.0f,0.0f,0.0f)(10.0f,1.0f,0.0f);
 	p1["t"](0.0f,0.0f,1.0f)(20.0f,20.0f,1.0f);
@@ -132,6 +131,7 @@ int main() {
 	t = track.getTime();
 
 	PostProcess p(screenw, screenh);
+	p.bind();
 
 	while(win.loop()) {
 		glBeginQuery(GL_TIME_ELAPSED, query);

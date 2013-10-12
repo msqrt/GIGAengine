@@ -1,6 +1,5 @@
 
-#ifndef WINDOW_H
-#define WINDOW_H
+#pragma once
 
 class window {
 	private:
@@ -23,5 +22,3 @@ class window {
 		int setDefaultTarget(int id);
 		double time();
 };
-
-#endif
