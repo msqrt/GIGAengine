@@ -19,6 +19,8 @@ void TimeLine::render(float t) {
 		ParameterMap p;
 		for(auto i : e.parameters)
 			p[i.first] = i.second.value(t-e.start);
+
+		p["t"] = t - e.start;
 		e.effect.render(p);
 	}
 }
