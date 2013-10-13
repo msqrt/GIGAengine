@@ -118,17 +118,14 @@ int main() {
 	p1["r"](0.0f,1.0f,0.0f)(5.0f,1.0f,0.0f)(10.0f,1.0f,0.0f);
 	p1["g"](0.0f,1.0f,0.0f)(5.0f,0.0f,0.0f)(10.0f,1.0f,0.0f);
 	p1["b"](0.0f,1.0f,0.0f)(5.0f,0.0f,0.0f)(10.0f,1.0f,0.0f);
-	p1["t"](0.0f,0.0f,1.0f)(20.0f,20.0f,1.0f);
 	timeline.addEntry(0.0f, 20.0f, b, p1);
-	p3["t"](0.0f,0.0f,1.0f)(20.0f,20.0f,1.0f);
 	timeline.addEntry(80.0f, 144.0f, q, p3);
 	p2["r"](0.0f,1.0f,0.0f)(10.0f,0.0f,0.0f)(15.0f,1.0f,0.0f);
 	p2["g"](0.0f,0.0f,0.0f)(10.0f,1.0f,0.0f)(15.0f,0.0f,0.0f);
 	p2["b"](0.0f,1.0f,0.0f)(10.0f,0.0f,0.0f)(15.0f,1.0f,0.0f);
-	p2["t"](0.0f,0.0f,1.0f)(20.0f,20.0f,1.0f);
 	timeline.addEntry(144.0f, 183.0f, b, p2);
 	timeline.addEntry(183.0f, 248.0f, b, p2);
-	timeline.addEntry(248.0f, 400.0f, nostatus, p2);
+	timeline.addEntry(248.0f, 500.0f, nostatus, p2);
 
 	track.seekBeats(.0);
 	track.play();
