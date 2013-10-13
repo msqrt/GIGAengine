@@ -16,6 +16,14 @@ void main() {
 	sin(thet), cos(thet)
 	);
 	
+	float alpha = t*0.2;
+	
+	mat3 rotationy = mat3(
+		cos(alpha), 0.0, sin(alpha),
+		0.0, 1.0, 0.0,
+		-sin(alpha), 0.0, cos(alpha)
+	);
+	
 	vec2 screenratio = vec2(screenSize.y/screenSize.x, 1.0);
 	uv = pos*.5+vec2(.5);
 	uv *= screenratio;
@@ -30,7 +38,7 @@ void main() {
 	
 	outpos*=3.0;
 	exColor = vec4(0.5+sin(index)*0.5, 0.5-cos(index*0.5)*0.5, float(index%3)/8.0, 1.0);
-	gl_Position = vec4(outpos, -0.1, 1.0);
+	gl_Position = vec4(vec3(outpos, 0.0), 1.0);
 }
 
 #endif
