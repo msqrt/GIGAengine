@@ -3,6 +3,7 @@
 #include "effect.h"
 #include "shader.h"
 #include "mesh.h"
+#include "texture.h"
 #include "timeline.h"
 
 class NostatusEffect: public Effect {
@@ -13,5 +14,6 @@ class NostatusEffect: public Effect {
 	private:
 		shader fill;
 		mesh m;
+		texture cirkula;
 		int sliceindex;
 };
