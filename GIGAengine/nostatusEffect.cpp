@@ -7,7 +7,7 @@ float screensize[] = {1280.0f, 720.0f};
 }
 
 NostatusEffect::NostatusEffect()
- : Effect(), fill("nostatus.shader"), m(MESH_QUAD)
+ : Effect(), fill("assets/nostatus.shader"), m(MESH_QUAD)
 {
 	fill.addUniform("screenSize", screensize, GVEC2);
 }
