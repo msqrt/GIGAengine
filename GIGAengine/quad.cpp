@@ -2,7 +2,7 @@
 #include "main.h"
 #include "quad.h"
 
-QuadEffect::QuadEffect() : Effect(), s("assets/quad.shader"), m(QUAD) {
+QuadEffect::QuadEffect() : Effect(), s("assets/quad.shader"), m(MESH_QUAD) {
 }
 
 QuadEffect::~QuadEffect() {}

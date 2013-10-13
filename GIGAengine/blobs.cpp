@@ -3,7 +3,7 @@
 #include "blobs.h"
 #include <array>
 
-Blobs::Blobs() : Effect(), s("assets/blobs.shader"), m(QUAD) {
+Blobs::Blobs() : Effect(), s("assets/blobs.shader"), m(MESH_QUAD) {
 	
 	std::vector<float> keke;
 
