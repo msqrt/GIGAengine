@@ -178,13 +178,16 @@ int main() {
 
 		post.render(t);
 		
+		#ifndef _RELEASE
 		glEndQuery(GL_TIME_ELAPSED);
 		glGetQueryObjectiv(query, GL_QUERY_RESULT, &res);
+
 		if(!(loops%60)) {
 			printf("frametime: %.2lfms\n", double(res)/1000000.0);
 			printf("gl error: 0x%X\n", glGetError());
 			printf("time: %f\n", t);
 		}
+		#endif
 		loops++;
 	}
 
