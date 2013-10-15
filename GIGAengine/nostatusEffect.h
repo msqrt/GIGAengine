@@ -14,6 +14,7 @@ class NostatusEffect: public Effect {
 	private:
 		shader fill;
 		mesh m;
+		mesh* suippo;
 		texture cirkula;
 		int sliceindex;
 };

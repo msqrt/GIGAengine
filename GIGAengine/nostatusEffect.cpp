@@ -1,6 +1,7 @@
 #include "nostatusEffect.h"
 #include "timeline.h"
 #include "simpledraw.h"
+#include "objloader.h"
 
 namespace {
 float screensize[] = {1280.0f, 720.0f};
@@ -13,6 +14,7 @@ NostatusEffect::NostatusEffect()
 	cirkula(L"assets/cirkula2.jpg")
 { 
 	fill.addUniform("screenSize", screensize, GVEC2);
+	suippo = util::loadWavefrontObj("assets/meshes/suippo.obj", true);
 }
 
 NostatusEffect::~NostatusEffect()
@@ -40,12 +42,16 @@ void NostatusEffect::render(ParameterMap& param)
 
 		glUniform1i(fill.getLoc("index"), i);
 
+		/*
 		simple::tri(
 			0.0f, 0.0f, 
 			0.0f + cos(add + rad*i), 0.0f + sin(add +rad*i), 
 			0.0f + cos(add + rad*(i+1)), 0.0f + sin(add + rad*(i+1))
 			);
+		*/
 	}
+
+	suippo->draw(GL_TRIANGLES);
 }
 
 #undef M_PI
