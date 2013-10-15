@@ -6,11 +6,13 @@
 #include "timeline.h"
 #include "effect.h"
 #include "shaderstorage.h"
+#include "objloader.h"
 #include "blobs.h"
 #include "quad.h"
 #include "nostatusEffect.h"
 #include "postprocess.h"
 #include "background.h"
+
 
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "gdi32.lib")
@@ -179,7 +181,7 @@ int main() {
 		timeline.render(t);
 
 		post.render(t);
-		
+
 		#ifndef _RELEASE
 		glEndQuery(GL_TIME_ELAPSED);
 		glGetQueryObjectiv(query, GL_QUERY_RESULT, &res);
