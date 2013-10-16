@@ -4,7 +4,7 @@
 #include "camera.h"
 
 #define OBJS 20
-#define RES 8
+#define RES 12
 
 BackGround::BackGround() : Effect(), s("assets/bg.shader") {
 	float * geom = new float[OBJS*6*RES*RES*9];
@@ -28,8 +28,8 @@ BackGround::BackGround() : Effect(), s("assets/bg.shader") {
 			}
 			for(int x = 0; x<RES; x++)
 			for(int y = 0; y<RES; y++) {
-				float dx = int(x-float(RES-1)/2.0f)/float(RES-1);
-				float dy = int(y-float(RES-1)/2.0f)/float(RES-1);
+				float dx = int(x-float(RES-1)/2.0f)/float(RES-2);
+				float dy = int(y-float(RES-1)/2.0f)/float(RES-2);
 				geom[(((i*6+j)*RES+x)*RES+y)*9+0] = ox+dx*xdx+dy*xdy;
 				geom[(((i*6+j)*RES+x)*RES+y)*9+1] = oy+dx*ydx+dy*ydy;
 				geom[(((i*6+j)*RES+x)*RES+y)*9+2] = oz+dx*zdx+dy*zdy;
@@ -73,7 +73,7 @@ BackGround::~BackGround() {}
 
 void BackGround::render(ParameterMap& param) {
 	s.use();
-	setCamera(s, "camera", -2.0f, -1.5f, 1.0-.6*param["t"], .0f, .0f, .0f);
+	setCamera(s, "camera", -2.0f, 1.5f, 1.0-.6*param["t"], .0f, .0f, .0f);
 	setProjection(s, "projection", 6.0f, 9.0/16.0);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	m.draw(GL_TRIANGLES);
