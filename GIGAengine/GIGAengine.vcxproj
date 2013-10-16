@@ -113,7 +113,6 @@
     <ClInclude Include="texture.h" />
     <ClInclude Include="texture3D.h" />
     <ClInclude Include="timeline.h" />
-    <ClInclude Include="util.h" />
     <ClInclude Include="video.h" />
     <ClInclude Include="wglext.h" />
     <ClInclude Include="window.h" />
@@ -138,7 +137,6 @@
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="texture3D.cpp" />
     <ClCompile Include="timeline.cpp" />
-    <ClCompile Include="util.cpp" />
     <ClCompile Include="video.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>

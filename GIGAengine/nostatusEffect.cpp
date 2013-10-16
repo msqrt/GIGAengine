@@ -2,7 +2,7 @@
 #include "timeline.h"
 #include "simpledraw.h"
 #include "objloader.h"
-#include "util.h"
+#include "camera.h"
 
 namespace {
 float screensize[] = {1280.0f, 720.0f};
@@ -51,8 +51,9 @@ void NostatusEffect::render(ParameterMap& param)
 		*/
 	}
 
-	util::perspectiveMatrix(fill, 60.0f);
-
+	//setCamera(fill, "camera", 5.0f, 5.0f, 12.0-1.7*param["t"], .0f, .0f, .0f);
+	setCamera(fill, "camera", 0.0f + sin(param["t"]), 0.0f, 5.0, .0f, .0f, .0f);
+	setProjection(fill, "projection", 5.0f, 9.0/16.0);
 	suippo->draw(GL_TRIANGLES);
 }
 

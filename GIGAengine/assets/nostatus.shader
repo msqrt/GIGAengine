@@ -6,7 +6,8 @@ uniform float t;
 layout(location=0) in vec3 pos;
 
 uniform vec2 screenSize;
-uniform mat4 perspective;
+uniform mat4 camera;
+uniform mat4 projection;
 
 uniform int index;
 smooth out vec2 uv;
@@ -45,7 +46,7 @@ void main() {
 	
 	outpos*=1.0;
 	exColor = vec4(0.5+sin(index)*0.5, 0.5-cos(index*0.5)*0.5, float(index%3)/8.0, 1.0);
-	gl_Position =  perspective*vec4(vec3(outpos, -1.0), 1.0);
+	gl_Position =   projection*camera*vec4(pos, 1.0);
 }
 
 #endif
