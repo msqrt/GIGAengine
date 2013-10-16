@@ -31,4 +31,8 @@ ipch/
 *.sdf
 *.opensdf
 *.filters
+
+# project specific
 *.mp3
+releasepack/
+tempfiles/
