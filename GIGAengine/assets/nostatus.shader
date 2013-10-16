@@ -3,8 +3,11 @@ uniform float t;
 
 #ifdef vertexcompile
 
-layout(location=0) in vec2 pos;
+layout(location=0) in vec3 pos;
 uniform vec2 screenSize;
+uniform mat4 projection;
+uniform mat4 camera;
+
 uniform int index;
 smooth out vec2 uv;
 smooth out vec4 exColor;
@@ -25,20 +28,22 @@ void main() {
 	);
 	
 	vec2 screenratio = vec2(screenSize.y/screenSize.x, 1.0);
-	uv = pos*.5+vec2(.5);
+	uv = pos.xy*.5+vec2(.5);
+	/*
 	uv *= screenratio;
 	uv *= vec2(1.2, 1.0);
 	uv *= 2.5;
 	uv += vec2(0.7, 0.28);
+	*/
 	//uv += vec2(t*(0.1 + 0.1*sin(float(index))), 0.0);
 	
 	vec2 outpos = (rotation*(pos.xy))*screenratio;
-	uv += vec2(sin(outpos.x*2.0), sin(outpos.y*3.0)) * 0.5;
+	//uv += vec2(sin(outpos.x*2.0), sin(outpos.y*3.0)) * 0.5;
 	//uv += vec2(distance(vec2(0.0), outpos.xy));
 	
 	outpos*=3.0;
 	exColor = vec4(0.5+sin(index)*0.5, 0.5-cos(index*0.5)*0.5, float(index%3)/8.0, 1.0);
-	gl_Position = vec4(vec3(outpos, 0.0), 1.0);
+	gl_Position = (projection*camera)*vec4(pos, 1.0);
 }
 
 #endif

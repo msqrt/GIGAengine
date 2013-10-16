@@ -4,6 +4,7 @@
 #include "timeline.h"
 #include "simpledraw.h"
 #include "objloader.h"
+#include "camera.h"
 
 namespace {
 float screensize[] = {1280.0f, 720.0f};
@@ -53,6 +54,8 @@ void NostatusEffect::render(ParameterMap& param)
 		*/
 	}
 
+	setCamera(fill, "camera", 0.0f + sin(param["t"]) * 3.0f, 0.0f, -7.0f, .0f, .0f, .0f);
+	setProjection(fill, "projection", 6.0f, 9.0/16.0);
 	suippo->draw(GL_TRIANGLES);
 }
 
