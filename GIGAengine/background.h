@@ -3,10 +3,10 @@
 
 #include "effect.h"
 
-class Quad : public Effect {
+class BackGround : public Effect {
 	public:
-		Quad();
-		~Quad();
+		BackGround();
+		~BackGround();
 		void render(ParameterMap& param);
 	private:
 		shader s;

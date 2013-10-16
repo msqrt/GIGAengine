@@ -8,6 +8,7 @@
 #include "blobs.h"
 #include "quad.h"
 #include "postprocess.h"
+#include "background.h"
 
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "gdi32.lib")
@@ -107,8 +108,9 @@ int main() {
 
 	bool flymode = false;
 	
+	BackGround bg;
 	Blobs b;
-	QuadEffect q;
+	Quad q;
 
 	TimeLine T;
 	CurveMap p1,p2,p3;
@@ -116,7 +118,7 @@ int main() {
 	p1["g"](0.0f,1.0f,0.0f)(5.0f,0.0f,0.0f)(10.0f,1.0f,0.0f);
 	p1["b"](0.0f,1.0f,0.0f)(5.0f,0.0f,0.0f)(10.0f,1.0f,0.0f);
 	p1["t"](0.0f,0.0f,1.0f)(20.0f,20.0f,1.0f);
-	T.addEntry(0.0f, 20.0f, b, p1);
+	T.addEntry(0.0f, 20.0f, bg, p1);
 	p3["t"](0.0f,0.0f,1.0f)(20.0f,20.0f,1.0f);
 	T.addEntry(20.0f, 40.0f, q, p3);
 	p2["r"](0.0f,1.0f,0.0f)(10.0f,0.0f,0.0f)(15.0f,1.0f,0.0f);

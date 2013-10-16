@@ -1,5 +1,6 @@
 
 #include "main.h"
+#include <vector>
 
 mesh::mesh(meshInit init) : vertexCount(-1), isIndexed(0) {
 	
@@ -55,9 +56,7 @@ int mesh::indices(int newVertexCount, unsigned int * data, GLenum usage) {
 		isIndexed = 0;
 	} else {
 		vertexCount = newVertexCount;
-		if(!isIndexed) {
-			isIndexed = 1;
-		}
+		isIndexed = 1;
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, vertexCount*sizeof(unsigned int), data, usage);
 	}
 	glBindVertexArray(0);

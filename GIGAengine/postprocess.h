@@ -1,7 +1,7 @@
 
 #pragma once
 
-#define BLOOMSTAGES 5
+#define BLOOMSTAGES 8
 
 class PostProcess {
 	public:

@@ -45,6 +45,7 @@ PostProcess::PostProcess(int width, int height) :
 void PostProcess::bind() {
 	renderTarget[0].attach(width, height);
 	renderTarget[0].setTexture(GL_COLOR_ATTACHMENT0, &color, false, 0);
+	renderTarget[0].setTexture(GL_DEPTH_ATTACHMENT, &depth, false, 0);
 }
 
 void PostProcess::render(float t) {
@@ -62,6 +63,7 @@ void PostProcess::render(float t) {
 		renderTarget[i].setTexture(GL_COLOR_ATTACHMENT0, &tmpblur, false, i);
 		gaussian.use();
 		glUniform1f(gaussian.getLoc("i"), float(i));
+		glUniform1f(gaussian.getLoc("r"), rand()/float(RAND_MAX));
 		glUniform2f(gaussian.getLoc("screen"), float(curwidth), float(curheight));
 		glUniform1f(gaussian.getLoc("dir"), .0f);
 		quad.draw(GL_TRIANGLES);

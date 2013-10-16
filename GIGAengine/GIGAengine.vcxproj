@@ -82,6 +82,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="background.h" />
     <ClInclude Include="blobs.h" />
     <ClInclude Include="curve.h" />
     <ClInclude Include="demo.h" />
@@ -109,6 +110,7 @@
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="background.cpp" />
     <ClCompile Include="curve.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh.cpp" />
@@ -131,6 +133,7 @@
     <Manifest Include="GIGAengine.exe.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\bg.shader" />
     <None Include="assets\blobs.shader" />
     <None Include="assets\display.shader" />
     <None Include="assets\gaussian.shader" />

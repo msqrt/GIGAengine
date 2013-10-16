@@ -1,13 +1,9 @@
 
 #include "main.h"
 #include "blobs.h"
-#include <array>
 
 Blobs::Blobs() : Effect(), s("assets/blobs.shader"), m(QUAD) {
 	
-	std::vector<float> keke;
-
-
 }
 
 Blobs::~Blobs() {}

@@ -21,8 +21,9 @@ layout(location=0) out vec4 outcol;
 uniform sampler2D source;
 uniform float dir;
 uniform float i;
+uniform float r;
 
-const float sigma = .5;
+const float sigma = .45;
 
 void main() {
 	vec2 blurdir = vec2(2.0)*vec2(dir, 1.0-dir)/screen.xy;
@@ -36,7 +37,7 @@ void main() {
 		accum += textureLod(source, uv-j*blurdir, i)*a;
 	}
 
-	outcol = accum/(sqrt(2.0*3.1415926535)*sigma)/c;
+	outcol = accum/(sqrt(2.0*3.1415926535)*sigma)/c*(1.0-.02*fract(999.9*cos(99.9*(r*19.7+uv.x*11.1+uv.y*13.9))));
 }
 
 #endif
