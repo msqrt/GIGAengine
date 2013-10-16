@@ -74,8 +74,8 @@ void cameraMatrix(shader & s, float camx, float camy, float camz, float targetx,
 	projection[0] = 2.0f*nearplane*fov*aspect;
 	projection[5] = 2.0f*nearplane*fov;
 	projection[10] = (farplane+nearplane)/(farplane-nearplane);
-	projection[14] = -1.0f;
-	projection[11] = 2.0f*farplane*nearplane/(farplane-nearplane);
+	projection[14] = -2.0f*farplane*nearplane/(farplane-nearplane);
+	projection[11] = -1.0f;
 	glUniformMatrix4fv(s.getLoc("projection"), 1, false, projection);
 	float camera[16] = {.0f};
 	camera[0] = camera[5] = camera[10] = camera[15] = 1.0f;
@@ -90,14 +90,16 @@ void cameraMatrix(shader & s, float camx, float camy, float camz, float targetx,
 	camera[8] = -sina;
 	camera[9] = -cosa*sinb;
 	camera[10] = cosa*cosb;
-	camera[3] = -camx;
-	camera[7] = -camy;
-	camera[11]= -camz;
+	camera[3] = camx;
+	camera[7] = camy;
+	camera[11] = camz;
 	glUniformMatrix4fv(s.getLoc("camera"), 1, false, camera);
 }
 
 void BackGround::render(ParameterMap& param) {
 	s.use();
-	cameraMatrix(s, 5.0f, 5.0f, -.7*param["t"], .0f, .0f, .0f, 1.0f, 9.0/16.0);
+	cameraMatrix(s, 15.0f, 5.0f, -.7*param["t"], .0f, .0f, .0f, 1.0f, 9.0/16.0);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	m.draw(GL_TRIANGLES);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
