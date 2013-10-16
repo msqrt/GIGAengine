@@ -4,6 +4,9 @@ uniform float t;
 #ifdef vertexcompile
 
 layout(location=0) in vec3 pos;
+
+layout(location=1) in vec3 normal;
+
 uniform vec2 screenSize;
 uniform mat4 projection;
 uniform mat4 camera;
@@ -11,6 +14,7 @@ uniform mat4 camera;
 uniform int index;
 smooth out vec2 uv;
 smooth out vec4 exColor;
+smooth out vec3 exNormal;
 
 void main() {
 	float thet = t*0.5;
@@ -52,16 +56,19 @@ void main() {
 
 smooth in vec2 uv;
 smooth in vec4 exColor;
+smooth in vec3 exNormal;
 layout(location=0) out vec4 outcol;
 uniform sampler2D tex;
 
 void main() {
-	vec3 c = vec3(.0);
+	vec3 c = texture(tex, uv).rgb;
+		vec3 light = normalize(vec3(1.0, 0.5, 0.2));
+	//c *= dot(light, exNormal);
 	
-	c = vec3(.1,.5,1.0)*.125*(2.0+sin(uv.x+t*2.1)+cos(uv.y+t*1.9));
-	
+	//c = vec3(.1,.5,1.0)*.125*(2.0+sin(uv.x+t*2.1)+cos(uv.y+t*1.9));
 
-	outcol = vec4(pow(texture(tex, uv).rgb, vec3(2.2)), 1.0);
+	
+	outcol = vec4(pow(c, vec3(2.2)), 1.0);
 }
 
 #endif
