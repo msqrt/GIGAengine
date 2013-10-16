@@ -2,7 +2,7 @@
 #include "main.h"
 
 
-void setProjection(shader & s, std::string glslName, float fov, float aspect, float nearplane = .1f, float farplane = 100.0f) {
+void setProjection(shader & s, std::string glslName, float fov, float aspect, float nearplane = .5f, float farplane = 100.0f) {
 	float projection[16] = {.0f};
 	projection[0] = 2.0f*nearplane*fov*aspect;
 	projection[5] = 2.0f*nearplane*fov;
@@ -15,7 +15,7 @@ void setProjection(shader & s, std::string glslName, float fov, float aspect, fl
 void setCamera(shader & s, std::string glslName, float camx, float camy, float camz, float targetx, float targety, float targetz) {
 	float camera[16] = {.0f};
 	camera[0] = camera[5] = camera[10] = camera[15] = 1.0f;
-	float horiz = -atan2(targetx-camx, targetz-camz),
+	float horiz = atan2(targetx-camx, targetz-camz),
 		  vert  = atan2(targety-camy, sqrt((targetz-camz)*(targetz-camz)+(targetx-camx)*(targetx-camx)));
 	float cosa = cos(horiz), sina = sin(horiz), cosb = cos(vert), sinb = sin(vert);
 	camera[0] = cosa;
