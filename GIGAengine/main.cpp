@@ -7,8 +7,11 @@
 #include "effect.h"
 #include "blobs.h"
 #include "quad.h"
-#include "postprocess.h"
 #include "background.h"
+#include "nostatusEffect.h"
+#include "postprocess.h"
+#include "shaderstorage.h"
+#include "objloader.h"
 
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "gdi32.lib")
@@ -97,7 +100,7 @@ int main() {
 	GLuint query; GLint res;
 	glGenQueries(1, &query);
 
-	mesh quad(QUAD);
+	mesh quad(MESH_QUAD);
 
 	song track(L"assets/noise01_7.mp3", 114.0);
 
@@ -108,52 +111,58 @@ int main() {
 
 	bool flymode = false;
 	
-	BackGround bg;
 	Blobs b;
-	Quad q;
+	QuadEffect q;
+	NostatusEffect nostatus;
 
-	TimeLine T;
+	TimeLine timeline;
 	CurveMap p1,p2,p3;
-	p1["r"](0.0f,1.0f,0.0f)(5.0f,0.0f,0.0f)(10.0f,1.0f,0.0f);
+	p1["r"](0.0f,1.0f,0.0f)(5.0f,1.0f,0.0f)(10.0f,1.0f,0.0f);
 	p1["g"](0.0f,1.0f,0.0f)(5.0f,0.0f,0.0f)(10.0f,1.0f,0.0f);
 	p1["b"](0.0f,1.0f,0.0f)(5.0f,0.0f,0.0f)(10.0f,1.0f,0.0f);
-	p1["t"](0.0f,0.0f,1.0f)(20.0f,20.0f,1.0f);
-	T.addEntry(0.0f, 20.0f, bg, p1);
-	p3["t"](0.0f,0.0f,1.0f)(20.0f,20.0f,1.0f);
-	T.addEntry(20.0f, 40.0f, q, p3);
+	timeline.addEntry(0.0f, 20.0f, b, p1);
+	timeline.addEntry(80.0f, 144.0f, q, p3);
 	p2["r"](0.0f,1.0f,0.0f)(10.0f,0.0f,0.0f)(15.0f,1.0f,0.0f);
 	p2["g"](0.0f,0.0f,0.0f)(10.0f,1.0f,0.0f)(15.0f,0.0f,0.0f);
 	p2["b"](0.0f,1.0f,0.0f)(10.0f,0.0f,0.0f)(15.0f,1.0f,0.0f);
-	p2["t"](0.0f,0.0f,1.0f)(20.0f,20.0f,1.0f);
-	T.addEntry(40.0f, 60.0f, b, p2);
+	timeline.addEntry(144.0f, 183.0f, b, p2);
+	timeline.addEntry(183.0f, 248.0f, b, p2);
+	timeline.addEntry(248.0f, 500.0f, nostatus, p2);
 
 	track.seekBeats(.0);
 	track.play();
 	
 	t = track.getTime();
 
-	PostProcess p(screenw, screenh);
-	p.bind();
-
+	PostProcess post(screenw, screenh);
+	post.bind();
 	while(win.loop()) {
 		glBeginQuery(GL_TIME_ELAPSED, query);
+
+		if (win.keyHit[VK_F1]) {
+			shaderstorage.reloadAll();
+			post.bindUniforms();
+		}
 
 		if(win.keyDown[VK_LEFT])
 			track.seekBeats(track.getBeats()-.5);
 		if(win.keyDown[VK_RIGHT])
 			track.seekBeats(track.getBeats()+.5);
-		if(win.keyHit[0x31]) track.seekBeats(T.getBeginning(0));
-		if(win.keyHit[0x32]) track.seekBeats(T.getBeginning(1));
-		if(win.keyHit[0x33]) track.seekBeats(T.getBeginning(2));
-		if(win.keyHit[0x34]) track.seekBeats(T.getBeginning(3));
-		if(win.keyHit[0x35]) track.seekBeats(T.getBeginning(4));
-		if(win.keyHit[0x36]) track.seekBeats(T.getBeginning(5));
-		if(win.keyHit[0x37]) track.seekBeats(T.getBeginning(6));
-		if(win.keyHit[0x38]) track.seekBeats(T.getBeginning(7));
-		if(win.keyHit[0x39]) track.seekBeats(T.getBeginning(8));
-		if(win.keyHit[0x40]) track.seekBeats(T.getBeginning(9));
-		if(win.keyHit[0x30]) track.seekBeats(T.getBeginning(10));
-		
+		if(win.keyHit[0x31]) track.seekBeats(timeline.getBeginning(0));
+		if(win.keyHit[0x32]) track.seekBeats(timeline.getBeginning(1));
+		if(win.keyHit[0x33]) track.seekBeats(timeline.getBeginning(2));
+		if(win.keyHit[0x34]) track.seekBeats(timeline.getBeginning(3));
+		if(win.keyHit[0x35]) track.seekBeats(timeline.getBeginning(4));
+		if(win.keyHit[0x36]) track.seekBeats(timeline.getBeginning(5));
+		if(win.keyHit[0x37]) track.seekBeats(timeline.getBeginning(6));
+		if(win.keyHit[0x38]) track.seekBeats(timeline.getBeginning(7));
+		if(win.keyHit[0x39]) track.seekBeats(timeline.getBeginning(8));
+		if(win.keyHit[0x40]) track.seekBeats(timeline.getBeginning(9));
+		if(win.keyHit[0x30]) track.seekBeats(timeline.getBeginning(10));
+
+		if (win.keyHit[VK_RETURN])
+			track.toggle();
+
 		if(win.keyHit[VK_SPACE]) {
 			flymode = !flymode;
 			if(flymode) {
@@ -164,21 +173,22 @@ int main() {
 			else
 				ShowCursor(1);
 		}
-
-
 		t = track.getBeats();
 
-		T.render(t);
+		timeline.render(t);
 
-		p.render(t);
-		
+		post.render(t);
+
+		#ifndef _RELEASE
 		glEndQuery(GL_TIME_ELAPSED);
 		glGetQueryObjectiv(query, GL_QUERY_RESULT, &res);
+
 		if(!(loops%60)) {
 			printf("frametime: %.2lfms\n", double(res)/1000000.0);
 			printf("gl error: 0x%X\n", glGetError());
 			printf("time: %f\n", t);
 		}
+		#endif
 		loops++;
 	}
 

@@ -6,7 +6,7 @@
 PostProcess::PostProcess(int width, int height) :
 	width(width),
 	height(height),
-	quad(QUAD),
+	quad(MESH_QUAD),
 	post("assets/postprocess.shader"),
 	gaussian("assets/gaussian.shader"),
 	redux("assets/redux.shader"),
@@ -16,15 +16,7 @@ PostProcess::PostProcess(int width, int height) :
 	bloom(width, height, false, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_CLAMP_TO_BORDER),
 	tmpblur(width, height, false, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_CLAMP_TO_BORDER) {
 	
-	gaussian.use();
-	glUniform1i(gaussian.getLoc("source"), 0);
-	redux.use();
-	glUniform1i(redux.getLoc("source"), 0);
-	post.use();
-	glUniform1i(post.getLoc("color"), 0);
-	glUniform1i(post.getLoc("bloom"), 1);
-	glUniform1i(post.getLoc("additional"), 2);
-
+	bindUniforms();
 	bloom.bind(0);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	tmpblur.bind(0);
@@ -63,7 +55,6 @@ void PostProcess::render(float t) {
 		renderTarget[i].setTexture(GL_COLOR_ATTACHMENT0, &tmpblur, false, i);
 		gaussian.use();
 		glUniform1f(gaussian.getLoc("i"), float(i));
-		glUniform1f(gaussian.getLoc("r"), rand()/float(RAND_MAX));
 		glUniform2f(gaussian.getLoc("screen"), float(curwidth), float(curheight));
 		glUniform1f(gaussian.getLoc("dir"), .0f);
 		quad.draw(GL_TRIANGLES);
@@ -101,4 +92,16 @@ void PostProcess::render(float t) {
 
 	glEnable(GL_DEPTH_TEST);
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+}
+
+void PostProcess::bindUniforms()
+{
+	gaussian.use();
+	glUniform1i(gaussian.getLoc("source"), 0);
+	redux.use();
+	glUniform1i(redux.getLoc("source"), 0);
+	post.use();
+	glUniform1i(post.getLoc("color"), 0);
+	glUniform1i(post.getLoc("bloom"), 1);
+	glUniform1i(post.getLoc("additional"), 2);
 }

@@ -31,4 +31,12 @@ ipch/
 *.sdf
 *.opensdf
 *.filters
+<<<<<<< HEAD
 *.mp3
+=======
+
+# project specific
+*.mp3
+releasepack/
+tempfiles/
+>>>>>>> cce-altdemo2

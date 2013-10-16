@@ -2,13 +2,12 @@
 #include "main.h"
 #include "quad.h"
 
-Quad::Quad() : Effect(), s("assets/quad.shader"), m(QUAD) {
-	
+QuadEffect::QuadEffect() : Effect(), s("assets/quad.shader"), m(MESH_QUAD) {
 }
 
-Quad::~Quad() {}
+QuadEffect::~QuadEffect() {}
 
-void Quad::render(ParameterMap& param) {
+void QuadEffect::render(ParameterMap& param) {
 	s.use();
 	glUniform1f(s.getLoc("t"), param["t"]);
 	m.draw(GL_TRIANGLES);

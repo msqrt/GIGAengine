@@ -1,14 +1,14 @@
 
 #pragma once
 
-enum meshInit { EMPTY, QUAD };
+enum meshInit { MESH_EMPTY, MESH_QUAD, MESH_TRI };
 
 class mesh {
 	private:
 		int vertexCount, isIndexed, vertexSize;
 		GLuint vertexArray, vertexBuffer, indexBuffer;
 	public:
-		mesh(meshInit init = EMPTY);
+		mesh(meshInit init = MESH_EMPTY);
 		~mesh();
 		int data(int newVertexCount, int vertexSize, void * data, GLenum usage = GL_STATIC_DRAW);
 		int pointer(int location, int floatOffset, int dimensions);
