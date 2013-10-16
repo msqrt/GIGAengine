@@ -8,7 +8,7 @@ layout(location=2) in vec3 rnd;
 uniform mat4 projection, camera;
 
 void main() {
-	gl_Position = projection*camera*vec4(pos*20.0, 1.0);
+	gl_Position = projection*camera*vec4(normalize(pos)+10.0*rnd-vec3(5.0), 1.0);
 }
 
 #endif
