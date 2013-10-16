@@ -3,10 +3,10 @@
 
 #include "effect.h"
 
-class BackGround : public Effect {
+class Sky : public Effect {
 	public:
-		BackGround();
-		~BackGround();
+		Sky();
+		~Sky();
 		void render(ParameterMap& param);
 	private:
 		shader s;

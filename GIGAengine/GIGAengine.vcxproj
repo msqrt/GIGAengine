@@ -82,7 +82,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="assets\bg.shader" />
+    <None Include="assets\sky.shader" />
     <None Include="assets\blobs.shader" />
     <None Include="assets\display.shader" />
     <None Include="assets\gaussian.shader" />
@@ -97,7 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="afxres.h" />
-    <ClInclude Include="background.h" />
+    <ClInclude Include="sky.h" />
     <ClInclude Include="blobs.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="curve.h" />
@@ -132,7 +132,7 @@
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="background.cpp" />
+    <ClCompile Include="sky.cpp" />
     <ClCompile Include="blobs.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="curve.cpp" />

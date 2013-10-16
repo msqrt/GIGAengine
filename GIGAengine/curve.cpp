@@ -30,3 +30,8 @@ Curve & Curve::operator()(float time, float value, float tangent) {
 	std::sort(values.begin(), values.end(), [](CurveEntry a, CurveEntry b) -> bool {return a.time < b.time;});
 	return *this;
 }
+
+Curve & Curve::operator()() {
+	values.clear();
+	return *this;
+}
