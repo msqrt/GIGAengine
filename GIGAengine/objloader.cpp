@@ -137,13 +137,13 @@ mesh* util::loadWavefrontObj(std::string path, bool verbose)
 		case 'v':
 
 			if (to[1] == 'n')  {
-				sscanf(to.c_str(),"vn %f %f %f", &vert.x, &vert.y, &vert.z);
+				sscanf_s(to.c_str(),"vn %f %f %f", &vert.x, &vert.y, &vert.z);
 				normals.push_back(vert);
 
 				if (verbose)
 					printf("normal: %f %f %f\n", vert.x, vert.y, vert.z);
 			} else {
-				sscanf(to.c_str(),"v %f %f %f", &vert.x, &vert.y, &vert.z);
+				sscanf_s(to.c_str(),"v %f %f %f", &vert.x, &vert.y, &vert.z);
 				vertices.push_back(vert);
 
 				if (verbose)

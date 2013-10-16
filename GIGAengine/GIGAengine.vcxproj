@@ -82,39 +82,75 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="display.shader" />
-    <None Include="simple.shader" />
-    <None Include="slider.shader" />
-    <None Include="spawn.shader" />
-    <None Include="update.shader" />
+    <None Include="assets\bg.shader" />
+    <None Include="assets\blobs.shader" />
+    <None Include="assets\display.shader" />
+    <None Include="assets\gaussian.shader" />
+    <None Include="assets\nostatus.shader" />
+    <None Include="assets\postprocess.shader" />
+    <None Include="assets\quad.shader" />
+    <None Include="assets\redux.shader" />
+    <None Include="assets\simple.shader" />
+    <None Include="assets\slider.shader" />
+    <None Include="assets\spawn.shader" />
+    <None Include="assets\update.shader" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="afxres.h" />
+    <ClInclude Include="background.h" />
+    <ClInclude Include="blobs.h" />
+    <ClInclude Include="camera.h" />
+    <ClInclude Include="curve.h" />
+    <ClInclude Include="demo.h" />
     <ClInclude Include="dshowbaseclass.h" />
+    <ClInclude Include="effect.h" />
     <ClInclude Include="gldeclare.h" />
     <ClInclude Include="gldefines.h" />
     <ClInclude Include="glext.h" />
     <ClInclude Include="glloading.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="mesh.h" />
+    <ClInclude Include="mesher.h" />
+    <ClInclude Include="nostatusEffect.h" />
+    <ClInclude Include="objloader.h" />
+    <ClInclude Include="postprocess.h" />
+    <ClInclude Include="quad.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="shader.h" />
+    <ClInclude Include="shadermap.h" />
+    <ClInclude Include="shaderstorage.h" />
+    <ClInclude Include="simpledraw.h" />
     <ClInclude Include="song.h" />
+    <ClInclude Include="subdividemesh.h" />
     <ClInclude Include="target.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="texture3D.h" />
+    <ClInclude Include="timeline.h" />
     <ClInclude Include="video.h" />
     <ClInclude Include="wglext.h" />
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="background.cpp" />
+    <ClCompile Include="blobs.cpp" />
+    <ClCompile Include="camera.cpp" />
+    <ClCompile Include="curve.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="nostatusEffect.cpp" />
+    <ClCompile Include="objloader.cpp" />
+    <ClCompile Include="postprocess.cpp" />
+    <ClCompile Include="quad.cpp" />
     <ClCompile Include="shader.cpp" />
+    <ClCompile Include="shadermap.cpp" />
+    <ClCompile Include="shaderstorage.cpp" />
+    <ClCompile Include="simpledraw.cpp" />
     <ClCompile Include="song.cpp" />
     <ClCompile Include="target.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="texture3D.cpp" />
+    <ClCompile Include="timeline.cpp" />
     <ClCompile Include="video.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>

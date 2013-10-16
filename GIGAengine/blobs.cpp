@@ -2,7 +2,7 @@
 #include "main.h"
 #include "blobs.h"
 
-Blobs::Blobs() : Effect(), s("assets/blobs.shader"), m(QUAD) {
+Blobs::Blobs() : Effect(), s("assets/blobs.shader"), m(MESH_QUAD) {
 	
 }
 

@@ -1,3 +1,5 @@
+
+#include "main.h"
 #include "nostatusEffect.h"
 #include "timeline.h"
 #include "simpledraw.h"
