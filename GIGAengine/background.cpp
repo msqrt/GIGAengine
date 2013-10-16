@@ -1,6 +1,7 @@
 
 #include "main.h"
 #include "background.h"
+#include "camera.h"
 
 #define OBJS 20
 #define RES 8
@@ -19,16 +20,16 @@ BackGround::BackGround() : Effect(), s("assets/bg.shader") {
 			float xdx = .0f, ydx = .0f, zdx = .0f, xdy = .0f, ydy = .0f, zdy = .0f;
 			switch(j) {
 				case 0: zdx = 1.0f; ydy = 1.0f; break;
-				case 1: zdx = 1.0f; ydy =-1.0f; break;
+				case 1: zdx = 1.0f; ydy = 1.0f; break;
 				case 2: zdx = 1.0f; xdy = 1.0f; break;
-				case 3: zdx = 1.0f; xdy =-1.0f; break;
+				case 3: zdx = 1.0f; xdy = 1.0f; break;
 				case 4: xdx = 1.0f; ydy = 1.0f; break;
-				case 5: xdx = 1.0f; ydy =-1.0f; break;
+				case 5: xdx = 1.0f; ydy = 1.0f; break;
 			}
 			for(int x = 0; x<RES; x++)
 			for(int y = 0; y<RES; y++) {
-				float dx = int(x-float(RES)/2.0f)/float(RES);
-				float dy = int(y-float(RES)/2.0f)/float(RES);
+				float dx = int(x-float(RES-1)/2.0f)/float(RES-1);
+				float dy = int(y-float(RES-1)/2.0f)/float(RES-1);
 				geom[(((i*6+j)*RES+x)*RES+y)*9+0] = ox+dx*xdx+dy*xdy;
 				geom[(((i*6+j)*RES+x)*RES+y)*9+1] = oy+dx*ydx+dy*ydy;
 				geom[(((i*6+j)*RES+x)*RES+y)*9+2] = oz+dx*zdx+dy*zdy;
@@ -69,36 +70,11 @@ BackGround::BackGround() : Effect(), s("assets/bg.shader") {
 
 BackGround::~BackGround() {}
 
-void cameraMatrix(shader & s, float camx, float camy, float camz, float targetx, float targety, float targetz, float fov, float aspect, float nearplane = .1f, float farplane = 100.0f) {
-	float projection[16] = {.0f};
-	projection[0] = 2.0f*nearplane*fov*aspect;
-	projection[5] = 2.0f*nearplane*fov;
-	projection[10] = (farplane+nearplane)/(farplane-nearplane);
-	projection[14] = -2.0f*farplane*nearplane/(farplane-nearplane);
-	projection[11] = 1.0f;
-	glUniformMatrix4fv(s.getLoc("projection"), 1, false, projection);
-	float camera[16] = {.0f};
-	camera[0] = camera[5] = camera[10] = camera[15] = 1.0f;
-	float horiz = -atan2(targetx-camx, targetz-camz),
-		  vert  = atan2(targety-camy, sqrt((targetz-camz)*(targetz-camz)+(targetx-camx)*(targetx-camx)));
-	float cosa = cos(horiz), sina = sin(horiz), cosb = cos(vert), sinb = sin(vert);
-	camera[0] = cosa;
-	camera[1] = -sina*sinb;
-	camera[2] = sina*cosb;
-	camera[5] = cosb;
-	camera[6] = sinb;
-	camera[8] = -sina;
-	camera[9] = -cosa*sinb;
-	camera[10] = cosa*cosb;
-	camera[12] = -(camx*camera[0]+camy*camera[4]+camz*camera[8]);
-	camera[13] = -(camx*camera[1]+camy*camera[5]+camz*camera[9]);
-	camera[14] = -(camx*camera[2]+camy*camera[6]+camz*camera[10]);
-	glUniformMatrix4fv(s.getLoc("camera"), 1, false, camera);
-}
 
 void BackGround::render(ParameterMap& param) {
 	s.use();
-	cameraMatrix(s, 5.0f, 5.0f, 10.0-1.7*param["t"], .0f, .0f, .0f, 5.0f, 9.0/16.0);
+	setCamera(s, "camera", 5.0f, 5.0f, 12.0-1.7*param["t"], .0f, .0f, .0f);
+	setProjection(s, "projection", 5.0f, 9.0/16.0);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	m.draw(GL_TRIANGLES);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

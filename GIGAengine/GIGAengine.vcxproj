@@ -84,6 +84,7 @@
   <ItemGroup>
     <ClInclude Include="background.h" />
     <ClInclude Include="blobs.h" />
+    <ClInclude Include="camera.h" />
     <ClInclude Include="curve.h" />
     <ClInclude Include="demo.h" />
     <ClInclude Include="dshowbaseclass.h" />
@@ -111,6 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="background.cpp" />
+    <ClCompile Include="camera.cpp" />
     <ClCompile Include="curve.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh.cpp" />
