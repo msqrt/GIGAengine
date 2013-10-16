@@ -73,7 +73,7 @@ BackGround::~BackGround() {}
 
 void BackGround::render(ParameterMap& param) {
 	s.use();
-	setCamera(s, "camera", -5.0f, 5.5f, 1.0-.6*param["t"], .0f, .0f, .0f);
+	setCamera(s, "camera", -5.0f, -5.5f, 10.0-2.0*param["t"], .0f, .0f, .0f);
 	setProjection(s, "projection", 6.0f, 9.0/16.0);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	m.draw(GL_TRIANGLES);

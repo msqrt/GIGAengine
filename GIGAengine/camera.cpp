@@ -26,7 +26,7 @@ void setCamera(shader & s, std::string glslName, float camx, float camy, float c
 	camera[9] = -cosa*sinb;
 	camera[10] = cosa*cosb;
 	camera[12] = (camx*camera[0]+camy*camera[4]+camz*camera[8]);
-	camera[13] = (camx*camera[1]+camy*camera[5]+camz*camera[9]);
+	camera[13] = -(camx*camera[1]+camy*camera[5]+camz*camera[9]);
 	camera[14] = (camx*camera[2]+camy*camera[6]+camz*camera[10]);
 	glUniformMatrix4fv(s.getLoc(glslName), 1, false, camera);
 }
