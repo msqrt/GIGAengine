@@ -27,8 +27,8 @@ BackGround::BackGround() : Effect(), s("assets/bg.shader") {
 			}
 			for(int x = 0; x<RES; x++)
 			for(int y = 0; y<RES; y++) {
-				float dx = int(x-float(RES)/2.0f)/float(RES)*2.0f;
-				float dy = int(y-float(RES)/2.0f)/float(RES)*2.0f;
+				float dx = int(x-float(RES)/2.0f)/float(RES);
+				float dy = int(y-float(RES)/2.0f)/float(RES);
 				geom[(((i*6+j)*RES+x)*RES+y)*9+0] = ox+dx*xdx+dy*xdy;
 				geom[(((i*6+j)*RES+x)*RES+y)*9+1] = oy+dx*ydx+dy*ydy;
 				geom[(((i*6+j)*RES+x)*RES+y)*9+2] = oz+dx*zdx+dy*zdy;
@@ -75,12 +75,12 @@ void cameraMatrix(shader & s, float camx, float camy, float camz, float targetx,
 	projection[5] = 2.0f*nearplane*fov;
 	projection[10] = (farplane+nearplane)/(farplane-nearplane);
 	projection[14] = -2.0f*farplane*nearplane/(farplane-nearplane);
-	projection[11] = -1.0f;
+	projection[11] = 1.0f;
 	glUniformMatrix4fv(s.getLoc("projection"), 1, false, projection);
 	float camera[16] = {.0f};
 	camera[0] = camera[5] = camera[10] = camera[15] = 1.0f;
-	float horiz = atan2(targetz-camz, targetx-camx),
-		  vert  = atan2(sqrt((targetz-camz)*(targetz-camz)+(targetx-camx)*(targetx-camx)), targety-camy);
+	float horiz = -atan2(targetx-camx, targetz-camz),
+		  vert  = atan2(targety-camy, sqrt((targetz-camz)*(targetz-camz)+(targetx-camx)*(targetx-camx)));
 	float cosa = cos(horiz), sina = sin(horiz), cosb = cos(vert), sinb = sin(vert);
 	camera[0] = cosa;
 	camera[1] = -sina*sinb;
@@ -90,15 +90,15 @@ void cameraMatrix(shader & s, float camx, float camy, float camz, float targetx,
 	camera[8] = -sina;
 	camera[9] = -cosa*sinb;
 	camera[10] = cosa*cosb;
-	camera[3] = camx;
-	camera[7] = camy;
-	camera[11] = camz;
+	camera[12] = -(camx*camera[0]+camy*camera[4]+camz*camera[8]);
+	camera[13] = -(camx*camera[1]+camy*camera[5]+camz*camera[9]);
+	camera[14] = -(camx*camera[2]+camy*camera[6]+camz*camera[10]);
 	glUniformMatrix4fv(s.getLoc("camera"), 1, false, camera);
 }
 
 void BackGround::render(ParameterMap& param) {
 	s.use();
-	cameraMatrix(s, 15.0f, 5.0f, -.7*param["t"], .0f, .0f, .0f, 1.0f, 9.0/16.0);
+	cameraMatrix(s, 5.0f, 5.0f, 10.0-1.7*param["t"], .0f, .0f, .0f, 5.0f, 9.0/16.0);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	m.draw(GL_TRIANGLES);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
