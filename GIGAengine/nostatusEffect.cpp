@@ -2,6 +2,7 @@
 #include "timeline.h"
 #include "simpledraw.h"
 #include "objloader.h"
+#include "util.h"
 
 namespace {
 float screensize[] = {1280.0f, 720.0f};
@@ -40,9 +41,8 @@ void NostatusEffect::render(ParameterMap& param)
 	for (int i=0;i<slices;i++)  {
 		float rad = (2.0*M_PI)/float(slices);
 
-		glUniform1i(fill.getLoc("index"), i);
-
 		/*
+		glUniform1i(fill.getLoc("index"), i);
 		simple::tri(
 			0.0f, 0.0f, 
 			0.0f + cos(add + rad*i), 0.0f + sin(add +rad*i), 
@@ -50,6 +50,8 @@ void NostatusEffect::render(ParameterMap& param)
 			);
 		*/
 	}
+
+	util::perspectiveMatrix(fill, 60.0f);
 
 	suippo->draw(GL_TRIANGLES);
 }
