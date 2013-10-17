@@ -3,7 +3,7 @@
 
 layout (location=0) in vec3 ipos;
 layout (location=1) in vec3 normal;
-//smooth out vec4 ex_Pos;
+smooth out vec3 ex_Pos;
 smooth out vec2 ex_uv;
 smooth out vec3 ex_Normal;
 
@@ -36,18 +36,23 @@ void main() {
 	float ratio = screenSize.y/screenSize.x;
 	ex_uv = ipos.xy*.5+vec2(.5);
 	ex_uv.y *= -1;
-	ex_uv.y *= (1024.0/1120.0);
+	ex_uv.y *= (1024.0/919.0);
 	ex_uv.y *= ratio;
+	ex_uv *= 2.0;
 	
-	ex_Normal = normal;
+	
 	
 	vec3 outpos = ipos;
+	ex_Pos = outpos;
 	outpos.y -=3.5;
 	outpos *= 20.0;	// pallero isoks "skyboksiks"
 	outpos.x += 1.0;
 	
 	outpos *= roty;
 	outpos.x -= 4.0;
+	
+	
+	ex_Normal = normal*roty;
 
 	gl_Position =( projection*camera)*vec4(outpos, 1.0);
 }
@@ -58,6 +63,7 @@ void main() {
 
 #line 59
 layout (location=0) out vec4 outcol;
+smooth in vec3 ex_Pos;	// world space position
 smooth in vec2 ex_uv;
 smooth in vec3 ex_Normal;
 uniform sampler2D tex;
@@ -77,12 +83,21 @@ vec3 hsv(float h, float s, float v)
 
 void main() {
 	vec3 luma = vec3(0.299, 0.587, 0.114);
-	vec3 light = normalize(vec3(0.1 + sin(t*0.08), 0.3, 0.4));
+	vec3 light = normalize(vec3(0.1 + sin(t*0.08), 0.1, 0.8));
 	
-	vec2 plus = vec2(t*0.03, 0.0);
+	float progress = mod(t, 1.0);
+	float beat = floor(t) + smoothstep(0.0, 1.0, mod(t, 1.0));
+	
+	vec2 plus = vec2(t*0.01 + beat * 0.03, beat*0.02);
 	vec4 teks = texture2D(tex, ex_uv + plus );
-	vec4 col = vec4(hsv(0.6, 0.3, 0.8), 1.0);
-	col *= dot(light, ex_Normal.xyz + teks.xyz*0.1);
+	vec4 col = vec4(hsv(0.05 + ex_Pos.z*0.03, 0.3, 0.8), 1.0);
+	vec3 camvec = -normalize(ex_Pos);
+	//col *= dot(light, reflect(normalize(ex_Normal.xyz + (teks.z-teks.x)*0.1)));
+	vec3 norr = normalize(ex_Normal.xyz + (teks.z-teks.x)*0.1);
+	float ambient = 0.1;
+	col *= (max(0.0, dot(light, reflect(camvec, norr))) + ambient);
+	col *= vec4(vec3(0.5), 1.0);
+	//col = vec4(pow(col.rgb, vec3(1.5)), 1.0);
 
 	outcol = vec4(pow(col.rgb, vec3(2.0)), 1.0);
 }

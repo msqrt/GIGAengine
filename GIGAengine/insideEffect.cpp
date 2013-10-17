@@ -13,7 +13,7 @@ InsideEffect::InsideEffect()
  : Effect(), 
 	fill("assets/bgball.shader"), 
 	quadi(MESH_QUAD),
-	tex(L"assets/vuori.jpg")
+	tex(L"assets/kone.jpg")
 { 
 	fill.addUniform("screenSize", screensize, GVEC2);
 	ball = util::loadWavefrontObj("assets/meshes/boltsi.obj", false);
@@ -32,7 +32,7 @@ void InsideEffect::render(ParameterMap& param)
 	fill.setUniform("screenSize", screensize, GVEC2);
 	fill.setUniform("t", &param["t"], GFLOAT);
 
-	setCamera(fill, "camera", 3.0f, -4.0f, -0.0f, 0.0f, -1.0f, .0f);
+	setCamera(fill, "camera", 3.0f, -4.0f, -0.0f, 0.0f, 25.0f, .0f);
 	setProjection(fill, "projection", 6.0f, 9.0/16.0);
 
 	tex.bind(0);	
