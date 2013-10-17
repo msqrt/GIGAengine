@@ -18,7 +18,7 @@ NostatusEffect::NostatusEffect()
 	city(L"assets/walls.png")
 { 
 	fill.addUniform("screenSize", screensize, GVEC2);
-	suippo = util::loadWavefrontObj("assets/meshes/suippo.obj", true);
+	suippo = util::loadWavefrontObj("assets/meshes/city.obj", false);
 }
 
 NostatusEffect::~NostatusEffect()
@@ -57,6 +57,8 @@ void NostatusEffect::render(ParameterMap& param)
 
 	setCamera(fill, "camera", 0.0f + sin(param["t"]) * 3.0f, 0.0f, -7.0f, .0f, .0f, .0f);
 	setProjection(fill, "projection", 6.0f, 9.0/16.0);
+
+	cirkula.bind(0);
 	suippo->draw(GL_TRIANGLES);
 }
 

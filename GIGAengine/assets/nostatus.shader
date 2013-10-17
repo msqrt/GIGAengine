@@ -33,10 +33,12 @@ void main() {
 	
 	vec2 screenratio = vec2(screenSize.y/screenSize.x, 1.0);
 	uv = pos.xy*.5+vec2(.5);
+	// uv *= 0.5;
+	
 	/*
 	uv *= screenratio;
 	uv *= vec2(1.2, 1.0);
-	uv *= 2.5;
+	
 	uv += vec2(0.7, 0.28);
 	*/
 	//uv += vec2(t*(0.1 + 0.1*sin(float(index))), 0.0);
@@ -45,9 +47,16 @@ void main() {
 	//uv += vec2(sin(outpos.x*2.0), sin(outpos.y*3.0)) * 0.5;
 	//uv += vec2(distance(vec2(0.0), outpos.xy));
 	
-	outpos*=3.0;
+
+	vec3 ppos = pos;
+	ppos.x = ppos.x + ppos.y*floor(t/2 + 0.5)*0.1;
+
 	exColor = vec4(0.5+sin(index)*0.5, 0.5-cos(index*0.5)*0.5, float(index%3)/8.0, 1.0);
-	gl_Position = (projection*camera)*vec4(pos, 1.0);
+	gl_Position = (projection*camera)*vec4(ppos, 1.0);
+	
+	outpos = gl_Position.xy;
+	ppos *= 4.0;
+	
 }
 
 #endif
