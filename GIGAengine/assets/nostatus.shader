@@ -10,6 +10,7 @@ layout(location=1) in vec3 normal;
 uniform vec2 screenSize;
 uniform mat4 projection;
 uniform mat4 camera;
+uniform float extrarotation;	// used with multiple drawcalls
 
 uniform int index;
 smooth out vec2 uv;
@@ -36,7 +37,7 @@ void main() {
 	);
 	
 	float alpha = t*0.2;
-	float beat = floor(t) + smoothstep(0.0, 1.0, mod(t, 1.0));
+	float beat = floor(t) + smoothstep(0.0, 1.0, mod(t, 1.0)) ;
 	
 	mat3 rotationy = mat3(
 		cos(alpha), 0.0, sin(alpha),
@@ -44,7 +45,7 @@ void main() {
 		-sin(alpha), 0.0, cos(alpha)
 	);
 	
-	mat4 rotationy4 = getyrot(floor(t/4) + t*0.05);
+	mat4 rotationy4 = getyrot(floor(t/4) + t*0.05 + extrarotation * 1.0);
 	cam = cam * rotationy4;
 
 	
@@ -96,14 +97,20 @@ uniform sampler2D tex;
 void main() {
 	vec2 plus = vec2(sin(0.008*t), 0.0);
 	vec3 c = texture(tex, uv + plus).rgb;
-		vec3 light = normalize(vec3(1.0, 0.5, 0.2));
+		vec3 light = normalize(vec3(0.5 + sin(t*0.9)*0.5, 0.5, 0.2));
 	//c *= dot(light, exNormal);
 	
 	//c = vec3(.1,.5,1.0)*.125*(2.0+sin(uv.x+t*2.1)+cos(uv.y+t*1.9));
 	
 	c = c * vec3(0.9, 0.7, 0.5);
 	outcol = vec4(pow(c, vec3(2.2)), 1.0) + exColor;
-	outcol.rgb *= dot(light, exNormal.xyz * 4.0) * 4.0;
+	vec3 diffuse = vec3(0.0, 0.0, 0.0);
+	diffuse += max(0.0, dot(light, exNormal.xyz * 4.0)) * 4.0;
+	diffuse += 2.0 * vec3(0.1, 0.0, 0.9) * max(0.0, dot(-light, exNormal.xyz * 4.0));
+	outcol.rgb = pow(c, vec3(2.2)) * diffuse;
+
+	// additional light
+
 	//outcol.rgb = exNormal.rgb * 4.0;
 	
 	float fstart = 0.0;
@@ -112,7 +119,7 @@ void main() {
 	//float fogi = (fend - gl_FragCoord.z) / (fend - fstart);
 	float fz = (gl_FragCoord.z) / (fend - fstart);
 	float fogi = 1.0;
-
+	
 	//outcol.rgb = mix(vec3(0.0, 0.0, 0.0), outcol.rgb, fogi);
 	//outcol.rgb = exNormal.rgb * 4.0;
 }

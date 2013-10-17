@@ -71,6 +71,13 @@ void NostatusEffect::render(ParameterMap& param)
 	setProjection(fill, "projection", 6.0f, 9.0/16.0);
 
 	cirkula.bind(0);
+
+	glUniform1f(fill.getLoc("extrarotation"), 0.0f);
+	suippo->draw(GL_TRIANGLES);
+
+	//setCamera(fill, "camera", -11.0f, 0.0f, 0.0f, -9.0f, 2.0f, .0f);
+
+	glUniform1f(fill.getLoc("extrarotation"), 1.0f);
 	suippo->draw(GL_TRIANGLES);
 }
 
