@@ -8,6 +8,7 @@
 #include "blobs.h"
 #include "quad.h"
 #include "sky.h"
+#include "wall.h"
 #include "nostatusEffect.h"
 #include "postprocess.h"
 #include "shaderstorage.h"
@@ -115,18 +116,19 @@ int main() {
 	QuadEffect q;
 	NostatusEffect nostatus;
 	Sky sky;
+	Wall wall;
 
 	TimeLine timeline;
 	CurveMap p1,p2,p3;
 	p1["r"](0.0f,1.0f,0.0f)(5.0f,1.0f,0.0f)(10.0f,1.0f,0.0f);
 	p1["g"](0.0f,1.0f,0.0f)(5.0f,0.0f,0.0f)(10.0f,1.0f,0.0f);
 	p1["b"](0.0f,1.0f,0.0f)(5.0f,0.0f,0.0f)(10.0f,1.0f,0.0f);
-	p1["camx"](.0f,.0f,.0f)(37.0f,3.0f,1.0f)(40.0f,-6.0f,-1.0f);
-	p1["camy"](2.0f,.0f,.0f)(20.0f,3.0f,1.0f)(40.0f,-12.0f,-1.0f);
-	p1["camz"](3.0f,.0f,.0f)(5.0f,3.0f,1.0f)(40.0f,-122.0f,-1.0f);
-	p1["targetx"](4.0f,.0f,.0f)(11.0f,3.0f,1.0f)(40.0f,-12.0f,-1.0f);
-	p1["targety"](1.0f,.0f,.0f)(24.0f,3.0f,1.0f)(40.0f,-15.0f,-1.0f);
-	p1["targetz"](-6.0f,.0f,.0f)(35.0f,8.0f,1.0f)(40.0f,5.0f,-1.0f);
+	p1["camx"](.0f,.0f,.0f)(37.0f,2.0f,1.0f)(40.0f,-3.0f,-1.0f);
+	p1["camy"](2.0f,.0f,.0f)(20.0f,3.0f,1.0f)(40.0f,2.0f,-1.0f);
+	p1["camz"](3.0f,1.0f,.0f)(5.0f,1.0f,1.0f)(40.0f,1.0f,-1.0f);
+	p1["targetx"](4.0f,.0f,.0f)(11.0f,3.0f,1.0f)(40.0f,-1.2f,-1.0f);
+	p1["targety"](1.0f,.0f,.0f)(24.0f,3.0f,1.0f)(40.0f,-1.5f,-1.0f);
+	p1["targetz"](-6.0f,.0f,.0f)(35.0f,-10.0f,1.0f)(40.0f,-5.0f,-1.0f);
 	p1["aspect"](.0f,float(screenh)/float(screenw),.0f);
 	p1["primx"](.0f,1.0f,.0f);
 	p1["primy"](.0f,1.0f,.0f);
@@ -140,9 +142,10 @@ int main() {
 	p1["sech"](.0f,170.0f,.0f);
 	p1["secs"](.0f,.4f,.0f);
 	p1["secv"](.0f,.2f,.0f);
-	p1["fov"](.0f,8.0f,.0f)(40.0f,1.0f,.0f);
+	p1["fov"](.0f,1.0f,.0f)(40.0f,2.0f,.0f);
 	p1["t"](0.0f,0.0f,1.0f)(40.0f,40.0f,1.0f);
 	timeline.addEntry(0.0f, 40.0f, sky, p1);
+	timeline.addEntry(0.0f, 40.0f, wall, p1);
 	timeline.addEntry(80.0f, 144.0f, q, p3);
 	p2["r"](0.0f,1.0f,0.0f)(10.0f,0.0f,0.0f)(15.0f,1.0f,0.0f);
 	p2["g"](0.0f,0.0f,0.0f)(10.0f,1.0f,0.0f)(15.0f,0.0f,0.0f);

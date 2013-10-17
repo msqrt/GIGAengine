@@ -7,12 +7,8 @@
 #define RES 4
 
 Sky::Sky() : Effect(), s("assets/sky.shader") {
-	float * geom = new float[OBJS*6*RES*RES*14];
+	float * geom = new float[OBJS*6*RES*RES*3];
 	for(int i = 0; i<OBJS; i++) {
-		float rx = rand()/float(RAND_MAX), ry = rand()/float(RAND_MAX), rz = rand()/float(RAND_MAX), rs = rand()/float(RAND_MAX);
-		float rhue = rand()/float(RAND_MAX), rsat = rand()/float(RAND_MAX), rsphere = rand()/float(RAND_MAX), rcylinder = rand()/float(RAND_MAX);
-		while(rcylinder>1.0f-rsphere)
-			rcylinder = rand()/float(RAND_MAX);
 		for(int j = 0; j<6; j++) {
 			float nx = 1.0f*(j==0)-1.0f*(j==1);
 			float ny = 1.0f*(j==2)-1.0f*(j==3);
@@ -33,25 +29,14 @@ Sky::Sky() : Effect(), s("assets/sky.shader") {
 			for(int y = 0; y<RES; y++) {
 				float dx = int(x-float(RES-1)/2.0f)/float(RES-2);
 				float dy = int(y-float(RES-1)/2.0f)/float(RES-2);
-				geom[(((i*6+j)*RES+x)*RES+y)*14+ 0] = ox+dx*xdx+dy*xdy;
-				geom[(((i*6+j)*RES+x)*RES+y)*14+ 1] = oy+dx*ydx+dy*ydy;
-				geom[(((i*6+j)*RES+x)*RES+y)*14+ 2] = oz+dx*zdx+dy*zdy;
-				geom[(((i*6+j)*RES+x)*RES+y)*14+ 3] = nx;
-				geom[(((i*6+j)*RES+x)*RES+y)*14+ 4] = ny;
-				geom[(((i*6+j)*RES+x)*RES+y)*14+ 5] = nz;
-				geom[(((i*6+j)*RES+x)*RES+y)*14+ 6] = rx;
-				geom[(((i*6+j)*RES+x)*RES+y)*14+ 7] = ry;
-				geom[(((i*6+j)*RES+x)*RES+y)*14+ 8] = rz;
-				geom[(((i*6+j)*RES+x)*RES+y)*14+ 9] = rs;
-				geom[(((i*6+j)*RES+x)*RES+y)*14+10] = rhue;
-				geom[(((i*6+j)*RES+x)*RES+y)*14+11] = rsat;
-				geom[(((i*6+j)*RES+x)*RES+y)*14+12] = rsphere;
-				geom[(((i*6+j)*RES+x)*RES+y)*14+13] = rcylinder;
+				geom[(((i*6+j)*RES+x)*RES+y)*3+ 0] = ox+dx*xdx+dy*xdy;
+				geom[(((i*6+j)*RES+x)*RES+y)*3+ 1] = oy+dx*ydx+dy*ydy;
+				geom[(((i*6+j)*RES+x)*RES+y)*3+ 2] = oz+dx*zdx+dy*zdy;
 			}
 		}
 	}
 
-	m.data(OBJS*6*RES*RES, 14*sizeof(float), geom);
+	m.data(OBJS*6*RES*RES, 3*sizeof(float), geom);
 	delete [] geom;
 
 	unsigned * inds = new unsigned[OBJS*6*(RES-1)*(RES-1)*6];

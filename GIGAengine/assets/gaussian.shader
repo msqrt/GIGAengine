@@ -22,7 +22,7 @@ uniform sampler2D source;
 uniform float dir;
 uniform float i;
 
-const float sigma = .47;
+const float sigma = .4;
 
 void main() {
 	vec2 blurdir = vec2(2.0)*vec2(dir, 1.0-dir)/screen.xy;

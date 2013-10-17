@@ -94,6 +94,7 @@
     <None Include="assets\slider.shader" />
     <None Include="assets\spawn.shader" />
     <None Include="assets\update.shader" />
+    <None Include="assets\wall.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="afxres.h" />
@@ -128,6 +129,7 @@
     <ClInclude Include="texture3D.h" />
     <ClInclude Include="timeline.h" />
     <ClInclude Include="video.h" />
+    <ClInclude Include="wall.h" />
     <ClInclude Include="wglext.h" />
     <ClInclude Include="window.h" />
   </ItemGroup>
@@ -152,6 +154,7 @@
     <ClCompile Include="texture3D.cpp" />
     <ClCompile Include="timeline.cpp" />
     <ClCompile Include="video.cpp" />
+    <ClCompile Include="wall.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
