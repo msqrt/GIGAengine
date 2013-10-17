@@ -12,6 +12,7 @@
 #include "nostatusEffect.h"
 #include "vuoriEffect.h"
 #include "insideEffect.h"
+#include "cityEffect.h"
 #include "postprocess.h"
 #include "shaderstorage.h"
 #include "objloader.h"
@@ -119,6 +120,7 @@ int main() {
 	NostatusEffect nostatus;
 	VuoriEffect vuoriefu;
 	InsideEffect insideefu;
+	CityEffect cityefu;
 	Sky sky;
 	Wall wall;
 
@@ -150,11 +152,17 @@ int main() {
 
 	CurveMap insideCurves;
 	insideCurves["lamp"](0.0, 0.0f, 0.0f)(5.0f, 1.0f, 1.0f);
+	insideCurves["speed"](1.0, 0.5, 1.0f);
+
+	CurveMap cityp;
+	cityp["speed"](0.0, 0.1, 1.0f);
+	cityp["lamp"](0.0, 0.0, 1.0f);
 
 	//p1["t"](0.0f,0.0f,1.0f)(40.0f,40.0f,1.0f);
 	timeline.addEntry(0.0f, 80.0f, sky, p1);
 	timeline.addEntry(0.0f, 90.0f, wall, p1);
-	timeline.addEntry(80.0f, 144.0f, q, p3);
+	timeline.addEntry(80.0f, 144.0f, insideefu, cityp);
+	timeline.addEntry(80.0f, 144.0f, cityefu, p3);
 	p2["r"](0.0f,1.0f,0.0f)(10.0f,0.0f,0.0f)(15.0f,1.0f,0.0f);
 	p2["g"](0.0f,0.0f,0.0f)(10.0f,1.0f,0.0f)(15.0f,0.0f,0.0f);
 	p2["b"](0.0f,1.0f,0.0f)(10.0f,0.0f,0.0f)(15.0f,1.0f,0.0f);

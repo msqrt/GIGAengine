@@ -6,15 +6,14 @@
 #include "texture.h"
 #include "timeline.h"
 
-class InsideEffect: public Effect {
+class CityEffect: public Effect {
 	public:
-		InsideEffect();
-		~InsideEffect();
+		CityEffect();
+		~CityEffect();
 		void render(ParameterMap& param);
 	private:
 		shader fill;
 		mesh quadi;
-		texture tex;
-		mesh* ball;
-		mesh* pyrpyla;
+		mesh* bgball;
+		texture mountain;
 };
