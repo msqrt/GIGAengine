@@ -20,6 +20,8 @@ class ShaderMap {
         shader* loadFile(std::string filename);
         shader* getShader(std::string basename);
 		shader* addShader(shader* shaderprogram);
+		// remove a shader from the map with the matching pointer, called from shader destructor
+		void removeShader(shader* shader_to_remove);
 		void reloadAll();
 
         private:

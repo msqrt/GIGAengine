@@ -98,6 +98,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="afxres.h" />
+    <ClInclude Include="blurbEffect.h" />
+    <ClInclude Include="cityEffect.h" />
+    <ClInclude Include="insideEffect.h" />
     <ClInclude Include="sky.h" />
     <ClInclude Include="blobs.h" />
     <ClInclude Include="camera.h" />
@@ -129,11 +132,15 @@
     <ClInclude Include="texture3D.h" />
     <ClInclude Include="timeline.h" />
     <ClInclude Include="video.h" />
+    <ClInclude Include="vuoriEffect.h" />
     <ClInclude Include="wall.h" />
     <ClInclude Include="wglext.h" />
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="blurbEffect.cpp" />
+    <ClCompile Include="cityEffect.cpp" />
+    <ClCompile Include="insideEffect.cpp" />
     <ClCompile Include="sky.cpp" />
     <ClCompile Include="blobs.cpp" />
     <ClCompile Include="camera.cpp" />
@@ -154,6 +161,7 @@
     <ClCompile Include="texture3D.cpp" />
     <ClCompile Include="timeline.cpp" />
     <ClCompile Include="video.cpp" />
+    <ClCompile Include="vuoriEffect.cpp" />
     <ClCompile Include="wall.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>

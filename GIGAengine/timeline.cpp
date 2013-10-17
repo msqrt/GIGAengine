@@ -25,11 +25,29 @@ void TimeLine::render(float t) {
 	}
 }
 
+// returns the #n unique effect start time
 float TimeLine::getBeginning(int n) {
-	if(n<(int)entries.size())
+	int distinct_times = 0;
+
+	if(n<(int)entries.size()) {
+		if (n == 0) 
+			return entries[n].start;
+
+		for (int i=1;i<(int)entries.size();i++) {
+			if (entries[i].start != entries[i-1].start) {
+				distinct_times++; // increase distinct_times by one
+			}
+
+			if (distinct_times == n) {
+				return entries[i].start;
+			}
+
+		}
+
 		return entries[n].start;
-	else if(entries.size()>0)
+	} else if(entries.size()>0) {
 		return entries[entries.size()-1].start;
-	else
+	} else {
 		return .0f;
+	}
 }

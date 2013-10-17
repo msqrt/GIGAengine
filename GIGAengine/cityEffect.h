@@ -6,16 +6,14 @@
 #include "texture.h"
 #include "timeline.h"
 
-class NostatusEffect: public Effect {
+class CityEffect: public Effect {
 	public:
-		NostatusEffect();
-		~NostatusEffect();
+		CityEffect();
+		~CityEffect();
 		void render(ParameterMap& param);
 	private:
 		shader fill;
-		mesh m;
-		mesh* suippo;
-		texture cirkula;
-		texture city;
-		int sliceindex;
+		mesh quadi;
+		mesh* bgball;
+		texture mountain;
 };

@@ -6,16 +6,15 @@
 #include "texture.h"
 #include "timeline.h"
 
-class NostatusEffect: public Effect {
+class BlurbEffect: public Effect {
 	public:
-		NostatusEffect();
-		~NostatusEffect();
+		BlurbEffect();
+		~BlurbEffect();
 		void render(ParameterMap& param);
 	private:
 		shader fill;
-		mesh m;
-		mesh* suippo;
-		texture cirkula;
-		texture city;
-		int sliceindex;
+		shader billboard;
+		mesh quadi;
+		//texture tex;
+		mesh* shape;
 };

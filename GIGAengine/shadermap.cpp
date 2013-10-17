@@ -59,3 +59,13 @@ shader* ShaderMap::addShader(shader* shaderprogram)
 
 		return shaderprogram;
 }
+
+void ShaderMap::removeShader(shader* shader_to_remove)
+{
+	for (std::map<std::string, shader*>::iterator it=shaders.begin();it!=shaders.end();++it) {
+		if (it->second == shader_to_remove) {
+			shaders.erase(it);
+			return;
+		}
+	}
+}
