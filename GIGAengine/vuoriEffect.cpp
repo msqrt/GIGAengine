@@ -32,6 +32,7 @@ void VuoriEffect::render(ParameterMap& param)
 	fill.use();	
 	fill.setUniform("screenSize", screensize, GVEC2);
 	fill.setUniform("t", &param["t"], GFLOAT);
+	fill.setUniform("lamp", &param["lamp"], GFLOAT);
 	mountain.bind(0);	
 	quadi.draw(GL_TRIANGLES);
 }

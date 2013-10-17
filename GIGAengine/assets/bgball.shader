@@ -68,6 +68,7 @@ smooth in vec2 ex_uv;
 smooth in vec3 ex_Normal;
 uniform sampler2D tex;
 uniform float t;
+uniform float lamp;
 
 float gray(vec3 col) {
 	 return dot(col, vec3(0.299, 0.587, 0.114));
@@ -84,19 +85,21 @@ vec3 hsv(float h, float s, float v)
 void main() {
 	vec3 luma = vec3(0.299, 0.587, 0.114);
 	vec3 light = normalize(vec3(0.1 + sin(t*0.08), 0.1, 0.8));
+	float lamppu = lamp;
 	
 	float progress = mod(t, 1.0);
 	float beat = floor(t) + smoothstep(0.0, 1.0, mod(t, 1.0));
 	
 	vec2 plus = vec2(t*0.01 + beat * 0.03, beat*0.02);
 	vec4 teks = texture2D(tex, ex_uv + plus );
-	vec4 col = vec4(hsv(0.05 + ex_Pos.z*0.03, 0.3, 0.8), 1.0);
+	vec4 col = vec4(hsv(0.55 + ex_Pos.z*0.03, 0.3, 0.8), 1.0);
 	vec3 camvec = -normalize(ex_Pos);
 	//col *= dot(light, reflect(normalize(ex_Normal.xyz + (teks.z-teks.x)*0.1)));
 	vec3 norr = normalize(ex_Normal.xyz + (teks.z-teks.x)*0.1);
 	float ambient = 0.1;
-	col *= (max(0.0, dot(light, reflect(camvec, norr))) + ambient);
+	col *= 1.0-(max(0.0, dot(light, reflect(camvec, norr))) + ambient + lamppu*dot(vec3(0.0, 1.0, 0.0), norr));
 	col *= vec4(vec3(0.5), 1.0);
+
 	//col = vec4(pow(col.rgb, vec3(1.5)), 1.0);
 
 	outcol = vec4(pow(col.rgb, vec3(2.0)), 1.0);

@@ -147,6 +147,10 @@ int main() {
 	p1["secs"](.0f,.4f,.0f);
 	p1["secv"](.0f,.2f,.0f);
 	p1["fov"](.0f,1.0f,.0f)(40.0f,2.0f,.0f);
+
+	CurveMap insideCurves;
+	insideCurves["lamp"](0.0, 0.0f, 0.0f)(5.0f, 1.0f, 1.0f);
+
 	//p1["t"](0.0f,0.0f,1.0f)(40.0f,40.0f,1.0f);
 	timeline.addEntry(0.0f, 80.0f, sky, p1);
 	timeline.addEntry(0.0f, 90.0f, wall, p1);
@@ -155,7 +159,7 @@ int main() {
 	p2["g"](0.0f,0.0f,0.0f)(10.0f,1.0f,0.0f)(15.0f,0.0f,0.0f);
 	p2["b"](0.0f,1.0f,0.0f)(10.0f,0.0f,0.0f)(15.0f,1.0f,0.0f);
 	timeline.addEntry(144.0f, 183.0f, vuoriefu, p2);
-	timeline.addEntry(183.0f, 248.0f, insideefu, p2);
+	timeline.addEntry(183.0f, 248.0f, insideefu, insideCurves);
 	timeline.addEntry(248.0f, 500.0f, nostatus, p2);
 
 	track.seekBeats(.0);
