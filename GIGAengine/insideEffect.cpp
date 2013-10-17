@@ -32,7 +32,7 @@ void InsideEffect::render(ParameterMap& param)
 	fill.setUniform("screenSize", screensize, GVEC2);
 	fill.setUniform("t", &param["t"], GFLOAT);
 
-	setCamera(fill, "camera", 3.0f, -2.0f, -2.0f, 0.0f, .0f, .0f);
+	setCamera(fill, "camera", 3.0f, -4.0f, -0.0f, 0.0f, -1.0f, .0f);
 	setProjection(fill, "projection", 6.0f, 9.0/16.0);
 
 	tex.bind(0);	
