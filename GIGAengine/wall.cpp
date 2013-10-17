@@ -3,26 +3,26 @@
 #include "wall.h"
 #include "camera.h"
 
-#define RES 512
+#define RES 1024
 
 Wall::Wall() : Effect(), s("assets/wall.shader") {
 	float * geom = new float[RES*RES*13];
 	for(int x = 0; x<RES; x++)
 	for(int y = 0; y<RES; y++) {
-		float dx = int(x-float(RES-1)/2.0f)/float(RES-2);
-		float dy = int(y-float(RES-1)/2.0f)/float(RES-2);
+		float dx = float(x-float(RES-1)/2.0f)/float(RES-2);
+		float dy = float(y-float(RES-1)/2.0f)/float(RES-2);
 		float l = 1.0f/sqrt(dx*dx+dy*dy+1.0f);
 		geom[(x*RES+y)*13+0] = dx*l;
 		geom[(x*RES+y)*13+1] = dy*l;
 		geom[(x*RES+y)*13+2] = 1.0f-l;
-		dx = int(x-1-float(RES-1)/2.0f)/float(RES-2);
-		dy = int(y-float(RES-1)/2.0f)/float(RES-2);
+		dx = float(x-1-float(RES-1)/2.0f)/float(RES-2);
+		dy = float(y-float(RES-1)/2.0f)/float(RES-2);
 		l = 1.0f/sqrt(dx*dx+dy*dy+1.0f);
 		geom[(x*RES+y)*13+3] = dx*l;
 		geom[(x*RES+y)*13+4] = dy*l;
 		geom[(x*RES+y)*13+5] = 1.0f-l;
-		dx = int(x-float(RES-1)/2.0f)/float(RES-2);
-		dy = int(y-1-float(RES-1)/2.0f)/float(RES-2);
+		dx = float(x-float(RES-1)/2.0f)/float(RES-2);
+		dy = float(y-1-float(RES-1)/2.0f)/float(RES-2);
 		l = 1.0f/sqrt(dx*dx+dy*dy+1.0f);
 		geom[(x*RES+y)*13+6] = dx*l;
 		geom[(x*RES+y)*13+7] = dy*l;

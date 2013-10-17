@@ -11,7 +11,7 @@ set assetdir=GIGAengine\assets
 set binarypath=Release\GIGAengine.exe
 REM the final binary name
 set binaryname=peisikdemo.exe
-set compressor="C:\Program Files\7-Zip\7z.exe"
+set compressor="D:\7Zip\7z.exe"
 set releasedir=releasepack
 
 goto build
@@ -62,3 +62,5 @@ exit /B
 :no_zip
 echo "No 7zip found, skipping zip compression."
 exit /B
+
+pause

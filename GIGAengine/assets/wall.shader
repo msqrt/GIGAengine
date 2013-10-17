@@ -22,12 +22,13 @@ uniform mat4 projection, camera;
 uniform float t;
 
 void main() {
-	vec3 loc = apos*10000.0+sin(vec3(t)+apos*1000.0)*5.0;
-	vec3 loc2 = altan*10000.0+sin(vec3(t)+altan*1000.0)*5.0;
-	vec3 loc3 = artan*10000.0+sin(vec3(t)+artan*1000.0)*5.0;
-	pos = camera*vec4(loc,1.0);
+	nor = vec4(vec4(-normalize(cross(altan-apos,artan-apos)),.0)).xyz;
+	vec3 loc  = apos *1000.0+nor*(cos(t+100.0*apos.x )+cos(t+100.0*apos.y ))/3.0*8.0*(1.0-smoothstep(.1, .2, length(apos )));
+	vec3 loc2 = altan*1000.0+nor*(cos(t+100.0*altan.x)+cos(t+100.0*altan.y))/3.0*8.0*(1.0-smoothstep(.1, .2, length(altan)));
+	vec3 loc3 = artan*1000.0+nor*(cos(t+100.0*artan.x)+cos(t+100.0*artan.y))/3.0*8.0*(1.0-smoothstep(.1, .2, length(artan)));
 	nor = vec4(camera*vec4(-normalize(cross(loc2-loc,loc3-loc)),.0)).xyz;
-	dir = reflect(pos.xyz,nor);
+	pos = camera*vec4(loc-vec3(.0,.0,5.0),1.0);
+	dir = reflect(loc,nor);
 	gl_Position = projection*pos;
 }
 
@@ -44,8 +45,8 @@ smooth in vec4 pos;
 uniform vec3 primaryDirection, primaryColour, secondaryDirection, secondaryColour;
 
 void main() {
-	float fres = clamp(.0+.2*pow(1.0-dot(normalize(pos.xyz),-normalize(nor)),15.0),.0,1.0);
-	outcol = mix(vec4(.01), vec4((dot(normalize(dir),normalize(primaryDirection))*.5+.5)*hsltorgb(primaryColour) + (dot(normalize(dir),normalize(secondaryDirection))*.5+.5)*hsltorgb(secondaryColour), 1.0), fres);
+	float fres = clamp(.0+.2*pow(1.0-dot(normalize(pos.xyz),-normalize(nor)),5.0),.0,1.0);
+	outcol = clamp(mix(vec4(.1*vec3((dot(normalize(nor),normalize(primaryDirection))*.5+.5)*hsltorgb(primaryColour-vec3(.0,.1,.1)) + (dot(normalize(nor),normalize(secondaryDirection))*.5+.5)*hsltorgb(secondaryColour-vec3(.0,.1,.1))), 1.0), vec4((dot(normalize(dir),normalize(primaryDirection))*.5+.5)*hsltorgb(primaryColour) + (dot(normalize(dir),normalize(secondaryDirection))*.5+.5)*hsltorgb(secondaryColour), 1.0), fres),vec4(.0),vec4(1.0));
 	outadd = vec4(.0);
 }
 
