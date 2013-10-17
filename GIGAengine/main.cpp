@@ -11,6 +11,7 @@
 #include "wall.h"
 #include "nostatusEffect.h"
 #include "vuoriEffect.h"
+#include "insideEffect.h"
 #include "postprocess.h"
 #include "shaderstorage.h"
 #include "objloader.h"
@@ -117,6 +118,7 @@ int main() {
 	QuadEffect q;
 	NostatusEffect nostatus;
 	VuoriEffect vuoriefu;
+	InsideEffect insideefu;
 	Sky sky;
 	Wall wall;
 
@@ -153,7 +155,7 @@ int main() {
 	p2["g"](0.0f,0.0f,0.0f)(10.0f,1.0f,0.0f)(15.0f,0.0f,0.0f);
 	p2["b"](0.0f,1.0f,0.0f)(10.0f,0.0f,0.0f)(15.0f,1.0f,0.0f);
 	timeline.addEntry(144.0f, 183.0f, vuoriefu, p2);
-	timeline.addEntry(183.0f, 248.0f, b, p2);
+	timeline.addEntry(183.0f, 248.0f, insideefu, p2);
 	timeline.addEntry(248.0f, 500.0f, nostatus, p2);
 
 	track.seekBeats(.0);
@@ -210,11 +212,13 @@ int main() {
 		glEndQuery(GL_TIME_ELAPSED);
 		glGetQueryObjectiv(query, GL_QUERY_RESULT, &res);
 
+		/*
 		if(!(loops%60)) {
 			printf("frametime: %.2lfms\n", double(res)/1000000.0);
 			printf("gl error: 0x%X\n", glGetError());
 			printf("time: %f\n", t);
 		}
+		*/
 		#endif
 		loops++;
 	}

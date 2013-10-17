@@ -98,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="afxres.h" />
+    <ClInclude Include="insideEffect.h" />
     <ClInclude Include="sky.h" />
     <ClInclude Include="blobs.h" />
     <ClInclude Include="camera.h" />
@@ -135,6 +136,7 @@
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="insideEffect.cpp" />
     <ClCompile Include="sky.cpp" />
     <ClCompile Include="blobs.cpp" />
     <ClCompile Include="camera.cpp" />
