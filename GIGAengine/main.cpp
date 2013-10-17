@@ -10,6 +10,7 @@
 #include "sky.h"
 #include "wall.h"
 #include "nostatusEffect.h"
+#include "vuoriEffect.h"
 #include "postprocess.h"
 #include "shaderstorage.h"
 #include "objloader.h"
@@ -115,6 +116,7 @@ int main() {
 	Blobs b;
 	QuadEffect q;
 	NostatusEffect nostatus;
+	VuoriEffect vuoriefu;
 	Sky sky;
 	Wall wall;
 
@@ -143,14 +145,14 @@ int main() {
 	p1["secs"](.0f,.4f,.0f);
 	p1["secv"](.0f,.2f,.0f);
 	p1["fov"](.0f,1.0f,.0f)(40.0f,2.0f,.0f);
-	p1["t"](0.0f,0.0f,1.0f)(40.0f,40.0f,1.0f);
-	timeline.addEntry(0.0f, 40.0f, sky, p1);
-	timeline.addEntry(0.0f, 40.0f, wall, p1);
+	//p1["t"](0.0f,0.0f,1.0f)(40.0f,40.0f,1.0f);
+	timeline.addEntry(0.0f, 80.0f, sky, p1);
+	timeline.addEntry(0.0f, 90.0f, wall, p1);
 	timeline.addEntry(80.0f, 144.0f, q, p3);
 	p2["r"](0.0f,1.0f,0.0f)(10.0f,0.0f,0.0f)(15.0f,1.0f,0.0f);
 	p2["g"](0.0f,0.0f,0.0f)(10.0f,1.0f,0.0f)(15.0f,0.0f,0.0f);
 	p2["b"](0.0f,1.0f,0.0f)(10.0f,0.0f,0.0f)(15.0f,1.0f,0.0f);
-	timeline.addEntry(144.0f, 183.0f, b, p2);
+	timeline.addEntry(144.0f, 183.0f, vuoriefu, p2);
 	timeline.addEntry(183.0f, 248.0f, b, p2);
 	timeline.addEntry(248.0f, 500.0f, nostatus, p2);
 
