@@ -13,6 +13,7 @@ class NostatusEffect: public Effect {
 		void render(ParameterMap& param);
 	private:
 		shader fill;
+		shader bg;
 		mesh m;
 		mesh* suippo;
 		texture cirkula;
