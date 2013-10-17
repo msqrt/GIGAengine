@@ -23,9 +23,8 @@
 #pragma comment(lib, "gdiplus.lib")
 #pragma comment(lib, "strmiids.lib")
 #pragma comment(lib, "ComCtl32.lib")
-#pragma comment(lib, "msvcrt.lib")
 
-#pragma comment(linker, "/nodefaultlib:libcmt.lib")
+#pragma comment(linker, "/nodefaultlib:msvcrt.lib")
 
 #ifdef _DEBUG
 #pragma comment(lib, "strmbasd.lib")
@@ -47,11 +46,12 @@ INT_PTR CALLBACK launcherProc(HWND dlg, UINT msg, WPARAM w, LPARAM l)
 {
 	if(msg==WM_INITDIALOG)
 	{
-		ComboBox_AddString(GetDlgItem(dlg, IDC_COMBO1), L"1280x720");
-		ComboBox_AddString(GetDlgItem(dlg, IDC_COMBO1), L"1920x1080");
-		ComboBox_AddString(GetDlgItem(dlg, IDC_COMBO1), L"3840x2160");
+		ComboBox_AddString(GetDlgItem(dlg, IDC_COMBO1), L"1280x720  (welcome to the 80s)");
+		ComboBox_AddString(GetDlgItem(dlg, IDC_COMBO1), L"1920x1080 (boring and typical)");
+		ComboBox_AddString(GetDlgItem(dlg, IDC_COMBO1), L"3840x2160 (the PEISIK experience)");
 		
 		ComboBox_SetCurSel(GetDlgItem(dlg, IDC_COMBO1), 0);
+		CheckDlgButton(dlg, IDC_CHECK1, BST_CHECKED);
 	}
 	if(msg==WM_COMMAND)
 	{
