@@ -16,7 +16,18 @@ smooth out vec2 uv;
 smooth out vec4 exColor;
 smooth out vec3 exNormal;
 
+mat4 getyrot(float alpha) {
+	return mat4(
+		cos(alpha), 0.0, sin(alpha), 0.0,
+		0.0, 1.0, 0.0, 0.0,
+		-sin(alpha), 0.0, cos(alpha), 0.0,
+		0.0, 0.0, 0.0, 1.0
+	);
+}
+
 void main() {
+	mat4 cam = camera;
+	
 	float thet = t*0.5;
 	mat2 rotation = mat2(
 	cos(thet), -sin(thet), 
@@ -24,6 +35,7 @@ void main() {
 	);
 	
 	float alpha = t*0.2;
+	float beat = floor(t) + smoothstep(0.0, 1.0, mod(t, 1.0));
 	
 	mat3 rotationy = mat3(
 		cos(alpha), 0.0, sin(alpha),
@@ -31,9 +43,13 @@ void main() {
 		-sin(alpha), 0.0, cos(alpha)
 	);
 	
+	mat4 rotationy4 = getyrot(floor(t/4));
+	cam = cam * rotationy4;
+
+	
 	vec2 screenratio = vec2(screenSize.y/screenSize.x, 1.0);
 	uv = pos.xy*.5+vec2(.5);
-	// uv *= 0.5;
+	 uv *= 0.5;
 	
 	/*
 	uv *= screenratio;
@@ -49,10 +65,12 @@ void main() {
 	
 
 	vec3 ppos = pos;
-	ppos.x = ppos.x + ppos.y*floor(t/2 + 0.5)*0.1;
+	float glitchtime = t/2.0 + 0.5 ;
+	ppos.x = ppos.x + ppos.y*sin(floor(glitchtime) * 2.0);
 
-	exColor = vec4(0.5+sin(index)*0.5, 0.5-cos(index*0.5)*0.5, float(index%3)/8.0, 1.0);
-	gl_Position = (projection*camera)*vec4(ppos, 1.0);
+	float c = max(0.0, 1.0-mod(glitchtime, 1.0)*8.0)*0.2;	// flashy
+	exColor = vec4(vec3(c), 1.0);
+	gl_Position = (projection*cam)*vec4(ppos, 1.0);
 	
 	outpos = gl_Position.xy;
 	ppos *= 4.0;
@@ -77,7 +95,8 @@ void main() {
 	//c = vec3(.1,.5,1.0)*.125*(2.0+sin(uv.x+t*2.1)+cos(uv.y+t*1.9));
 
 	
-	outcol = vec4(pow(c, vec3(2.2)), 1.0);
+	outcol = vec4(pow(c, vec3(2.2)), 1.0) + exColor;
+	outcol.b = gl_FragCoord.z;
 }
 
 #endif
