@@ -14,5 +14,5 @@ class VuoriEffect: public Effect {
 	private:
 		shader fill;
 		mesh quadi;
-		texture mountain;
+		//texture mountain;
 };

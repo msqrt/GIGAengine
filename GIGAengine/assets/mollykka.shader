@@ -6,6 +6,7 @@ layout (location=1) in vec3 normal;
 smooth out vec3 ex_Pos;
 smooth out vec2 ex_uv;
 smooth out vec3 ex_Normal;
+smooth out float beat;
 
 uniform vec2 screenSize;
 uniform mat4 projection;
@@ -27,6 +28,8 @@ void main() {
 		0.0, 0.0, 0.0, 1.0
 	);
 	*/
+	
+	beat = floor(t) + smoothstep(0.0, 1.0, mod(t, 1.0));
 	
 
 	mat3 roty = mat3(
@@ -52,7 +55,7 @@ void main() {
 	outpos *= roty;
 	outpos.x -= 4.0;
 	
-	float spin = distance(vec3(0.0), ipos) * t * 0.05;
+	float spin = distance(vec3(0.0), ipos) * beat*0.05;
 	
 	mat3 roty2 = mat3(
 		cos(spin), 0.0, -sin(spin),
@@ -78,6 +81,7 @@ layout (location=0) out vec4 outcol;
 smooth in vec3 ex_Pos;	// world space position
 smooth in vec2 ex_uv;
 smooth in vec3 ex_Normal;
+smooth in float beat;
 uniform sampler2D tex;
 uniform float t;
 uniform float lamp;
@@ -100,7 +104,8 @@ void main() {
 	float lamppu = lamp;
 	
 	float progress = mod(t, 1.0);
-	float beat = floor(t) + smoothstep(0.0, 1.0, mod(t, 1.0));
+	// done in vertex shader
+	//float beat = floor(t) + smoothstep(0.0, 1.0, mod(t, 1.0));
 	
 	vec2 plus = vec2(t*0.01 + beat * 0.03, beat*0.02);
 	vec4 teks = texture2D(tex, ex_uv + plus );

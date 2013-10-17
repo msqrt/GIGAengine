@@ -16,5 +16,6 @@ class NostatusEffect: public Effect {
 		mesh m;
 		mesh* suippo;
 		texture cirkula;
+		texture city;
 		int sliceindex;
 };

@@ -14,7 +14,7 @@ class InsideEffect: public Effect {
 	private:
 		shader fill;
 		mesh quadi;
-		texture tex;
+		//texture tex;
 		mesh* ball;
 		mesh* pyrpyla;
 };

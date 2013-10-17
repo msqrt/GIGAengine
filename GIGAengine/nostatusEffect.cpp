@@ -14,7 +14,8 @@ NostatusEffect::NostatusEffect()
  : Effect(), 
 	fill("assets/nostatus.shader"), 
 	m(MESH_QUAD),
-	cirkula(L"assets/cirkula2.jpg")
+	cirkula(L"assets/cirkula2.jpg"),
+	city(L"assets/walls.png")
 { 
 	fill.addUniform("screenSize", screensize, GVEC2);
 	suippo = util::loadWavefrontObj("assets/meshes/suippo.obj", true);
@@ -34,7 +35,7 @@ void NostatusEffect::render(ParameterMap& param)
 	int slices = 8;
 
 	fill.use();
-	cirkula.bind(0);
+	city.bind(0);
 	glUniform1i(fill.getLoc("tex"), 0);
 	glUniform1f(fill.getLoc("t"), param["t"]);
 

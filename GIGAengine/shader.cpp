@@ -16,6 +16,7 @@ shader::shader(std::string programPath, int pflags) {
 shader::~shader() {
 	reload(2);
 	delete [] uniforms;
+	shaderstorage.removeShader(this);
 }
 
 shader::shader(int programName, int resourceType, int pflags) {

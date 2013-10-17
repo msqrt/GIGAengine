@@ -6,6 +6,8 @@
 #include "camera.h"
 #include "shaderstorage.h"
 
+extern texture* koneTexture;
+
 namespace {
 float screensize[] = {1280.0f, 720.0f};
 }
@@ -13,8 +15,8 @@ float screensize[] = {1280.0f, 720.0f};
 InsideEffect::InsideEffect()
  : Effect(), 
 	fill("assets/bgball.shader"), 
-	quadi(MESH_QUAD),
-	tex(L"assets/kone.jpg")
+	quadi(MESH_QUAD)
+	//tex(L"assets/kone.jpg")
 { 
 	fill.addUniform("screenSize", screensize, GVEC2);
 	ball = util::loadWavefrontObj("assets/meshes/boltsi.obj", false);
@@ -38,7 +40,7 @@ void InsideEffect::render(ParameterMap& param)
 	setCamera(fill, "camera", 3.0f, -4.0f, -0.0f, 0.0f, 25.0f, .0f);
 	setProjection(fill, "projection", 6.0f, 9.0/16.0);
 
-	tex.bind(0);	
+	koneTexture->bind(0);	
 	ball->draw(GL_TRIANGLES);
 
 	setCamera(fill, "camera", 0.0f, 0.0f, 5.0f, 0.0f, 0.0f, 0.0f);

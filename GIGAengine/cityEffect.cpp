@@ -6,6 +6,8 @@
 #include "objloader.h"
 #include "camera.h"
 
+extern texture* cityTexture;
+
 namespace {
 float screensize[] = {1280.0f, 720.0f};
 }
@@ -34,7 +36,9 @@ void CityEffect::render(ParameterMap& param)
 	fill.setUniform("screenSize", screensize, GVEC2);
 	fill.setUniform("t", &param["t"], GFLOAT);
 	fill.setUniform("lamp", &param["lamp"], GFLOAT);
-	mountain.bind(0);	
+	//mountain.bind(0);	
+	cityTexture->bind(0);
+	
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 	glEnable(GL_BLEND);

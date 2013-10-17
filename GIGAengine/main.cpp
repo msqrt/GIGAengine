@@ -35,6 +35,10 @@
 
 #pragma comment(lib, "winmm.lib")
 
+texture* cityTexture;
+texture* koneTexture;
+texture* mountainTexture;
+
 bool runprogram = true, full = false;
 
 int screenw = 0, screenh = 0;
@@ -108,6 +112,11 @@ int main() {
 	mesh quad(MESH_QUAD);
 
 	song track(L"assets/noise01_7.mp3", 114.0);
+
+	// a global texture used by some effects
+	cityTexture = new texture(L"assets/walls.png");
+	koneTexture = new texture(L"assets/kone.jpg");
+	mountainTexture = new texture(L"assets/vuori.jpg");
 
 	double dirx = .0, diry = .0, posx = .0, posy = .0, posz = 3.0;
 	POINT pt = {win.width/2, win.height/2};
@@ -237,6 +246,10 @@ int main() {
 		#endif
 		loops++;
 	}
+
+	delete cityTexture;
+	delete koneTexture;
+	delete mountainTexture;
 
 	return 0;
 }

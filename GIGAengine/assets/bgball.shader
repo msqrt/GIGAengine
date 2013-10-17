@@ -91,7 +91,7 @@ void main() {
 	
 	vec2 plus = vec2(t*0.01 + beat * 0.03, beat*0.02);
 	vec4 teks = texture2D(tex, ex_uv + plus );
-	vec4 col = vec4(hsv(0.58 + ex_Pos.z*0.02 , 0.3, 1.1), 1.0);
+	vec4 col = vec4(hsv(0.08 + ex_Pos.z*0.02 , 0.3, 1.0), 1.0);
 	vec3 camvec = -normalize(ex_Pos);
 	//col *= dot(light, reflect(normalize(ex_Normal.xyz + (teks.z-teks.x)*0.1)));
 	vec3 norr = normalize(ex_Normal.xyz + (teks.z-teks.x)*0.1);

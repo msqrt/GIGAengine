@@ -6,6 +6,8 @@
 #include "objloader.h"
 #include "camera.h"
 
+extern texture* mountainTexture;
+
 namespace {
 float screensize[] = {1280.0f, 720.0f};
 }
@@ -13,8 +15,8 @@ float screensize[] = {1280.0f, 720.0f};
 VuoriEffect::VuoriEffect()
  : Effect(), 
 	fill("assets/bgvuori.shader"), 
-	quadi(MESH_QUAD),
-	mountain(L"assets/vuori.jpg")
+	quadi(MESH_QUAD)
+	//mountain(L"assets/vuori.jpg")
 { 
 	fill.addUniform("screenSize", screensize, GVEC2);
 	//suippo = util::loadWavefrontObj("assets/meshes/suippo.obj", true);
@@ -33,6 +35,6 @@ void VuoriEffect::render(ParameterMap& param)
 	fill.setUniform("screenSize", screensize, GVEC2);
 	fill.setUniform("t", &param["t"], GFLOAT);
 	fill.setUniform("lamp", &param["lamp"], GFLOAT);
-	mountain.bind(0);	
+	mountainTexture->bind(0);	
 	quadi.draw(GL_TRIANGLES);
 }
