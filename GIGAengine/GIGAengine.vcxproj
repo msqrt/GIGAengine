@@ -98,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="afxres.h" />
+    <ClInclude Include="blurbEffect.h" />
     <ClInclude Include="cityEffect.h" />
     <ClInclude Include="insideEffect.h" />
     <ClInclude Include="sky.h" />
@@ -137,6 +138,7 @@
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="blurbEffect.cpp" />
     <ClCompile Include="cityEffect.cpp" />
     <ClCompile Include="insideEffect.cpp" />
     <ClCompile Include="sky.cpp" />

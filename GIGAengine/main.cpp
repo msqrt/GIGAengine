@@ -13,6 +13,7 @@
 #include "vuoriEffect.h"
 #include "insideEffect.h"
 #include "cityEffect.h"
+#include "blurbEffect.h"
 #include "postprocess.h"
 #include "shaderstorage.h"
 #include "objloader.h"
@@ -121,6 +122,7 @@ int main() {
 	VuoriEffect vuoriefu;
 	InsideEffect insideefu;
 	CityEffect cityefu;
+	BlurbEffect blurbefu;
 	Sky sky;
 	Wall wall;
 
@@ -168,6 +170,7 @@ int main() {
 	p2["b"](0.0f,1.0f,0.0f)(10.0f,0.0f,0.0f)(15.0f,1.0f,0.0f);
 	timeline.addEntry(144.0f, 183.0f, vuoriefu, p2);
 	timeline.addEntry(183.0f, 248.0f, insideefu, insideCurves);
+	timeline.addEntry(183.0f, 248.0f, blurbefu, insideCurves);
 	timeline.addEntry(248.0f, 500.0f, nostatus, p2);
 
 	track.seekBeats(.0);
