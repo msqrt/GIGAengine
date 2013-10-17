@@ -13,6 +13,7 @@ class BlurbEffect: public Effect {
 		void render(ParameterMap& param);
 	private:
 		shader fill;
+		shader billboard;
 		mesh quadi;
 		//texture tex;
 		mesh* shape;

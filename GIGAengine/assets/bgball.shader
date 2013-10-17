@@ -91,13 +91,15 @@ void main() {
 	
 	vec2 plus = vec2(t*0.01 + beat * 0.03, beat*0.02);
 	vec4 teks = texture2D(tex, ex_uv + plus );
-	vec4 col = vec4(hsv(0.08 + ex_Pos.z*0.02 , 0.3, 1.0), 1.0);
+	//vec4 col = vec4(hsv(0.08 + ex_Pos.z*0.02 , 0.3, 1.0), 1.0);
+	vec4 col = vec4(hsv(0.60 + ex_Pos.z*0.02 , 0.3, 1.0), 1.1);
 	vec3 camvec = -normalize(ex_Pos);
 	//col *= dot(light, reflect(normalize(ex_Normal.xyz + (teks.z-teks.x)*0.1)));
 	vec3 norr = normalize(ex_Normal.xyz + (teks.z-teks.x)*0.1);
 	float ambient = 0.1;
-	col *= 1.0-(max(0.0, dot(light, reflect(camvec, norr))) + ambient + lamppu*dot(vec3(0.0, 1.0, 0.0), norr));
-	col *= vec4(vec3(0.5), 1.0);
+	col *= 1.0-(max(-0.3, dot(light, reflect(camvec, norr))) + ambient + lamppu*dot(vec3(0.0, 1.0, 0.0), norr));
+	col *= vec4(vec3(0.6), 1.0);
+	col.rgb = max(vec3(0.1), col.rgb);
 
 	//col = vec4(pow(col.rgb, vec3(1.5)), 1.0);
 

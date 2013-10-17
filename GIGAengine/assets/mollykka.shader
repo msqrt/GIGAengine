@@ -113,7 +113,7 @@ void main() {
 	vec3 camvec = -normalize(ex_Pos);
 	//col *= dot(light, reflect(normalize(ex_Normal.xyz + (teks.z-teks.x)*0.1)));
 	vec3 norr = normalize(ex_Normal.xyz + (teks.z-teks.x)*0.1);
-	float ambient = 0.1 + ex_Pos.z;
+	float ambient = 0.1 + ex_Pos.z*0.9;
 	col *= 1.0-(max(0.0, dot(light, reflect(camvec, norr))) + ambient + lamppu*dot(vec3(0.0, 1.0, 0.0), norr));
 	col *= vec4(vec3(0.5), 1.0);
 
