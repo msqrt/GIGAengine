@@ -34,10 +34,10 @@ Dust::~Dust() {}
 
 void Dust::render(ParameterMap& param) {
 	s.use();
-	setCamera(s, "camera", param["camx"]*.01f, param["camy"]*.01f, param["camz"]*.001f, param["targetx"]*.01f, param["targety"]*.01f, param["targetz"]*.01f);
-	setProjection(s, "projection", param["fov"], param["aspect"]);
+	setCamera(s, "camera", -0.5f , 15.0f , 0.5 , 0.1f, .0f, .0f);
+	setProjection(s, "projection", 6.0f, (float)global_screenh/(float)global_screenw, 0.1, 250.0f);
 	glUniform1f(s.getLoc("t"), param["t"]);
+	glUniform1f(s.getLoc("size"), param["size"]);
 	glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 	m.draw(GL_POINTS);
-	//glClear(GL_DEPTH_BUFFER_BIT);
 }

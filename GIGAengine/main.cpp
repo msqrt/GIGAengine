@@ -96,8 +96,8 @@ int main() {
 	if(!runprogram)
 		ExitProcess(0);
 	#else
-	global_screenw = 1280 / 2;
-	global_screenh = 720 / 2;
+	global_screenw = 1280;
+	global_screenh = 720;
 	#endif
 
 	win = new window(global_screenw, global_screenh, full, L"ALTDEMO");
@@ -156,7 +156,6 @@ int main() {
 	p1["targetx"](2.0f,.0f,.0f)(71.0f,30.0f,1.0f)(80.0f,12.0f,-1.0f);
 	p1["targety"](2.0f,.0f,.0f)(64.0f,3.0f,1.0f)(80.0f,30.0f,-1.0f);
 	p1["targetz"](2.0f,-26.0f,.0f)(45.0f,-10.0f,1.0f)(80.0f,-2.0f,-1.0f);
-	p1["aspect"](.0f,float(global_screenh)/float(global_screenw),.0f);
 	p1["primx"](.0f,1.0f,.0f);
 	p1["primy"](.0f,1.0f,.0f);
 	p1["primz"](.0f,1.0f,.0f);
@@ -169,6 +168,7 @@ int main() {
 	p1["sech"](.0f,170.0f,.0f);
 	p1["secs"](.0f,1.0f,.0f);
 	p1["secv"](.0f,.2f,.0f);
+	p1["aspect"](.0f,float(global_screenh)/float(global_screenw),.0f);
 	p1["fov"](.0f,4.0f,.0f)(80.0f,8.0f,.0f);
 
 	CurveMap insideCurves;
@@ -184,8 +184,6 @@ int main() {
 	timeline.addEntry(0.0f, 80.0f, wall, p1);
 	timeline.addEntry(80.0f, 144.0f, insideefu, cityp);
 	
-	
-
 	CurveMap imgp;
 	imgp["aspect"](.0f,float(global_screenh)/float(global_screenw),.0f);
 	imgp["scale"](41.5f,1.0f,.0f)(41.7f,.99f,.0f)(41.9f,1.01f,.0f)(42.1f,1.0f,.0f);
@@ -212,6 +210,9 @@ int main() {
 	timeline.addEntry(248.0f, 500.0f, insideefu, insideCurves);
 	timeline.addEntry(248.0f, 500.0f, towerefu, p2);
 	//timeline.addEntry(248.0f, 500.0f, dust, p1);
+	//timeline.addEntry(248.0f, 248.0f, nostatus, p2);
+	//timeline.addEntry(248.0f, 500.0f, dust, p1);
+	timeline.addEntry(248.0f, 500.0f, dust, p2);
 
 	track.seekBeats(.0);
 	track.play();
