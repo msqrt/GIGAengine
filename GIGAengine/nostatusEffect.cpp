@@ -45,7 +45,6 @@ void NostatusEffect::render(ParameterMap& param)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 	//m.draw(GL_TRIANGLES);
 
-
 	//glClear(GL_DEPTH_BUFFER_BIT);
 	fill.use();
 	glUniform1i(fill.getLoc("tex"), 0);

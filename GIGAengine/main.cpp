@@ -14,6 +14,7 @@
 #include "insideEffect.h"
 #include "cityEffect.h"
 #include "blurbEffect.h"
+#include "towerEffect.h"
 #include "backparticles.h"
 #include "postprocess.h"
 #include "shaderstorage.h"
@@ -84,6 +85,7 @@ INT_PTR CALLBACK launcherProc(HWND dlg, UINT msg, WPARAM w, LPARAM l)
 	return 0;
 }
 
+window* win;
 
 int main() {
 
@@ -97,9 +99,8 @@ int main() {
 	global_screenw = 1280;
 	global_screenh = 720;
 	#endif
-	
 
-	window win(global_screenw, global_screenh, full, L"ALTDEMO");
+	win = new window(global_screenw, global_screenh, full, L"ALTDEMO");
 	
 	if(wglGetProcAddress("wglSwapIntervalEXT"))
 		((PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT"))(1);
@@ -124,7 +125,7 @@ int main() {
 	mountainTexture = new texture(L"assets/vuori.jpg");
 
 	double dirx = .0, diry = .0, posx = .0, posy = .0, posz = 3.0;
-	POINT pt = {win.width/2, win.height/2};
+	POINT pt = {win->width/2, win->height/2};
 
 	float t = .0f;
 
@@ -138,6 +139,7 @@ int main() {
 	InsideEffect insideefu;
 	CityEffect cityefu;
 	BlurbEffect blurbefu;
+	TowerEffect towerefu;
 	Sky sky;
 	Wall wall;
 
@@ -184,8 +186,8 @@ int main() {
 	timeline.addEntry(144.0f, 183.0f, nostatus, p2);
 	timeline.addEntry(183.0f, 248.0f, insideefu, insideCurves);
 	timeline.addEntry(183.0f, 248.0f, blurbefu, insideCurves);
-	timeline.addEntry(248.0f, 248.0f, nostatus, p2);
-	timeline.addEntry(248.0f, 500.0f, dust, p1);
+	timeline.addEntry(248.0f, 500.0f, towerefu, p2);
+	//timeline.addEntry(248.0f, 500.0f, dust, p1);
 
 	track.seekBeats(.0);
 	track.play();
@@ -194,41 +196,41 @@ int main() {
 
 	PostProcess post(global_screenw, global_screenh);
 	post.bind();
-	while(win.loop()) {
+	while(win->loop()) {
 		#ifndef _RELEASE
 		glBeginQuery(GL_TIME_ELAPSED, query);
 		#endif
 
 		#ifdef _DEBUG
-		if (win.keyHit[VK_F1]) {
+		if (win->keyHit[VK_F1] || win->keyHit[VK_F5]) {
 			shaderstorage.reloadAll();
 			post.bindUniforms();
 		}
 
-		if(win.keyDown[VK_LEFT])
+		if(win->keyDown[VK_LEFT])
 			track.seekBeats(track.getBeats()-.5);
-		if(win.keyDown[VK_RIGHT])
+		if(win->keyDown[VK_RIGHT])
 			track.seekBeats(track.getBeats()+.5);
-		if(win.keyHit[0x31]) track.seekBeats(timeline.getBeginning(0));
-		if(win.keyHit[0x32]) track.seekBeats(timeline.getBeginning(1));
-		if(win.keyHit[0x33]) track.seekBeats(timeline.getBeginning(2));
-		if(win.keyHit[0x34]) track.seekBeats(timeline.getBeginning(3));
-		if(win.keyHit[0x35]) track.seekBeats(timeline.getBeginning(4));
-		if(win.keyHit[0x36]) track.seekBeats(timeline.getBeginning(5));
-		if(win.keyHit[0x37]) track.seekBeats(timeline.getBeginning(6));
-		if(win.keyHit[0x38]) track.seekBeats(timeline.getBeginning(7));
-		if(win.keyHit[0x39]) track.seekBeats(timeline.getBeginning(8));
-		if(win.keyHit[0x40]) track.seekBeats(timeline.getBeginning(9));
-		if(win.keyHit[0x30]) track.seekBeats(timeline.getBeginning(10));
+		if(win->keyHit[0x31]) track.seekBeats(timeline.getBeginning(0));
+		if(win->keyHit[0x32]) track.seekBeats(timeline.getBeginning(1));
+		if(win->keyHit[0x33]) track.seekBeats(timeline.getBeginning(2));
+		if(win->keyHit[0x34]) track.seekBeats(timeline.getBeginning(3));
+		if(win->keyHit[0x35]) track.seekBeats(timeline.getBeginning(4));
+		if(win->keyHit[0x36]) track.seekBeats(timeline.getBeginning(5));
+		if(win->keyHit[0x37]) track.seekBeats(timeline.getBeginning(6));
+		if(win->keyHit[0x38]) track.seekBeats(timeline.getBeginning(7));
+		if(win->keyHit[0x39]) track.seekBeats(timeline.getBeginning(8));
+		if(win->keyHit[0x40]) track.seekBeats(timeline.getBeginning(9));
+		if(win->keyHit[0x30]) track.seekBeats(timeline.getBeginning(10));
 
-		if (win.keyHit[VK_RETURN])
+		if (win->keyHit[VK_RETURN])
 			track.toggle();
 
-		if(win.keyHit[VK_SPACE]) {
+		if(win->keyHit[VK_SPACE]) {
 			flymode = !flymode;
 			if(flymode) {
-				win.mousex = win.width/2;
-				win.mousey = win.height/2;
+				win->mousex = win->width/2;
+				win->mousey = win->height/2;
 				ShowCursor(0);
 			}
 			else
