@@ -9,6 +9,15 @@ vec3 hsltorgb(vec3 hsl) {
 	return ret;
 }
 
+mat4 getyrot(float alpha) {
+	return mat4(
+		cos(alpha), 0.0, sin(alpha), 0.0,
+		0.0, 1.0, 0.0, 0.0,
+		-sin(alpha), 0.0, cos(alpha), 0.0,
+		0.0, 0.0, 0.0, 1.0
+	);
+}
+
 uniform float t;
 #ifdef vertexcompile
 
@@ -28,12 +37,36 @@ void main() {
 	l = float(gl_PointSize<.0);
 	float x = mod(apos.x+t*.05*(.5+.5*rot2.x),1.0);
 	float r = min(1.0,t*.001);
-	col = vec3(.2);
+	col = vec3(.1);
 	if(rot2.z>.9)
 		col = hsltorgb(vec3(apos.y*20.0, .1, .5));
 	if(apos.w>.9)
 		col = hsltorgb(vec3(140+apos.y*20.0, .1, .5));
-	gl_Position = projection*vec4(vec3(vec3(x,apos.z*2.0+sin(x*10.0+rot2.y)*6.0+sin(x*50.0+rot2.y*2.0+t)*3.0,sin(x*5.0+rot2.z+t)*5.0)-vec3(.5))*vec3(2.0,r*.1,r*.1)-vec3(.0,.0,.1+r*.9),1.0);
+	mat4 cam = camera;
+	
+	//cam = transpose(cam);
+	
+	float alpha = t*0.11;
+	float t2 = t/2.0;
+	float beat = floor(t) + smoothstep(0.0, 1.0, mod(t, 1.0)) ;
+	float beat2 = floor(t2) + smoothstep(0.0, 1.0, mod(t2, 1.0)) ;
+	
+	mat3 rotationy = mat3(
+		cos(alpha), 0.0, sin(alpha),
+		0.0, 1.0, 0.0,
+		-sin(alpha), 0.0, cos(alpha)
+	);
+	
+	mat4 rotationy4 = getyrot(t*0.1 + pos.y*0.02);
+
+	vec3 ppos = vec3(vec3(vec3(x,apos.z*2.0+sin(x*10.0+rot2.y)*6.0+sin(x*50.0+rot2.y*2.0+t)*3.0,sin(x*5.0+rot2.z+t)*5.0)-vec3(.5))*vec3(-2.0,r*.1,r*.1)).yxz*10.0;
+	ppos.y += 0.0 - beat2*0.4;
+	ppos.x += -4.0 + 4.0 * (mod(floor(t/8), 3 + mod(floor(t/9), 2)));
+	ppos *= 2.0;
+	
+	ppos = (rotationy4 * vec4(ppos, 1.0)).xyz;
+	gl_Position = (projection*cam)*vec4(ppos, 1.0);
+	//gl_Position = projection*camera*vec4(ppos,1.0);
 }
 
 #endif

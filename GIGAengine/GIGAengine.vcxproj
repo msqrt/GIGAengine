@@ -109,6 +109,7 @@
     <None Include="assets\simple.shader" />
     <None Include="assets\slider.shader" />
     <None Include="assets\spawn.shader" />
+    <None Include="assets\tower.shader" />
     <None Include="assets\update.shader" />
     <None Include="assets\wall.shader" />
   </ItemGroup>
