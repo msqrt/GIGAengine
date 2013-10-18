@@ -30,10 +30,10 @@ void main() {
 	float r = min(1.0,t*.001);
 	col = vec3(.2);
 	if(rot2.z>.9)
-		col = hsltorgb(vec3(apos.y*20.0, .2, .5));
+		col = hsltorgb(vec3(apos.y*20.0, .1, .5));
 	if(apos.w>.9)
-		col = hsltorgb(vec3(140+apos.y*20.0, .2, .5));
-	gl_Position = projection*vec4(vec3(vec3(x,sin(x*10.0+rot2.y)*10.0+sin(x*50.0+rot2.y*2.0+t)*5.0,sin(x*5.0+rot2.z+t)*5.0)-vec3(.5))*vec3(2.0,r*.1,r*.1)-vec3(.0,.0,.1+r*.9),1.0);
+		col = hsltorgb(vec3(140+apos.y*20.0, .1, .5));
+	gl_Position = projection*vec4(vec3(vec3(x,apos.z*2.0+sin(x*10.0+rot2.y)*6.0+sin(x*50.0+rot2.y*2.0+t)*3.0,sin(x*5.0+rot2.z+t)*5.0)-vec3(.5))*vec3(2.0,r*.1,r*.1)-vec3(.0,.0,.1+r*.9),1.0);
 }
 
 #endif

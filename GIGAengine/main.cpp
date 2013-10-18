@@ -206,9 +206,9 @@ int main() {
 		}
 
 		if(win.keyDown[VK_LEFT])
-			track.seekBeats(track.getBeats()-.5);
+			track.seekBeats(track.getBeats()-1.5);
 		if(win.keyDown[VK_RIGHT])
-			track.seekBeats(track.getBeats()+.5);
+			track.seekBeats(track.getBeats()+1.5);
 		if(win.keyHit[0x31]) track.seekBeats(timeline.getBeginning(0));
 		if(win.keyHit[0x32]) track.seekBeats(timeline.getBeginning(1));
 		if(win.keyHit[0x33]) track.seekBeats(timeline.getBeginning(2));
