@@ -19,7 +19,7 @@ smooth in vec2 uv;
 layout(location=0) out vec4 outcol;
 
 void main() {
-	outcol = texture(color, uv)+.5*vec4(
+	outcol = texture(color, uv)+.4*vec4(
 			 textureLod(bloom,uv,0.0)+
 			 textureLod(bloom,uv,2.0)+
 			 textureLod(bloom,uv,3.0)+

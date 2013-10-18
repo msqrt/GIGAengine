@@ -38,7 +38,6 @@ void Dust::render(ParameterMap& param) {
 	setProjection(s, "projection", param["fov"], param["aspect"]);
 	glUniform1f(s.getLoc("t"), param["t"]);
 	glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
-	glEnable(GL_POINT_SPRITE);
 	m.draw(GL_POINTS);
-	glClear(GL_DEPTH_BUFFER_BIT);
+	//glClear(GL_DEPTH_BUFFER_BIT);
 }
