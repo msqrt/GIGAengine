@@ -176,6 +176,7 @@ int main() {
 	p2["g"](0.0f,0.0f,0.0f)(10.0f,1.0f,0.0f)(15.0f,0.0f,0.0f);
 	p2["b"](0.0f,1.0f,0.0f)(10.0f,0.0f,0.0f)(15.0f,1.0f,0.0f);
 	timeline.addEntry(144.0f, 183.0f, vuoriefu, p2);
+	timeline.addEntry(144.0f, 183.0f, nostatus, p2);
 	timeline.addEntry(183.0f, 248.0f, insideefu, insideCurves);
 	timeline.addEntry(183.0f, 248.0f, blurbefu, insideCurves);
 	timeline.addEntry(248.0f, 500.0f, nostatus, p2);

@@ -43,10 +43,10 @@ void NostatusEffect::render(ParameterMap& param)
 	city.bind(0);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
-	m.draw(GL_TRIANGLES);
+	//m.draw(GL_TRIANGLES);
 
 
-	glClear(GL_DEPTH_BUFFER_BIT);
+	//glClear(GL_DEPTH_BUFFER_BIT);
 	fill.use();
 	glUniform1i(fill.getLoc("tex"), 0);
 	glUniform1f(fill.getLoc("t"), param["t"]);
@@ -67,7 +67,7 @@ void NostatusEffect::render(ParameterMap& param)
 		*/
 	}
 
-	setCamera(fill, "camera", -12.0f, 0.0f, 0.0f, -9.0f, .0f, .0f);
+	setCamera(fill, "camera", -12.0f, 0.0f, 35.0f, -9.0f, .0f, .0f);
 	setProjection(fill, "projection", 6.0f, 9.0/16.0);
 
 	cirkula.bind(0);
