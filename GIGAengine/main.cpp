@@ -88,7 +88,6 @@ INT_PTR CALLBACK launcherProc(HWND dlg, UINT msg, WPARAM w, LPARAM l)
 window* win;
 
 int main() {
-
 	InitCommonControls();
 
 	#ifdef _RELEASE
@@ -96,8 +95,8 @@ int main() {
 	if(!runprogram)
 		ExitProcess(0);
 	#else
-	global_screenw = 1280;
-	global_screenh = 720;
+	global_screenw = 1280 / 2;
+	global_screenh = 720 / 2;
 	#endif
 
 	win = new window(global_screenw, global_screenh, full, L"ALTDEMO");
@@ -186,6 +185,7 @@ int main() {
 	timeline.addEntry(144.0f, 183.0f, nostatus, p2);
 	timeline.addEntry(183.0f, 248.0f, insideefu, insideCurves);
 	timeline.addEntry(183.0f, 248.0f, blurbefu, insideCurves);
+	timeline.addEntry(248.0f, 500.0f, insideefu, insideCurves);
 	timeline.addEntry(248.0f, 500.0f, towerefu, p2);
 	//timeline.addEntry(248.0f, 500.0f, dust, p1);
 

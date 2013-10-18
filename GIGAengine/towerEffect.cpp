@@ -15,8 +15,8 @@ TowerEffect::TowerEffect()
  : Effect(), 
 	towershader("assets/tower.shader"), 
 	//bg("assets/bgcity.shader"), 
-	m(MESH_QUAD)
-	//cirkula(L"assets/cirkula2.jpg"),
+	m(MESH_QUAD),
+	cirkula(L"assets/kone.jpg")
 	//city(L"assets/walls.png")
 { 
 	//fill.addUniform("screenSize", screensize, GVEC2);
@@ -35,6 +35,8 @@ void TowerEffect::render(ParameterMap& param)
 {
 	glClear(GL_DEPTH_BUFFER_BIT);
 	towershader.use();
+	cirkula.bind(0);
+
 	float t = param["t"];
 	float mx = win->mousex/1280.0f - 0.5f;
 	setCamera(towershader, "camera", -0.5f , 15.0f , 0.5 , 0.1f, .0f, .0f);

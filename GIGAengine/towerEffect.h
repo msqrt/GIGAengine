@@ -15,6 +15,7 @@ class TowerEffect: public Effect {
 		shader towershader;
 		mesh quadi;
 		//texture tex;
+		texture cirkula;
 		mesh* tower;
 		mesh m;
 		//mesh* pyrpyla;

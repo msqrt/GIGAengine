@@ -86,7 +86,9 @@ void main() {
 	//cam = transpose(cam);
 	
 	float alpha = t*0.11;
+	float t2 = t/2.0;
 	float beat = floor(t) + smoothstep(0.0, 1.0, mod(t, 1.0)) ;
+	float beat2 = floor(t2) + smoothstep(0.0, 1.0, mod(t2, 1.0)) ;
 	
 	mat3 rotationy = mat3(
 		cos(alpha), 0.0, sin(alpha),
@@ -95,12 +97,19 @@ void main() {
 	);
 	vec3 norm = normal;
 	
-	mat4 rotationy4 = getyrot(t*0.1 + extrarotation * 1.0);
+	mat4 rotationy4 = getyrot(t*0.1 + pos.y*0.02 + index*1.0);
+	
+	uv = pos.xy + vec2(pos.z, pos.z);
+	uv *= 0.4;
 
 	vec3 ppos = pos;
-	ppos.y += 0.0 - t*0.2;
-	ppos.y += index * 10.0;
+	ppos.y += 0.0 - beat2*0.4;
+	ppos.y += index * 20.0;
+	ppos.x += -4.0 + 4.0 * (mod(floor(t/8), 3 + mod(floor(t/9), 2)));
 	ppos *= 2.0;
+	
+	
+	
 	ppos = (rotationy4 * vec4(ppos, 1.0)).xyz;
 	gl_Position = (projection*cam)*vec4(ppos, 1.0);
 	exNormal = (cam)*vec4(rotationy*normal,.0);
@@ -119,11 +128,17 @@ uniform sampler2D tex;
 
 void main() {
 	vec4 tcol = texture(tex, uv);
-
+	tcol.rgb = pow(tcol.rgb, vec3(1.2))*0.9;
+	
 	//outcol.rgb = tcol.rgb;
 	//outcol.a = 1.0;
 	outcol.rgba = vec4(1.0, 0.0, 0.0, 1.0);
-	outcol.rgb = exNormal.xyz;
+	//outcol.rgb = exNormal.xyz;
+	vec3 light = vec3(-0.8, 0.1, 0.1);
+	vec3 normal = exNormal.xyz;
+	outcol.rgb = tcol.rgb;
+	outcol.rgb *= max(0, dot(light, normal));
+	
 	}
 
 #endif
