@@ -49,7 +49,7 @@ uniform vec3 primaryDirection, primaryColour, secondaryDirection, secondaryColou
 
 void main() {
 	float fres = clamp(.0+.2*pow(1.0-dot(normalize(pos.xyz),-normalize(nor)),5.0),.0,1.0);
-	outcol = clamp(smoothstep(40.0,70.0,t)*abs(l)*7.0*vec4(.9, .7, .4,.0)+mix(vec4(.1*vec3((dot(normalize(nor),normalize(primaryDirection))*.5+.5)*hsltorgb(primaryColour-vec3(.0,.1,.1)) + (dot(normalize(nor),normalize(secondaryDirection))*.5+.5)*hsltorgb(secondaryColour-vec3(.0,.1,.1))), 1.0), vec4((dot(normalize(dir),normalize(primaryDirection))*.5+.5)*hsltorgb(primaryColour) + (dot(normalize(dir),normalize(secondaryDirection))*.5+.5)*hsltorgb(secondaryColour), 1.0), fres),vec4(.0),vec4(1.0));
+	outcol = smoothstep(40.0,70.0,t)*abs(l)*7.0*vec4(.9, .7, .4,.0)+clamp(mix(vec4(.1*vec3((dot(normalize(nor),normalize(primaryDirection))*.5+.5)*hsltorgb(primaryColour-vec3(.0,.1,.1)) + (dot(normalize(nor),normalize(secondaryDirection))*.5+.5)*hsltorgb(secondaryColour-vec3(.0,.1,.1))), 1.0), vec4((dot(normalize(dir),normalize(primaryDirection))*.5+.5)*hsltorgb(primaryColour) + (dot(normalize(dir),normalize(secondaryDirection))*.5+.5)*hsltorgb(secondaryColour), 1.0), fres),vec4(.0),vec4(1.0));
 	outadd = vec4(.0);
 }
 
