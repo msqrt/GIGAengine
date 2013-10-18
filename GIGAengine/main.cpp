@@ -14,6 +14,7 @@
 #include "insideEffect.h"
 #include "cityEffect.h"
 #include "blurbEffect.h"
+#include "backparticles.h"
 #include "postprocess.h"
 #include "shaderstorage.h"
 #include "objloader.h"
@@ -46,11 +47,11 @@ INT_PTR CALLBACK launcherProc(HWND dlg, UINT msg, WPARAM w, LPARAM l)
 {
 	if(msg==WM_INITDIALOG)
 	{
-		ComboBox_AddString(GetDlgItem(dlg, IDC_COMBO1), L"1280x720  (welcome to the 80s)");
-		ComboBox_AddString(GetDlgItem(dlg, IDC_COMBO1), L"1920x1080 (boring and typical)");
+		ComboBox_AddString(GetDlgItem(dlg, IDC_COMBO1), L"1280x720  (we render large pixels)");
+		ComboBox_AddString(GetDlgItem(dlg, IDC_COMBO1), L"1920x1080 (demo for the masses)");
 		ComboBox_AddString(GetDlgItem(dlg, IDC_COMBO1), L"3840x2160 (the PEISIK experience)");
 		
-		ComboBox_SetCurSel(GetDlgItem(dlg, IDC_COMBO1), 0);
+		ComboBox_SetCurSel(GetDlgItem(dlg, IDC_COMBO1), 1);
 		CheckDlgButton(dlg, IDC_CHECK1, BST_CHECKED);
 	}
 	if(msg==WM_COMMAND)
@@ -100,6 +101,9 @@ int main() {
 
 	window win(global_screenw, global_screenh, full, L"ALTDEMO");
 	
+	if(wglGetProcAddress("wglSwapIntervalEXT"))
+		((PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT"))(1);
+
 	ShowCursor(0);
 
 	glEnable(GL_CULL_FACE);
@@ -127,6 +131,7 @@ int main() {
 	bool flymode = false;
 	
 	Blobs b;
+	Dust dust;
 	QuadEffect q;
 	NostatusEffect nostatus;
 	VuoriEffect vuoriefu;
@@ -179,7 +184,8 @@ int main() {
 	timeline.addEntry(144.0f, 183.0f, nostatus, p2);
 	timeline.addEntry(183.0f, 248.0f, insideefu, insideCurves);
 	timeline.addEntry(183.0f, 248.0f, blurbefu, insideCurves);
-	timeline.addEntry(248.0f, 500.0f, nostatus, p2);
+	timeline.addEntry(248.0f, 248.0f, nostatus, p2);
+	timeline.addEntry(248.0f, 500.0f, dust, p1);
 
 	track.seekBeats(.0);
 	track.play();

@@ -90,6 +90,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="assets\dust.shader" />
     <None Include="assets\sky.shader" />
     <None Include="assets\blobs.shader" />
     <None Include="assets\display.shader" />
@@ -106,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="afxres.h" />
+    <ClInclude Include="backparticles.h" />
     <ClInclude Include="blurbEffect.h" />
     <ClInclude Include="cityEffect.h" />
     <ClInclude Include="insideEffect.h" />
@@ -146,6 +148,7 @@
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="backparticles.cpp" />
     <ClCompile Include="blurbEffect.cpp" />
     <ClCompile Include="cityEffect.cpp" />
     <ClCompile Include="insideEffect.cpp" />

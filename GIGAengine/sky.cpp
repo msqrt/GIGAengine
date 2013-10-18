@@ -76,5 +76,4 @@ void Sky::render(ParameterMap& param) {
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	m.draw(GL_TRIANGLES);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glClear(GL_DEPTH_BUFFER_BIT);
 }
