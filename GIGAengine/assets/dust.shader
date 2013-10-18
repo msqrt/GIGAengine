@@ -19,15 +19,21 @@ layout(location=2) in vec3 rot2;
 smooth out vec3 nor, dir;
 smooth out vec4 pos;
 smooth out float l;
+flat out vec3 col;
 
 uniform mat4 projection, camera;
 
 void main() {
-	gl_PointSize = min(1.0,(t*.1+10.0*apos.w-10.0))*5.0;
+	gl_PointSize = min(1.0,(t*.1+10.0*apos.w-10.0))*8.0*rot2.z*rot2.z;
 	l = float(gl_PointSize<.0);
 	float x = mod(apos.x+t*.05*(.5+.5*rot2.x),1.0);
 	float r = min(1.0,t*.001);
-	gl_Position = projection*vec4(vec3(vec3(x,sin(x*10.0+rot2.y)*10.0+sin(x*50.0+rot2.y)*5.0,sin(x*5.0+rot2.z)*5.0)-vec3(.5))*vec3(2.0,r*.1,r*.1)-vec3(.0,.0,.1+r*.9),1.0);
+	col = vec3(.2);
+	if(rot2.z>.9)
+		col = hsltorgb(vec3(apos.y*20.0, .2, .5));
+	if(apos.w>.9)
+		col = hsltorgb(vec3(140+apos.y*20.0, .2, .5));
+	gl_Position = projection*vec4(vec3(vec3(x,sin(x*10.0+rot2.y)*10.0+sin(x*50.0+rot2.y*2.0+t)*5.0,sin(x*5.0+rot2.z+t)*5.0)-vec3(.5))*vec3(2.0,r*.1,r*.1)-vec3(.0,.0,.1+r*.9),1.0);
 }
 
 #endif
@@ -40,13 +46,14 @@ layout(location=1) out vec4 outadd;
 smooth in vec3 nor, dir;
 smooth in vec4 pos;
 smooth in float l;
+flat in vec3 col;
 
 uniform vec3 primaryDirection, primaryColour, secondaryDirection, secondaryColour;
 
 void main() {
 	if(length(gl_PointCoord-vec2(.5))>.5 || l > .0)
 		discard;
-	outcol = vec4(.2);
+	outcol = vec4(col,1.0);
 	outadd = vec4(.0);
 }
 
