@@ -11,6 +11,7 @@
 #include <cmath>
 #include <string>
 #include <sstream>
+#include <stdlib.h>     /* srand, rand */
 
 #pragma warning(disable:995)
 #include <dshow.h>

@@ -118,8 +118,8 @@ void main() {
 	col *= vec4(vec3(0.5), 1.0);
 
 	//col = vec4(pow(col.rgb, vec3(1.5)), 1.0);
-
-	outcol = vec4(pow(col.rgb, vec3(2.0)), 1.0);
+	
+	outcol = clamp(vec4(pow(col.rgb, vec3(2.0)), 1.0),vec4(0.),vec4(10.0));
 }
 
 #endif

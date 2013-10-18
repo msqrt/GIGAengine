@@ -19,6 +19,7 @@
 #include "postprocess.h"
 #include "shaderstorage.h"
 #include "objloader.h"
+#include "laser.h"
 
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "gdi32.lib")
@@ -142,7 +143,12 @@ int main() {
 	Sky sky;
 	Wall wall;
 
+
 	TimeLine timeline;
+
+	LaserEffect spark(L"assets/spark.jpg");
+	LaserEffect puu(L"assets/puu.jpg");
+
 	CurveMap p1,p2,p3;
 	p1["camx"](2.0f,.0f,.0f)(15.0f,20.0f,.0f)(55.0f,-12.0f,.0f)(80.0f,-3.0f,-1.0f);
 	p1["camy"](2.0f,.0f,.0f)(20.0f,13.0f,.0f)(80.0f,5.0f,-1.0f);
@@ -177,6 +183,24 @@ int main() {
 	timeline.addEntry(0.0f, 80.0f, sky, p1);
 	timeline.addEntry(0.0f, 80.0f, wall, p1);
 	timeline.addEntry(80.0f, 144.0f, insideefu, cityp);
+	
+	
+
+	CurveMap imgp;
+	imgp["aspect"](.0f,float(global_screenh)/float(global_screenw),.0f);
+	imgp["scale"](41.5f,1.0f,.0f)(41.7f,.99f,.0f)(41.9f,1.01f,.0f)(42.1f,1.0f,.0f);
+	imgp["bright"](39.9f,1.0f,.0f)(40.0f,0.0f,.0f)(40.3f,2.0f,.0f)(40.4f,0.5f,.0f)(40.5f,1.5f,.0f)(40.8f,0.5f,.0f)(41.3f,0.1f,.0f)(41.5f, 1.0f, .0f)(60.0f, 1.0f, .0f)(64.0f,8.0f,.0f);
+	imgp["ang"](.0f, 3.141592f, .0f);
+
+	#define randf() ((float)rand()/(float)RAND_MAX)
+
+	srand(123132);
+	//LaserEffect* kuvat[2]; kuvat[0]=&spark;kuvat[1]=&puu;
+	imgp["x"]()(.0f,.0,.0f);
+	imgp["y"]()(.0f,-1.0f,.0f)(41.5f,.0,.04f)(64.0f,.2f,.0f);
+	imgp["bright2"]()(41.3f,0.0f,.0f)(41.5f,1.0f,.0f);
+	timeline.addEntry(80.0f, 144.0f, puu, imgp);
+	
 	timeline.addEntry(80.0f, 144.0f, cityefu, p3);
 	p2["r"](0.0f,1.0f,0.0f)(10.0f,0.0f,0.0f)(15.0f,1.0f,0.0f);
 	p2["g"](0.0f,0.0f,0.0f)(10.0f,1.0f,0.0f)(15.0f,0.0f,0.0f);
