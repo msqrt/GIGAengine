@@ -149,6 +149,7 @@
     <ClInclude Include="texture.h" />
     <ClInclude Include="texture3D.h" />
     <ClInclude Include="timeline.h" />
+    <ClInclude Include="towerEffect.h" />
     <ClInclude Include="video.h" />
     <ClInclude Include="vuoriEffect.h" />
     <ClInclude Include="wall.h" />
@@ -180,6 +181,7 @@
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="texture3D.cpp" />
     <ClCompile Include="timeline.cpp" />
+    <ClCompile Include="towerEffect.cpp" />
     <ClCompile Include="video.cpp" />
     <ClCompile Include="vuoriEffect.cpp" />
     <ClCompile Include="wall.cpp" />
