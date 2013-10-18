@@ -14,19 +14,19 @@ Wall::Wall() : Effect(), s("assets/wall.shader") {
 		float l = 1.0f/sqrt(dx*dx+dy*dy+1.0f);
 		geom[(x*RES+y)*13+0] = dx*l;
 		geom[(x*RES+y)*13+1] = dy*l;
-		geom[(x*RES+y)*13+2] = 1.0f-l;
+		geom[(x*RES+y)*13+2] = 1.0f-l+.04f;
 		dx = float(x-1-float(RES-1)/2.0f)/float(RES-2);
 		dy = float(y-float(RES-1)/2.0f)/float(RES-2);
 		l = 1.0f/sqrt(dx*dx+dy*dy+1.0f);
 		geom[(x*RES+y)*13+3] = dx*l;
 		geom[(x*RES+y)*13+4] = dy*l;
-		geom[(x*RES+y)*13+5] = 1.0f-l;
+		geom[(x*RES+y)*13+5] = 1.0f-l+.04f;
 		dx = float(x-float(RES-1)/2.0f)/float(RES-2);
 		dy = float(y-1-float(RES-1)/2.0f)/float(RES-2);
 		l = 1.0f/sqrt(dx*dx+dy*dy+1.0f);
 		geom[(x*RES+y)*13+6] = dx*l;
 		geom[(x*RES+y)*13+7] = dy*l;
-		geom[(x*RES+y)*13+8] = 1.0f-l;
+		geom[(x*RES+y)*13+8] = 1.0f-l+.04f;
 		geom[(x*RES+y)*13+9] = rand()/float(RAND_MAX);
 		geom[(x*RES+y)*13+10] = rand()/float(RAND_MAX);
 		geom[(x*RES+y)*13+11] = rand()/float(RAND_MAX);
@@ -61,7 +61,7 @@ Wall::~Wall() {}
 
 void Wall::render(ParameterMap& param) {
 	s.use();
-	setCamera(s, "camera", param["camx"], param["camy"], param["camz"], param["targetx"], param["targety"], param["targetz"]);
+	setCamera(s, "camera", param["camx"]*.01f, param["camy"]*.01f, param["camz"]*.001f, param["targetx"]*.01f, param["targety"]*.01f, param["targetz"]*.01f);
 	setProjection(s, "projection", param["fov"], param["aspect"]);
 	glUniform3f(s.getLoc("primaryDirection"), param["primx"], param["primy"], param["primz"]);
 	glUniform3f(s.getLoc("primaryColour"), param["primh"], param["prims"], param["primv"]);

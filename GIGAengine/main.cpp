@@ -137,26 +137,26 @@ int main() {
 
 	TimeLine timeline;
 	CurveMap p1,p2,p3;
-	p1["camx"](9.0f,.0f,.0f)(15.0f,20.0f,.0f)(55.0f,-12.0f,.0f)(80.0f,-3.0f,-1.0f);
-	p1["camy"](9.0f,.0f,.0f)(20.0f,13.0f,.0f)(80.0f,5.0f,-1.0f);
-	p1["camz"](9.0f,15.0f,1.0f)(50.0f,65.0f,1.0f)(80.0f,39.0f,-1.0f);
-	p1["targetx"](9.0f,.0f,.0f)(71.0f,30.0f,1.0f)(80.0f,12.0f,-1.0f);
-	p1["targety"](9.0f,.0f,.0f)(64.0f,3.0f,1.0f)(80.0f,30.0f,-1.0f);
-	p1["targetz"](9.0f,-26.0f,.0f)(45.0f,-1.0f,1.0f)(80.0f,-15.0f,-1.0f);
+	p1["camx"](2.0f,.0f,.0f)(15.0f,20.0f,.0f)(55.0f,-12.0f,.0f)(80.0f,-3.0f,-1.0f);
+	p1["camy"](2.0f,.0f,.0f)(20.0f,13.0f,.0f)(80.0f,5.0f,-1.0f);
+	p1["camz"](2.0f,15.0f,1.0f)(50.0f,20.0f,1.0f)(80.0f,200.0f,1.0f);
+	p1["targetx"](2.0f,.0f,.0f)(71.0f,30.0f,1.0f)(80.0f,12.0f,-1.0f);
+	p1["targety"](2.0f,.0f,.0f)(64.0f,3.0f,1.0f)(80.0f,30.0f,-1.0f);
+	p1["targetz"](2.0f,-26.0f,.0f)(45.0f,-10.0f,1.0f)(80.0f,-2.0f,-1.0f);
 	p1["aspect"](.0f,float(screenh)/float(screenw),.0f);
 	p1["primx"](.0f,1.0f,.0f);
 	p1["primy"](.0f,1.0f,.0f);
 	p1["primz"](.0f,1.0f,.0f);
 	p1["primh"](.0f,1.0f,.0f);
 	p1["prims"](.0f,.4f,.0f);
-	p1["primv"](.0f,20.0f,-6.0f)(10.0f,.4f,.0f);
+	p1["primv"](.0f,40.0f,-6.0f)(20.0f,.4f,.0f);
 	p1["secx"](.0f,1.0f,.0f);
 	p1["secy"](.0f,-1.0f,.0f);
 	p1["secz"](.0f,-1.0f,.0f);
 	p1["sech"](.0f,170.0f,.0f);
-	p1["secs"](.0f,.4f,.0f);
-	p1["secv"](.0f,.15f,.0f);
-	p1["fov"](.0f,4.0f,.0f)(80.0f,2.0f,.0f);
+	p1["secs"](.0f,1.0f,.0f);
+	p1["secv"](.0f,.2f,.0f);
+	p1["fov"](.0f,4.0f,.0f)(80.0f,8.0f,.0f);
 
 	CurveMap insideCurves;
 	insideCurves["lamp"](0.0, 0.0f, 0.0f)(5.0f, 1.0f, 1.0f);
@@ -187,7 +187,9 @@ int main() {
 	PostProcess post(screenw, screenh);
 	post.bind();
 	while(win.loop()) {
+		#ifndef _RELEASE
 		glBeginQuery(GL_TIME_ELAPSED, query);
+		#endif
 
 		if (win.keyHit[VK_F1]) {
 			shaderstorage.reloadAll();
