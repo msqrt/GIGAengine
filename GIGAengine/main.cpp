@@ -15,6 +15,7 @@
 #include "cityEffect.h"
 #include "blurbEffect.h"
 #include "towerEffect.h"
+#include "creditsEffect.h"
 #include "backparticles.h"
 #include "postprocess.h"
 #include "shaderstorage.h"
@@ -140,9 +141,9 @@ int main() {
 	CityEffect cityefu;
 	BlurbEffect blurbefu;
 	TowerEffect towerefu;
+	CreditsEffect creditsefu;
 	Sky sky;
 	Wall wall;
-
 
 	TimeLine timeline;
 
@@ -192,6 +193,8 @@ int main() {
 	imgp["bright"](39.9f,1.0f,.0f)(40.0f,0.0f,.0f)(40.3f,2.0f,.0f)(40.4f,0.5f,.0f)(40.5f,1.5f,.0f)(40.8f,0.5f,.0f)(41.3f,0.1f,.0f)(41.5f, 1.0f, .0f)(60.0f, 1.0f, .0f)(64.0f,8.0f,.0f);
 	imgp["ang"](.0f, 3.141592f, .0f);
 
+	CurveMap creducurvet;
+
 	#define randf() ((float)rand()/(float)RAND_MAX)
 
 	srand(123132);
@@ -209,8 +212,9 @@ int main() {
 	timeline.addEntry(144.0f, 183.0f, nostatus, p2);
 	timeline.addEntry(183.0f, 248.0f, insideefu, insideCurves);
 	timeline.addEntry(183.0f, 248.0f, blurbefu, insideCurves);
-	timeline.addEntry(248.0f, 500.0f, insideefu, insideCurves);
-	timeline.addEntry(248.0f, 500.0f, towerefu, p2);
+	timeline.addEntry(248.0f, 312.0f, insideefu, insideCurves);
+	timeline.addEntry(248.0f, 312.0f, towerefu, p2);
+	timeline.addEntry(312.0f, 500.0f, creditsefu, creducurvet);
 	//timeline.addEntry(248.0f, 500.0f, dust, p1);
 
 	track.seekBeats(.0);

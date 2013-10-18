@@ -117,6 +117,7 @@
     <ClInclude Include="backparticles.h" />
     <ClInclude Include="blurbEffect.h" />
     <ClInclude Include="cityEffect.h" />
+    <ClInclude Include="creditsEffect.h" />
     <ClInclude Include="insideEffect.h" />
     <ClInclude Include="laser.h" />
     <ClInclude Include="sky.h" />
@@ -160,6 +161,7 @@
     <ClCompile Include="backparticles.cpp" />
     <ClCompile Include="blurbEffect.cpp" />
     <ClCompile Include="cityEffect.cpp" />
+    <ClCompile Include="creditsEffect.cpp" />
     <ClCompile Include="insideEffect.cpp" />
     <ClCompile Include="laser.cpp" />
     <ClCompile Include="sky.cpp" />
