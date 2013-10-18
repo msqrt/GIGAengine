@@ -36,3 +36,6 @@
 #include "resource.h"
 
 #include <map>
+
+extern int global_screenw;
+extern int global_screenh;

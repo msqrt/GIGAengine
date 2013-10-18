@@ -40,7 +40,7 @@ texture* mountainTexture;
 
 bool runprogram = true, full = false;
 
-int screenw = 0, screenh = 0;
+int global_screenw = 0, global_screenh = 0;
 
 INT_PTR CALLBACK launcherProc(HWND dlg, UINT msg, WPARAM w, LPARAM l)
 {
@@ -69,7 +69,7 @@ INT_PTR CALLBACK launcherProc(HWND dlg, UINT msg, WPARAM w, LPARAM l)
 			wchar_t * buff = new wchar_t[len];
 			ComboBox_GetText(GetDlgItem(dlg, IDC_COMBO1), buff, len);
 
-			swscanf_s(buff, L"%dx%d", &screenw, &screenh);
+			swscanf_s(buff, L"%dx%d", &global_screenw, &global_screenh);
 
 			delete [] buff;
 
@@ -84,20 +84,21 @@ INT_PTR CALLBACK launcherProc(HWND dlg, UINT msg, WPARAM w, LPARAM l)
 }
 
 
-//int CALLBACK main(HINSTANCE self, HINSTANCE prev, LPSTR cmdline, int show) {
 int main() {
 
 	InitCommonControls();
 
-	//DialogBox(GetModuleHandle(0), MAKEINTRESOURCE(IDD_DIALOG1), 0, (DLGPROC)launcherProc);
-	
+	#ifdef _RELEASE
+	DialogBox(GetModuleHandle(0), MAKEINTRESOURCE(IDD_DIALOG1), 0, (DLGPROC)launcherProc);
 	if(!runprogram)
 		ExitProcess(0);
+	#else
+	global_screenw = 1280;
+	global_screenh = 720;
+	#endif
+	
 
-	screenw = 1280;
-	screenh = 720;
-
-	window win(screenw, screenh, full, L"ALTDEMO");
+	window win(global_screenw, global_screenh, full, L"ALTDEMO");
 	
 	ShowCursor(0);
 
@@ -143,7 +144,7 @@ int main() {
 	p1["targetx"](2.0f,.0f,.0f)(71.0f,30.0f,1.0f)(80.0f,12.0f,-1.0f);
 	p1["targety"](2.0f,.0f,.0f)(64.0f,3.0f,1.0f)(80.0f,30.0f,-1.0f);
 	p1["targetz"](2.0f,-26.0f,.0f)(45.0f,-10.0f,1.0f)(80.0f,-2.0f,-1.0f);
-	p1["aspect"](.0f,float(screenh)/float(screenw),.0f);
+	p1["aspect"](.0f,float(global_screenh)/float(global_screenw),.0f);
 	p1["primx"](.0f,1.0f,.0f);
 	p1["primy"](.0f,1.0f,.0f);
 	p1["primz"](.0f,1.0f,.0f);
@@ -184,13 +185,14 @@ int main() {
 	
 	t = track.getTime();
 
-	PostProcess post(screenw, screenh);
+	PostProcess post(global_screenw, global_screenh);
 	post.bind();
 	while(win.loop()) {
 		#ifndef _RELEASE
 		glBeginQuery(GL_TIME_ELAPSED, query);
 		#endif
 
+		#ifdef _DEBUG
 		if (win.keyHit[VK_F1]) {
 			shaderstorage.reloadAll();
 			post.bindUniforms();
@@ -225,17 +227,18 @@ int main() {
 			else
 				ShowCursor(1);
 		}
+		#endif
+
 		t = track.getBeats();
 
 		timeline.render(t);
 
 		post.render(t);
 
-		#ifndef _RELEASE
+		#ifdef _DEBUG
 		glEndQuery(GL_TIME_ELAPSED);
 		glGetQueryObjectiv(query, GL_QUERY_RESULT, &res);
 
-		
 		if(!(loops%60)) {
 			printf("frametime: %.2lfms\n", double(res)/1000000.0);
 			printf("gl error: 0x%X\n", glGetError());
@@ -243,6 +246,7 @@ int main() {
 		}
 		
 		#endif
+
 		loops++;
 	}
 
