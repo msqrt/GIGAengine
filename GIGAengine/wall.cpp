@@ -67,7 +67,7 @@ void Wall::render(ParameterMap& param) {
 	glUniform3f(s.getLoc("primaryColour"), param["primh"], param["prims"], param["primv"]);
 	glUniform3f(s.getLoc("secondaryDirection"), param["secx"], param["secy"], param["secz"]);
 	glUniform3f(s.getLoc("secondaryColour"), param["sech"], param["secs"], param["secv"]);
-	glUniform1f(s.getLoc("t"), param["t"]);
+	glUniform1f(s.getLoc("t2"), param["t"]);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	heightmap.bind(0);
 	glUniform1i(s.getLoc("tex"), 0);

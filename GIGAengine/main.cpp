@@ -164,8 +164,8 @@ int main() {
 	p1["camy"](2.0f,.0f,.0f)(20.0f,13.0f,.0f)(80.0f,5.0f,-1.0f);
 	p1["camz"](2.0f,15.0f,1.0f)(50.0f,20.0f,1.0f)(80.0f,200.0f,1.0f);
 	p1["targetx"](2.0f,.0f,.0f)(71.0f,30.0f,1.0f)(80.0f,12.0f,-1.0f);
-	p1["targety"](2.0f,.0f,.0f)(64.0f,3.0f,1.0f)(80.0f,30.0f,-1.0f);
-	p1["targetz"](2.0f,-26.0f,.0f)(45.0f,-10.0f,1.0f)(80.0f,-2.0f,-1.0f);
+	p1["targety"](2.0f,.0f,.0f)(64.0f,3.0f,1.0f)(80.0f,30.0f,-1.0f)(100.0f,100.0f,-1.0f);
+	p1["targetz"](2.0f,-26.0f,.0f)(45.0f,-10.0f,1.0f)(80.0f,-2.0f,-1.0f)(85.0f,15.0f,-1.0f)(95.0f,50.0f,-1.0f);
 	p1["primx"](.0f,1.0f,.0f);
 	p1["primy"](.0f,1.0f,.0f);
 	p1["primz"](.0f,1.0f,.0f);
@@ -216,7 +216,7 @@ int main() {
 
 	//p1["t"](0.0f,0.0f,1.0f)(40.0f,40.0f,1.0f);
 	timeline.addEntry(0.0f, 80.0f, sky, p1);
-	timeline.addEntry(0.0f, 80.0f, wall, p1);
+	timeline.addEntry(0.0f, 95.0f, wall, p1);
 
 	timeline.addEntry(80.0f, 144.0f, insideefu, cityp);
 	timeline.addEntry(80.0f, 144.0f, puu, puuCurve);
