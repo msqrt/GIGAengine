@@ -11,4 +11,5 @@ class Wall : public Effect {
 	private:
 		shader s;
 		mesh m;
+		texture heightmap;
 };

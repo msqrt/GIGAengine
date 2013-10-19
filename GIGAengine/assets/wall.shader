@@ -19,15 +19,16 @@ layout(location=2) in vec3 artan;
 smooth out vec3 nor, dir;
 smooth out vec4 pos;
 smooth out float l;
+uniform sampler2D tex;
 
 uniform mat4 projection, camera;
 
 void main() {
 	nor = vec4(-normalize(cross(altan-apos,artan-apos)),.0).xyz;
-	l = (cos(t+60.0*apos.x )+cos(t+60.0*apos.y )+cos(t*40.0+600*apos.x )*.1+cos(t*40.0+600*apos.y )*.1+cos(t*20.0+300*apos.x +2.0)*.5+cos(t*20.0+300*apos.y +2.0)*.5)/18.0*(1.0-smoothstep(.4, .5, length(apos )))*smoothstep(1.0, 1.8, 2.1*smoothstep(10.0,80.0,t)+cos(1.7+t*2*3.141592+12.0*apos.x +12.0*apos.y ))*smoothstep(8.0,80.0,t);
+	l = (texture(tex,apos.xy*10.0).x)*.4*(1.0-smoothstep(.4, .5, length(apos )))*smoothstep(1.0, 1.8, 2.1*smoothstep(10.0,80.0,t)+cos(1.7+t*2*3.141592+12.0*apos.x +12.0*apos.y ))*smoothstep(8.0,80.0,t);
 	vec3 loc  = apos *10.0+nor*l;
-	vec3 loc2 = altan*10.0+nor*(cos(t+60.0*altan.x)+cos(t+60.0*altan.y)+cos(t*40.0+600*altan.x)*.1+cos(t*40.0+600*altan.y)*.1+cos(t*20.0+300*altan.x+2.0)*.5+cos(t*20.0+300*altan.y+2.0)*.5)/18.0*(1.0-smoothstep(.4, .5, length(altan)))*smoothstep(1.0, 1.8, 2.1*smoothstep(10.0,80.0,t)+cos(1.7+t*2*3.141592+12.0*altan.x+12.0*altan.y))*smoothstep(8.0,80.0,t);
-	vec3 loc3 = artan*10.0+nor*(cos(t+60.0*artan.x)+cos(t+60.0*artan.y)+cos(t*40.0+600*artan.x)*.1+cos(t*40.0+600*artan.y)*.1+cos(t*20.0+300*artan.x+2.0)*.5+cos(t*20.0+300*artan.y+2.0)*.5)/18.0*(1.0-smoothstep(.4, .5, length(artan)))*smoothstep(1.0, 1.8, 2.1*smoothstep(10.0,80.0,t)+cos(1.7+t*2*3.141592+12.0*artan.x+12.0*artan.y))*smoothstep(8.0,80.0,t);
+	vec3 loc2 = altan*10.0+nor*(texture(tex,altan.xy*10.0).x)*.4*(1.0-smoothstep(.4, .5, length(altan)))*smoothstep(1.0, 1.8, 2.1*smoothstep(10.0,80.0,t)+cos(1.7+t*2*3.141592+12.0*altan.x+12.0*altan.y))*smoothstep(8.0,80.0,t);
+	vec3 loc3 = artan*10.0+nor*(texture(tex,artan.xy*10.0).x)*.4*(1.0-smoothstep(.4, .5, length(artan)))*smoothstep(1.0, 1.8, 2.1*smoothstep(10.0,80.0,t)+cos(1.7+t*2*3.141592+12.0*artan.x+12.0*artan.y))*smoothstep(8.0,80.0,t);
 	nor = vec4(camera*vec4(-normalize(cross(loc2-loc,loc3-loc)),.0)).xyz;
 	pos = camera*vec4(loc,1.0);
 	dir = reflect(loc,nor);

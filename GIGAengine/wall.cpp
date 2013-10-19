@@ -5,7 +5,7 @@
 
 #define RES 1024
 
-Wall::Wall() : Effect(), s("assets/wall.shader") {
+Wall::Wall() : Effect(), s("assets/wall.shader"), heightmap(L"assets/noise.png") {
 	float * geom = new float[RES*RES*13];
 	for(int x = 0; x<RES; x++)
 	for(int y = 0; y<RES; y++) {
@@ -69,6 +69,8 @@ void Wall::render(ParameterMap& param) {
 	glUniform3f(s.getLoc("secondaryColour"), param["sech"], param["secs"], param["secv"]);
 	glUniform1f(s.getLoc("t"), param["t"]);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	heightmap.bind(0);
+	glUniform1i(s.getLoc("tex"), 0);
 	m.draw(GL_TRIANGLES);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
