@@ -42,11 +42,13 @@ void TowerEffect::render(ParameterMap& param)
 	setCamera(towershader, "camera", -0.5f , 15.0f , 0.5 , 0.1f, .0f, .0f);
 	setProjection(towershader, "projection", 6.0f, (float)global_screenh/(float)global_screenw, 0.1, 250.0f);
 	towershader.setUniform("t", &t, GFLOAT);
-	for (int i=0;i<5;i++) {
+	glEnable(GL_BLEND);
+	for (int i=0;i<7;i++) {
 		float fi = (float)i;
 		towershader.setUniform("index", &fi, GFLOAT);
 		tower->draw(GL_TRIANGLES);
 	}
+	glDisable(GL_BLEND);
 	//m.draw(GL_TRIANGLES);
 }
 
