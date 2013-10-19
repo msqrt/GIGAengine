@@ -25,10 +25,10 @@ uniform mat4 projection, camera;
 
 void main() {
 	nor = vec4(-normalize(cross(altan-apos,artan-apos)),.0).xyz;
-	l = (texture(tex,apos.xy*10.0).x)*.4*(1.0-smoothstep(.4, .5, length(apos )))*smoothstep(1.0, 1.8, 2.1*smoothstep(10.0,80.0,t)+cos(1.7+t*2*3.141592+12.0*apos.x +12.0*apos.y ))*smoothstep(8.0,80.0,t);
+	l = (texture(tex,apos.xy*10.0+vec2(t,.0)).x)*.4*(1.0-smoothstep(.4, .5, length(apos )))*smoothstep(1.0, 1.8, 2.1*smoothstep(10.0,80.0,t)+cos(1.7+t*2*3.141592+12.0*apos.x +12.0*apos.y ))*smoothstep(8.0,80.0,t);
 	vec3 loc  = apos *10.0+nor*l;
-	vec3 loc2 = altan*10.0+nor*(texture(tex,altan.xy*10.0).x)*.4*(1.0-smoothstep(.4, .5, length(altan)))*smoothstep(1.0, 1.8, 2.1*smoothstep(10.0,80.0,t)+cos(1.7+t*2*3.141592+12.0*altan.x+12.0*altan.y))*smoothstep(8.0,80.0,t);
-	vec3 loc3 = artan*10.0+nor*(texture(tex,artan.xy*10.0).x)*.4*(1.0-smoothstep(.4, .5, length(artan)))*smoothstep(1.0, 1.8, 2.1*smoothstep(10.0,80.0,t)+cos(1.7+t*2*3.141592+12.0*artan.x+12.0*artan.y))*smoothstep(8.0,80.0,t);
+	vec3 loc2 = altan*10.0+nor*(texture(tex,altan.xy*10.0+vec2(t,.0)).x)*.4*(1.0-smoothstep(.4, .5, length(altan)))*smoothstep(1.0, 1.8, 2.1*smoothstep(10.0,80.0,t)+cos(1.7+t*2*3.141592+12.0*altan.x+12.0*altan.y))*smoothstep(8.0,80.0,t);
+	vec3 loc3 = artan*10.0+nor*(texture(tex,artan.xy*10.0+vec2(t,.0)).x)*.4*(1.0-smoothstep(.4, .5, length(artan)))*smoothstep(1.0, 1.8, 2.1*smoothstep(10.0,80.0,t)+cos(1.7+t*2*3.141592+12.0*artan.x+12.0*artan.y))*smoothstep(8.0,80.0,t);
 	nor = vec4(camera*vec4(-normalize(cross(loc2-loc,loc3-loc)),.0)).xyz;
 	pos = camera*vec4(loc,1.0);
 	dir = reflect(loc,nor);
