@@ -19,6 +19,10 @@ void LaserEffect::render(ParameterMap& param) {
 	glUniform1f(blit.getLoc("bright2"),param["bright2"]);
 	glUniform1i(blit.getLoc("tex"), 0);
 	tex.bind(0);
+	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	quadi.draw(GL_TRIANGLES);
