@@ -27,7 +27,8 @@ setlocal disableextensions
 set x=%VSINSTALLDIR%
 if "%x%"=="" (goto no_vs) 
 setlocal enableextensions
-call msbuild GIGAengine.sln /p:Configuration=Release /t:Rebuild /nologo 
+REM call msbuild GIGAengine.sln /p:Configuration=Release /t:Rebuild /nologo 
+call msbuild GIGAengine.sln /p:Configuration=Release /nologo 
 goto build_done
 
 :no_vs
