@@ -9,7 +9,7 @@ vec3 hsltorgb(vec3 hsl) {
 	return ret;
 }
 
-uniform float t;
+uniform float t2;
 #ifdef vertexcompile
 
 layout(location=0) in vec3 apos;
@@ -24,11 +24,14 @@ uniform sampler2D tex;
 uniform mat4 projection, camera;
 
 void main() {
+	float t = t2;
+	if(t>80.0)
+		t = 80.0+(t-80.0)*.5;
 	nor = vec4(-normalize(cross(altan-apos,artan-apos)),.0).xyz;
-	l = (texture(tex,apos.xy*10.0+vec2(t,.0)).x)*.4*(1.0-smoothstep(.4, .5, length(apos )))*smoothstep(1.0, 1.8, 2.1*smoothstep(10.0,80.0,t)+cos(1.7+t*2*3.141592+12.0*apos.x +12.0*apos.y ))*smoothstep(8.0,80.0,t);
+	l = (texture(tex,apos.xy*5.0+vec2(t,.0)).x)*.4*(1.0-smoothstep(.4, .5, length(apos )))*smoothstep(.4, 1.8, 2.1*smoothstep(10.0,80.0,t)+cos(1.7+t*3.141592+12.0*apos.x +12.0*apos.y ))*smoothstep(8.0,80.0,t);
 	vec3 loc  = apos *10.0+nor*l;
-	vec3 loc2 = altan*10.0+nor*(texture(tex,altan.xy*10.0+vec2(t,.0)).x)*.4*(1.0-smoothstep(.4, .5, length(altan)))*smoothstep(1.0, 1.8, 2.1*smoothstep(10.0,80.0,t)+cos(1.7+t*2*3.141592+12.0*altan.x+12.0*altan.y))*smoothstep(8.0,80.0,t);
-	vec3 loc3 = artan*10.0+nor*(texture(tex,artan.xy*10.0+vec2(t,.0)).x)*.4*(1.0-smoothstep(.4, .5, length(artan)))*smoothstep(1.0, 1.8, 2.1*smoothstep(10.0,80.0,t)+cos(1.7+t*2*3.141592+12.0*artan.x+12.0*artan.y))*smoothstep(8.0,80.0,t);
+	vec3 loc2 = altan*10.0+nor*(texture(tex,altan.xy*5.0+vec2(t,.0)).x)*.4*(1.0-smoothstep(.4, .5, length(altan)))*smoothstep(.4, 1.8, 2.1*smoothstep(10.0,80.0,t)+cos(1.7+t*3.141592+12.0*altan.x+12.0*altan.y))*smoothstep(8.0,80.0,t);
+	vec3 loc3 = artan*10.0+nor*(texture(tex,artan.xy*5.0+vec2(t,.0)).x)*.4*(1.0-smoothstep(.4, .5, length(artan)))*smoothstep(.4, 1.8, 2.1*smoothstep(10.0,80.0,t)+cos(1.7+t*3.141592+12.0*artan.x+12.0*artan.y))*smoothstep(8.0,80.0,t);
 	nor = vec4(camera*vec4(-normalize(cross(loc2-loc,loc3-loc)),.0)).xyz;
 	pos = camera*vec4(loc,1.0);
 	dir = reflect(loc,nor);
@@ -50,7 +53,7 @@ uniform vec3 primaryDirection, primaryColour, secondaryDirection, secondaryColou
 
 void main() {
 	float fres = clamp(.0+.2*pow(1.0-dot(normalize(pos.xyz),-normalize(nor)),5.0),.0,1.0);
-	outcol = smoothstep(40.0,70.0,t)*abs(l)*7.0*vec4(.9, .7, .4,.0)+clamp(mix(vec4(.1*vec3((dot(normalize(nor),normalize(primaryDirection))*.5+.5)*hsltorgb(primaryColour-vec3(.0,.1,.1)) + (dot(normalize(nor),normalize(secondaryDirection))*.5+.5)*hsltorgb(secondaryColour-vec3(.0,.1,.1))), 1.0), vec4((dot(normalize(dir),normalize(primaryDirection))*.5+.5)*hsltorgb(primaryColour) + (dot(normalize(dir),normalize(secondaryDirection))*.5+.5)*hsltorgb(secondaryColour), 1.0), fres),vec4(.0),vec4(1.0));
+	outcol = smoothstep(40.0,70.0,t2)*abs(l)*7.0*vec4(.9, .7, .4,.0)+clamp(mix(vec4(.1*vec3((dot(normalize(nor),normalize(primaryDirection))*.5+.5)*hsltorgb(primaryColour-vec3(.0,.1,.1)) + (dot(normalize(nor),normalize(secondaryDirection))*.5+.5)*hsltorgb(secondaryColour-vec3(.0,.1,.1))), 1.0), vec4((dot(normalize(dir),normalize(primaryDirection))*.5+.5)*hsltorgb(primaryColour) + (dot(normalize(dir),normalize(secondaryDirection))*.5+.5)*hsltorgb(secondaryColour), 1.0), fres),vec4(.0),vec4(1.0));
 	outadd = vec4(.0);
 }
 
