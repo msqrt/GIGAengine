@@ -91,3 +91,7 @@ int song::seekBeats(long double position) {
 long double song::getBeats() {
 	return getTime()*BPM;
 }
+
+long double song::getLength() {
+	return length;
+}
