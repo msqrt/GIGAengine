@@ -110,6 +110,7 @@ void main() {
 	//ppos.x += glitch;
 	ppos.x += -4.0 + 4.0 * (mod(floor(t/8), 3 + mod(floor(t/9), 2)));
 	ppos *= 2.0;
+	ppos.x *=  1.0 + sqrt(max(0.0,t-16.0)/30.0) * (0.5+0.5*sin(t + ppos.y))*0.5;
 	
 	
 	ppos = (rotationy4 * vec4(ppos, 1.0)).xyz;
