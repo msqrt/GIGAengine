@@ -16,6 +16,7 @@ smooth out vec2 uv;
 smooth out vec4 exColor;
 smooth out vec4 exNormal;
 smooth out float wobble;
+smooth out float dist;
 
 mat4 getyrot(float alpha) {
 	return mat4(
@@ -109,9 +110,10 @@ void main() {
 	ppos *= 2.0;
 	
 	
-	
 	ppos = (rotationy4 * vec4(ppos, 1.0)).xyz;
 	gl_Position = (projection*cam)*vec4(ppos, 1.0);
+
+	dist=gl_Position.z;
 	exNormal = (cam)*vec4(rotationy*normal,.0);
 }
 
@@ -123,6 +125,8 @@ smooth in vec2 uv;
 smooth in vec4 exColor;
 smooth in vec4 exNormal;
 smooth in float wobble;
+smooth in float dist;
+
 layout(location=0) out vec4 outcol;
 uniform sampler2D tex;
 
@@ -146,7 +150,7 @@ void main() {
 	
 	outcol.rgb = mix(outcol.rgb, excol.rgb, 0.0);
 	outcol.rgb = max(outcol.rgb, vec3(0.05));
-	outcol.a = -gl_FragCoord.z;
+	outcol.a = min(1.0,40.0/dist);//-gl_FragCoord.z;
 	
 	}
 
