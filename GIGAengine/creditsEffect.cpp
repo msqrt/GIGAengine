@@ -38,5 +38,7 @@ void CreditsEffect::render(ParameterMap& param)
 
 	tex.bind(0);
 
+	glEnable(GL_BLEND);
 	quadi.draw(GL_TRIANGLES);
+	glDisable(GL_BLEND);
 }

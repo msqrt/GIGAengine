@@ -142,6 +142,7 @@ int main() {
 	BlurbEffect blurbefu;
 	TowerEffect towerefu;
 	CreditsEffect creditsefu(L"assets/credits.png");
+	CreditsEffect logoefu(L"assets/logo.png");
 	Sky sky;
 	Wall wall;
 
@@ -210,6 +211,7 @@ int main() {
 	timeline.addEntry(144.0f, 183.0f, nostatus, p2);
 	timeline.addEntry(183.0f, 248.0f, insideefu, insideCurves);
 	timeline.addEntry(183.0f, 248.0f, blurbefu, insideCurves);
+	timeline.addEntry(183.0f + 16.0f, 183.0f + 16.0f + 12.0f, logoefu, insideCurves);
 	timeline.addEntry(248.0f, 312.0f, insideefu, insideCurves);
 	timeline.addEntry(248.0f, 312.0f, towerefu, p2);
 	timeline.addEntry(312.0f, 500.0f, creditsefu, creducurvet);
