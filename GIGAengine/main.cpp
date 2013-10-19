@@ -98,8 +98,8 @@ int main() {
 	if(!runprogram)
 		ExitProcess(0);
 	#else
-	global_screenw = 1280 / 1;
-	global_screenh = 720 / 1;
+	global_screenw = 1280 / 2;
+	global_screenh = 720 / 2;
 	#endif
 
 	win = new window(global_screenw, global_screenh, full, L"PILOT/A");
@@ -147,6 +147,7 @@ int main() {
 	BlurbEffect blurbefu;
 	TowerEffect towerefu;
 	CreditsEffect creditsefu(L"assets/credits.png");
+	CreditsEffect muistutusefu(L"assets/muistutus.png");
 	CreditsEffect logoefu(L"assets/logo.png");
 	Sky sky;
 	Wall wall;
@@ -232,6 +233,7 @@ int main() {
 	timeline.addEntry(183.0f, 248.0f, insideefu, insideCurves);
 	timeline.addEntry(183.0f, 248.0f, blurbefu, insideCurves);
 	timeline.addEntry(183.0f + 16.0f, 183.0f + 16.0f + 12.0f, logoefu, insideCurves);
+	timeline.addEntry(221.0f + 4.0f + 4.0f, 221.0f + 6.0f + 4.0f + 4.0f, muistutusefu, insideCurves);
 	timeline.addEntry(248.0f, 312.0f, insideefu, insideCurves);
 
 		timeline.addEntry(247.0f, 252.0f, flash, flashCurve);	
