@@ -21,6 +21,8 @@ NostatusEffect::NostatusEffect()
 	fill.addUniform("screenSize", screensize, GVEC2);
 	bg.addUniform("screenSize", screensize, GVEC2);
 	suippo = util::loadWavefrontObj("assets/meshes/city.obj", false);
+	cirkula.bind(0);
+	glGenerateMipmap(GL_TEXTURE_2D);
 }
 
 NostatusEffect::~NostatusEffect()

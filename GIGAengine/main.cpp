@@ -101,7 +101,7 @@ int main() {
 	global_screenh = 720 / 2;
 	#endif
 
-	win = new window(global_screenw, global_screenh, full, L"ALTDEMO");
+	win = new window(global_screenw, global_screenh, full, L"PILOT/A");
 	
 	if(wglGetProcAddress("wglSwapIntervalEXT"))
 		((PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT"))(1);
