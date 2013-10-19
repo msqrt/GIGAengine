@@ -12,11 +12,11 @@ namespace {
 float screensize[] = {1280.0f, 720.0f};
 }
 
-CreditsEffect::CreditsEffect()
+CreditsEffect::CreditsEffect(std::wstring texture_path)
  : Effect(), 
 	fill("assets/texture.shader"), 
 	quadi(MESH_QUAD),
-	tex(L"assets/credits.png")
+	tex(texture_path)
 { 
 	fill.addUniform("screenSize", screensize, GVEC2);
 

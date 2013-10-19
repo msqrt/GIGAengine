@@ -141,7 +141,7 @@ int main() {
 	CityEffect cityefu;
 	BlurbEffect blurbefu;
 	TowerEffect towerefu;
-	CreditsEffect creditsefu;
+	CreditsEffect creditsefu(L"assets/credits.png");
 	Sky sky;
 	Wall wall;
 

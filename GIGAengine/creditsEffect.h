@@ -8,7 +8,7 @@
 
 class CreditsEffect: public Effect {
 	public:
-		CreditsEffect();
+		CreditsEffect(std::wstring texture_path);
 		~CreditsEffect();
 		void render(ParameterMap& param);
 	private:

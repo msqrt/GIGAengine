@@ -100,7 +100,7 @@ void main() {
 	mat4 rotationy4 = getyrot(t*0.1 + pos.y*0.02 + index*1.0);
 	
 	uv = pos.xy + vec2(pos.z, pos.z);
-	uv *= 0.4;
+	uv *= 0.1;
 
 	vec3 ppos = pos;
 	ppos.y += 0.0 - beat2*0.4;
@@ -135,9 +135,18 @@ void main() {
 	outcol.rgba = vec4(1.0, 0.0, 0.0, 1.0);
 	//outcol.rgb = exNormal.xyz;
 	vec3 light = vec3(-0.8, 0.1, 0.1);
-	vec3 normal = exNormal.xyz;
-	outcol.rgb = tcol.rgb;
-	outcol.rgb *= max(0, dot(light, normal));
+	vec3 normal = -exNormal.xyz;
+	vec3 excol = exNormal.xyz;
+//	outcol.rgb = max(vec3(0.4), tcol.rgb);
+	//outcol.rgb = excol.ggg * vec3(0.8, 0.3, 0.6);
+	outcol.rgb = excol.ggg * vec3(0.65, 0.5, 0.5);
+	
+	//outcol.rgb *= vec3(0.6, 0.5, 0.5)*0.8*excol;
+	outcol.rgb *= mix(vec3(0.15,0.2,0.5),vec3(0.7,0.5,0.45), 0.5+.5*max(-1.0, dot(light, normal)) + tcol.r-tcol.g) ;
+	
+	outcol.rgb = mix(outcol.rgb, excol.rgb, 0.0);
+	outcol.rgb = max(outcol.rgb, vec3(0.05));
+	outcol.a = -gl_FragCoord.z;
 	
 	}
 
