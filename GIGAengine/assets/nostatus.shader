@@ -60,14 +60,16 @@ void main() {
 	exColor = vec4(vec3(c), 1.0);
 	
 	//cam[3][1] += -t*1;	// y translation
-	ppos.y += -t*1.2;
+	ppos.y += -t*1.0;
 	ppos.x += t*0.3;
+	ppos *= 1.5;
+	
 	gl_Position = (projection*cam)*vec4(ppos, 1.0);
 	exNormal = normalize((projection*cam)*vec4(norm, 1.0)* vec4(1.0, 1.0, 0.00, 1.0));
 	wobble = sin(length(gl_Position));
 
 	
-	ppos *= 4.0;
+	//ppos *= 4.0;
 }
 
 #endif
@@ -89,8 +91,8 @@ void main() {
 	vec3 light = normalize(vec3(0.2 , 0.7, 0.0));
 
 	
-	c = c * vec3(0.9, 0.7, 0.5);
-	c = c * vec3(2.5);
+	c = c * vec3(0.8, 0.7, 0.5);
+	c = c * vec3(3.5);
 	outcol = vec4(pow(c, vec3(2.2)), 1.0) + exColor;
 	vec3 diffuse = vec3(0.0, 0.0, 0.0);
 	vec3 joku_normal = normalize(vec3(1.0, 1.0, 0.1) * exNormal.xyz * 4.0);
