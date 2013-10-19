@@ -188,11 +188,23 @@ int main() {
 	cityp["speed"](0.0, 0.1, 1.0f);
 	cityp["lamp"](0.0, 0.0, 1.0f);
 
-	CurveMap imgp;
-	imgp["aspect"](.0f,float(global_screenh)/float(global_screenw),.0f);
-	imgp["scale"](41.5f,1.0f,.0f)(41.7f,.99f,.0f)(41.9f,1.01f,.0f)(42.1f,1.0f,.0f);
-	imgp["bright"](39.9f,1.0f,.0f)(40.0f,0.0f,.0f)(40.3f,2.0f,.0f)(40.4f,0.5f,.0f)(40.5f,1.5f,.0f)(40.8f,0.5f,.0f)(41.3f,0.1f,.0f)(41.5f, 1.0f, .0f)(60.0f, 1.0f, .0f)(64.0f,8.0f,.0f);
-	imgp["ang"](.0f, 3.141592f, .0f);
+	CurveMap puuCurve;
+	puuCurve["aspect"](.0f,float(global_screenh)/float(global_screenw),.0f);
+	puuCurve["scale"](41.5f,1.0f,.0f)(41.7f,.99f,.0f)(41.9f,1.01f,.0f)(42.1f,1.0f,.0f);
+	puuCurve["bright"](39.9f,1.0f,.0f)(40.0f,0.0f,.0f)(40.3f,2.0f,.0f)(40.4f,0.5f,.0f)(40.5f,1.5f,.0f)(40.8f,0.5f,.0f)(41.3f,0.1f,.0f)(41.5f, 1.0f, .0f)(60.0f, 1.0f, .0f)(64.0f,8.0f,.0f);
+	puuCurve["ang"](.0f, 3.141592f, .0f);
+	puuCurve["x"]()(.0f,.0,.0f);
+	puuCurve["y"]()(.0f,-1.0f,.0f)(41.5f,.0,.04f)(64.0f,.2f,.0f);
+	puuCurve["bright2"]()(41.3f,0.0f,.0f)(41.5f,1.0f,.0f);
+
+	CurveMap puuFlash;
+	puuFlash["aspect"](.0f,float(global_screenh)/float(global_screenw),.0f);
+	puuFlash["scale"](38.3f,2.0f,.0f)(50.5f,7.0f,.0f);
+	puuFlash["bright"](38.3f,0.0f,.0f)(41.5f,0.05f,.0f)(45.9f,0.0f,.0f);
+	puuFlash["ang"](.0f, 3.141592f, .0f);
+	puuFlash["x"]()(.0f,.0,.0f);
+	puuFlash["y"]()(.0f,-1.0f,.0f)(41.5f,.0,.04f)(64.0f,.2f,.0f);
+	puuFlash["bright2"]()(41.3f,0.0f,.0f)(41.5f,1.0f,.0f);
 
 	CurveMap flashCurve;
 	flashCurve["bright"](0.0f,1.0f,.0f)(0.1f,0.0f,.0f)(0.3f,2.0f,.0f)(0.4f,0.5f,.0f)(0.5f,1.5f,.0f)(0.8f,0.5f,.0f)(1.3f,0.0f,.0f);
@@ -204,30 +216,32 @@ int main() {
 	//p1["t"](0.0f,0.0f,1.0f)(40.0f,40.0f,1.0f);
 	timeline.addEntry(0.0f, 80.0f, sky, p1);
 	timeline.addEntry(0.0f, 80.0f, wall, p1);
+
 	timeline.addEntry(80.0f, 144.0f, insideefu, cityp);
-	imgp["x"]()(.0f,.0,.0f);
-	imgp["y"]()(.0f,-1.0f,.0f)(41.5f,.0,.04f)(64.0f,.2f,.0f);
-	imgp["bright2"]()(41.3f,0.0f,.0f)(41.5f,1.0f,.0f);
-	timeline.addEntry(80.0f, 144.0f, puu, imgp);
-	
+	timeline.addEntry(80.0f, 144.0f, puu, puuCurve);
 	timeline.addEntry(80.0f, 144.0f, cityefu, p3);
-		timeline.addEntry(79.5f, 82.0f, flash, flashCurve);
+	timeline.addEntry(80.0f, 144.0f, puu, puuFlash);
+	timeline.addEntry(79.5f, 82.0f, flash, flashCurve);
+
 	p2["r"](0.0f,1.0f,0.0f)(10.0f,0.0f,0.0f)(15.0f,1.0f,0.0f);
 	p2["g"](0.0f,0.0f,0.0f)(10.0f,1.0f,0.0f)(15.0f,0.0f,0.0f);
 	p2["b"](0.0f,1.0f,0.0f)(10.0f,0.0f,0.0f)(15.0f,1.0f,0.0f);
 	timeline.addEntry(144.0f, 183.0f, vuoriefu, p2);
 	timeline.addEntry(144.0f, 183.0f, nostatus, p2);
+
 	timeline.addEntry(183.0f, 248.0f, insideefu, insideCurves);
 	timeline.addEntry(183.0f, 248.0f, blurbefu, insideCurves);
 	timeline.addEntry(183.0f + 16.0f, 183.0f + 16.0f + 12.0f, logoefu, insideCurves);
 	timeline.addEntry(248.0f, 312.0f, insideefu, insideCurves);
+
 		timeline.addEntry(247.0f, 252.0f, flash, flashCurve);	
 	timeline.addEntry(248.0f, 312.0f, towerefu, p2);
 	timeline.addEntry(312.0f, 500.0f, creditsefu, creducurvet);
 	//timeline.addEntry(248.0f, 500.0f, dust, p1);
 	//timeline.addEntry(248.0f, 248.0f, nostatus, p2);
 	//timeline.addEntry(248.0f, 500.0f, dust, p1);
-	timeline.addEntry(248.0f, 500.0f, dust, p2);
+	
+	////////////////////////////timeline.addEntry(248.0f, 500.0f, dust, p2);
 
 	track.seekBeats(.0);
 	track.play();

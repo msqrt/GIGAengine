@@ -10,7 +10,7 @@ LaserEffect::~LaserEffect() { }
 
 void LaserEffect::render(ParameterMap& param) {
 	blit.use();
-	
+	glClear(GL_DEPTH_BUFFER_BIT);
 	glUniform2f(blit.getLoc("upos"), param["x"], param["y"]);
 	glUniform1f(blit.getLoc("aspect"), param["aspect"]);
 	glUniform1f(blit.getLoc("uang"), param["ang"]);
