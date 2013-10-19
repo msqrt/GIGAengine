@@ -8,16 +8,31 @@ smooth out float beat;
 uniform vec2 screenSize;
 uniform float t;
 
-
 void main() {
 	float ratio = screenSize.y/screenSize.x;
+	
+	float theta = floor(t/2.0 + 0.5);
+
+	mat2 yrot2d = mat2(
+		cos(theta), sin(theta),
+		-sin(theta), cos(theta)
+	);
+	
+	vec2 ppos = ipos;
+	ppos = ppos;
+	ppos.x *= 1.2;
+	ppos.x += -0.05 + ppos.y*0.1*sign(ppos.x-0.5);
+	ppos.y -= 0.1;
+
 	ex_uv = ipos*.5+vec2(.5);
 	ex_uv.y *= -1;
+	ex_uv.x *= 1.2;
 	ex_uv.y *= (870.0/515.0);
 	ex_uv.y *= ratio;
-	ex_uv *= 1.0;
+	ex_uv *= 1.0;	
 	ex_uv.x += t*0.01;	// scroll from left to right
-	vec2 position = ipos;
+	
+	vec2 position = ppos;
 	
 	float beat = floor(t) + smoothstep(0.0, 1.0, mod(t, 1.0));
 	
