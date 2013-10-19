@@ -55,7 +55,7 @@ void main() {
 	outpos *= roty;
 	outpos.x -= 4.0;
 	
-	float spin = distance(vec3(0.0), ipos) * beat*0.05;
+	float spin = distance(vec3(0.0), ipos) * pow(beat*2.0, 0.6)*0.05;
 	
 	mat3 roty2 = mat3(
 		cos(spin), 0.0, -sin(spin),
