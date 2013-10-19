@@ -21,6 +21,7 @@
 #include "shaderstorage.h"
 #include "objloader.h"
 #include "laser.h"
+#include "flashEffect.h"
 
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "gdi32.lib")
@@ -150,6 +151,8 @@ int main() {
 	LaserEffect spark(L"assets/spark.jpg");
 	LaserEffect puu(L"assets/puu.jpg");
 
+	FlashEffect flash;
+
 	CurveMap p1,p2,p3;
 	p1["camx"](2.0f,.0f,.0f)(15.0f,20.0f,.0f)(55.0f,-12.0f,.0f)(80.0f,-3.0f,-1.0f);
 	p1["camy"](2.0f,.0f,.0f)(20.0f,13.0f,.0f)(80.0f,5.0f,-1.0f);
@@ -211,7 +214,9 @@ int main() {
 	timeline.addEntry(183.0f, 248.0f, insideefu, insideCurves);
 	timeline.addEntry(183.0f, 248.0f, blurbefu, insideCurves);
 	timeline.addEntry(248.0f, 312.0f, insideefu, insideCurves);
-	timeline.addEntry(248.0f, 312.0f, towerefu, p2);
+		CurveMap flashCurve;
+		flashCurve["bright"](0.0f,1.0f,.0f)(0.1f,0.0f,.0f)(0.3f,2.0f,.0f)(0.4f,0.5f,.0f)(0.5f,1.5f,.0f)(0.8f,0.5f,.0f)(1.3f,0.0f,.0f);
+		timeline.addEntry(247.0f, 252.0f, flash, flashCurve);	timeline.addEntry(248.0f, 312.0f, towerefu, p2);
 	timeline.addEntry(312.0f, 500.0f, creditsefu, creducurvet);
 	//timeline.addEntry(248.0f, 500.0f, dust, p1);
 	//timeline.addEntry(248.0f, 248.0f, nostatus, p2);
