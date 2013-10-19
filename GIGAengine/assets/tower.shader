@@ -90,6 +90,7 @@ void main() {
 	float t2 = t/2.0;
 	float beat = floor(t) + smoothstep(0.0, 1.0, mod(t, 1.0)) ;
 	float beat2 = floor(t2) + smoothstep(0.0, 1.0, mod(t2, 1.0)) ;
+	float glitch = floor(t/2+0.5);
 	
 	mat3 rotationy = mat3(
 		cos(alpha), 0.0, sin(alpha),
@@ -98,7 +99,7 @@ void main() {
 	);
 	vec3 norm = normal;
 	
-	mat4 rotationy4 = getyrot(t*0.1 + pos.y*0.02 + index*1.0);
+	mat4 rotationy4 = getyrot(t*0.1 + pos.y*0.02 + index*1.0 + glitch*0.1);
 	
 	uv = pos.xy + vec2(pos.z, pos.z);
 	uv *= 0.1;
@@ -106,6 +107,7 @@ void main() {
 	vec3 ppos = pos;
 	ppos.y += 0.0 - beat2*0.4;
 	ppos.y += index * 20.0;
+	//ppos.x += glitch;
 	ppos.x += -4.0 + 4.0 * (mod(floor(t/8), 3 + mod(floor(t/9), 2)));
 	ppos *= 2.0;
 	
