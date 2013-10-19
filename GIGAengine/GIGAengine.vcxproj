@@ -96,6 +96,7 @@
     <None Include="assets\bgvuori.shader" />
     <None Include="assets\city.shader" />
     <None Include="assets\dust.shader" />
+    <None Include="assets\flash.shader" />
     <None Include="assets\laser.shader" />
     <None Include="assets\mollykka.shader" />
     <None Include="assets\sky.shader" />
@@ -119,6 +120,7 @@
     <ClInclude Include="blurbEffect.h" />
     <ClInclude Include="cityEffect.h" />
     <ClInclude Include="creditsEffect.h" />
+    <ClInclude Include="FlashEffect.h" />
     <ClInclude Include="insideEffect.h" />
     <ClInclude Include="laser.h" />
     <ClInclude Include="sky.h" />
@@ -180,6 +182,7 @@
     <ClCompile Include="shaderstorage.cpp" />
     <ClCompile Include="simpledraw.cpp" />
     <ClCompile Include="song.cpp" />
+    <ClCompile Include="FlashEffect.cpp" />
     <ClCompile Include="target.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="texture3D.cpp" />
