@@ -39,4 +39,5 @@ ipch/
 *.mp3
 releasepack/
 tempfiles/
->>>>>>> cce-altdemo2
+meta/
+!meta/extrafiles/

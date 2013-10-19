@@ -4,13 +4,13 @@ REM no compilation will be done, but zip is compressed as usual.
 
 setlocal
 
-set archivename=peisikdemo.zip
+set archivename=peisik_-_pilot_a.zip
 set tempdir=meta\tempfiles
 set extradir=meta\extrafiles
 set assetdir=GIGAengine\assets
 set binarypath=Release\GIGAengine.exe
 REM the final binary name
-set binaryname=peisikdemo.exe
+set binaryname=pilot_a.exe
 set compressor="D:\7Zip\7z.exe"
 set releasedir=releasepack
 
@@ -27,7 +27,8 @@ setlocal disableextensions
 set x=%VSINSTALLDIR%
 if "%x%"=="" (goto no_vs) 
 setlocal enableextensions
-call msbuild GIGAengine.sln /p:Configuration=Release /t:Rebuild /nologo 
+REM call msbuild GIGAengine.sln /p:Configuration=Release /t:Rebuild /nologo 
+call msbuild GIGAengine.sln /p:Configuration=Release /nologo 
 goto build_done
 
 :no_vs
