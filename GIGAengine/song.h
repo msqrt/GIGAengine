@@ -18,4 +18,5 @@ class song {
 		int seekBeats(long double position);
 		long double getTime();
 		long double getBeats();
+		long double getLength();
 };
