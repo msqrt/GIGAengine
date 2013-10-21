@@ -216,9 +216,9 @@ int main() {
 
 	//p1["t"](0.0f,0.0f,1.0f)(40.0f,40.0f,1.0f);
 	timeline.addEntry(0.0f, 80.0f, sky, p1);
+	timeline.addEntry(80.0f, 144.0f, insideefu, cityp);
 	timeline.addEntry(0.0f, 95.0f, wall, p1);
 
-	timeline.addEntry(80.0f, 144.0f, insideefu, cityp);
 	timeline.addEntry(80.0f, 144.0f, puu, puuCurve);
 	timeline.addEntry(80.0f, 144.0f, cityefu, p3);
 	timeline.addEntry(80.0f, 144.0f, puu, puuFlash);
