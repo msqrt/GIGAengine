@@ -98,8 +98,8 @@ int main() {
 	if(!runprogram)
 		ExitProcess(0);
 	#else
-	global_screenw = 1280 / 2;
-	global_screenh = 720 / 2;
+	global_screenw = 1280;
+	global_screenh = 720 ;
 	#endif
 
 	win = new window(global_screenw, global_screenh, full, L"PILOT/A");
@@ -319,6 +319,8 @@ int main() {
 			break;
 		}
 		#endif
+
+		Sleep(0);
 	}
 
 	delete cityTexture;
