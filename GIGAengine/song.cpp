@@ -36,6 +36,7 @@ song::song(std::wstring path): playing(false) {
 song::~song() {
 	mediaControl->Release();
 	mediaSeeking->Release();
+	CoUninitialize();
 }
 
 int song::play() {
@@ -57,6 +58,13 @@ int song::toggle() {
 	else
 		pause();
 	return 0;
+}
+
+bool song::ended() {
+	__int64 position, duration;
+	mediaSeeking->GetCurrentPosition(&position);
+	mediaSeeking->GetDuration(&duration);
+	return position >= duration;
 }
 
 int song::seek(long double position) {

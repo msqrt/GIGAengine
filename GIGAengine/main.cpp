@@ -22,7 +22,7 @@
 
 bool runprogram = true, full = false;
 
-int screenw = 0, screenh = 0;
+int screenw = 1280, screenh = 720;
 
 INT_PTR CALLBACK startupproc(HWND dlg, UINT msg, WPARAM w, LPARAM l)
 {
@@ -31,8 +31,11 @@ INT_PTR CALLBACK startupproc(HWND dlg, UINT msg, WPARAM w, LPARAM l)
 		ComboBox_AddString(GetDlgItem(dlg, IDC_COMBO1), L"1280x720");
 		ComboBox_AddString(GetDlgItem(dlg, IDC_COMBO1), L"1920x1080");
 		ComboBox_AddString(GetDlgItem(dlg, IDC_COMBO1), L"3840x2160");
+		ComboBox_AddString(GetDlgItem(dlg, IDC_COMBO1), L"WxH (write your own)");
 		
 		ComboBox_SetCurSel(GetDlgItem(dlg, IDC_COMBO1), 0);
+
+		Button_SetCheck(GetDlgItem(dlg, IDC_CHECK1), true);
 	}
 	if(msg==WM_COMMAND)
 	{
@@ -70,12 +73,12 @@ int main() {
 
 	InitCommonControls();
 
-	DialogBox(GetModuleHandle(0), MAKEINTRESOURCE(IDD_DIALOG1), 0, (DLGPROC)startupproc);
+	//DialogBox(GetModuleHandle(0), MAKEINTRESOURCE(IDD_DIALOG1), 0, (DLGPROC)startupproc);
 	
 	if(!runprogram)
 		ExitProcess(0);
 
-	window win(screenw, screenh, full, L"ALTDEMO");
+	window win(screenw, screenh, full, L"PEISIK");
 	//window win(1920, 1080, 1, L"windy window");
 	
 	ShowCursor(0);
@@ -92,7 +95,7 @@ int main() {
 
 	mesh quad(QUAD);
 
-	song track(L"track.mp3");
+	song track(L"slowbeat_2.mp3");
 
 	double dirx = .0, diry = .0, posx = .0, posy = .0, posz = 3.0;
 	POINT pt = {win.width/2, win.height/2};
@@ -105,7 +108,7 @@ int main() {
 	track.play();
 	t = track.getTime();
 
-	while(win.loop() && t<200.0f) {
+	while(win.loop() && !track.ended()) {
 		glBeginQuery(GL_TIME_ELAPSED, query);
 
 		if(0) { // if(win.keyHit[VK_SPACE]) {
@@ -122,8 +125,6 @@ int main() {
 		if(flymode) {
 		}
 		
-		//while(t>track.getTime());
-		//while(t<track.getTime())
 		while(t<track.getTime())
 			t+=1.0f/60.0f;
 		//t = win.time();

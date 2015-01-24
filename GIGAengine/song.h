@@ -14,6 +14,7 @@ class song {
 		int play();
 		int pause();
 		int toggle();
+		bool ended();
 		int seek(long double position);
 		long double getTime();
 };

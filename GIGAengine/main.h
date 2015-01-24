@@ -25,6 +25,8 @@
 #include "gldefines.h"
 #endif
 
+#include "math.hpp"
+
 #include "mesh.h"
 #include "shader.h"
 #include "texture.h"
