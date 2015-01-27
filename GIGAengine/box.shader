@@ -26,7 +26,7 @@ flat in float shade;
 smooth in vec3 pos;
 
 void main() {
-	outcol = vec4(shade);//*max(.0,exp(-.02*pos.z));
+	outcol = vec4(shade)*max(.0,exp(-.02*pos.z));
 }
 
 #endif

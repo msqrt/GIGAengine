@@ -71,8 +71,8 @@ INT_PTR CALLBACK startupproc(HWND dlg, UINT msg, WPARAM w, LPARAM l)
 	return 0;
 }
 
-#define BUILDING_AMOUNT 1//600
-#define VORONOI_AMOUNT 30
+#define BUILDING_AMOUNT 100
+#define VORONOI_AMOUNT 20
 
 //int CALLBACK main(HINSTANCE self, HINSTANCE prev, LPSTR cmdline, int show) {
 int main() {
@@ -100,11 +100,11 @@ int main() {
 		return std::pair<int, int>(p.x - x2, p.y - y2);
 	};
 
-	ShowCursor(0);
+	//ShowCursor(0);
 
 	((PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT"))(1);
 
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 
@@ -129,8 +129,14 @@ int main() {
 		set_mouse();
 	}
 	struct vertex {
+		vertex() {};
+		vertex(pos p) : position(p) {};
+
 		pos position;
 		nor normal;
+		vec cluster_pos;
+		float house_index;
+		
 	};
 
 	vertex box_corners[6 * 6];
@@ -178,31 +184,40 @@ int main() {
 	};
 	vector<poisson_disk> city_disks;
 
+	for (float x = -80; x < 80; x += 10.0f)
+	for (float y = -80; y < 80; y += 10.0f)
 	for (int j = 0; j < 6 * 6; ++j) {
 		vertex b = box_corners[j];
 		if (b.position.y < .4f) {
 			b.position.y = -.1f;
-			b.position.x *= 80.0f;
-			b.position.z *= 80.0f;
-		}
-		else {
+			b.position.x = x + b.position.x * 5;
+			b.position.z = y + b.position.z * 5;
+		} else {
 			b.position.y = .0f;
-			b.position.x *= 80.0f;
-			b.position.z *= 80.0f;
+			b.position.x = x + b.position.x * 5;
+			b.position.z = y + b.position.z * 5;
 		}
 		city_verts.push_back(b);
 	}
 
 	//cout << "breaking things... " << endl;
 
+	bool debug_draw = true;
+	unsigned build_count = 0;
+	
 	for (int i = 0; i < BUILDING_AMOUNT; ++i) {
+		++build_count;
+		printf("building building %d\n", build_count);
 		float x, z;
 		bool overlap;
 		float cur_scale;
 		while (.8f>(cur_scale = rand_exp(.5f)) || 4.0 < cur_scale);
 		do {
-			x = rand(-75.0f, 75.0f);
-			z = rand(-75.0f, 75.0f);
+			float
+				r = rand(0,50),
+				phi = rand(0,2.0f* 3.14159265358979323846264338327950288f);
+			x = cos(phi)*r;
+			z = sin(phi)*r;
 			overlap = false;
 			for (auto& a : city_disks) {
 				if (sqrt((a.x - x)*(a.x - x) + (a.y - z)*(a.y - z)) < a.r + cur_scale) {
@@ -214,8 +229,8 @@ int main() {
 		poisson_disk curdisk;
 		curdisk.x = x; curdisk.y = z; curdisk.r = cur_scale;
 		city_disks.push_back(curdisk);
-		trf model_to_world = trf::translate(pos(x, .0f, z)) * trf::rotate(rand(-.1f, .1f), vec(.0f, 1.0f, .0f));
-		int floors = rand_int(1, rand_int(1, 9));
+		trf model_to_world = trf::translate(pos(x, .0f, z)) * trf::rotate(rand(-.2f, .2f), vec(.0f, 1.0f, .0f));
+		int floors = min(12,int(rand(3, 7)*(40.0/sqrt(x*x+z*z))));
 		float cur_height = .0f;
 
 
@@ -225,11 +240,11 @@ int main() {
 
 		for (int k = 0; k < floors; ++k) {
 			float next_scale = cur_scale*rand(.6f, 1.2f);
-			float floor_height = rand_exp(cur_scale*1.0f);
+			float floor_height = rand_exp(cur_scale*2.0f);
 
 			for (int j = 0; j < 6 * 6; ++j) {
 				vertex b = box_corners[j];
-				if (abs(b.normal.y) < .01f || (b.normal.y > .0f && k == floors - 1) || (b.normal.y<.0f && k==0)) {
+				if (abs(b.normal.y) < .01f || (b.normal.y > .0f && k == floors - 1) || (b.normal.y < .0f && k == 0)) {
 					if (b.position.y < .4f) {
 						b.position.y = cur_height;
 						b.position.x *= cur_scale;
@@ -248,16 +263,21 @@ int main() {
 			cur_scale = next_scale;
 		}
 
+		auto rand_outer = [&rand_int, &rand](float a, float b)->float{return .5f*(a + b)+(rand_int(0, 1) ? -1.0f : 1.0f)*pow(rand(.0f, b - a), 2.0f); };
+
 		vector<pos> voronoi_points(VORONOI_AMOUNT);
 		for (auto& p : voronoi_points)
-			p = pos(rand(min_pos.x, max_pos.x), rand(min_pos.y, max_pos.y), rand(min_pos.z, max_pos.z));
+			p = pos(
+				rand(min_pos.x*.8 + max_pos.x*.2, max_pos.x*.8 + min_pos.x*.2),
+				rand(min_pos.y*.8 + max_pos.y*.2, max_pos.y*.8 + min_pos.y*.2),
+				rand(min_pos.z*.8 + max_pos.z*.2, max_pos.z*.8 + min_pos.z*.2));
 
 		struct plane {
 			nor normal;
 			float d;
 			bool keep;
-			plane(nor n, float d) : normal(n), d(d), keep(true) {}
-			plane(nor n, pos d) : normal(n), d(-dot(vec(d), vec(normal))), keep(true) {}
+			plane(nor n, float d) : normal(n.normalized()), d(d), keep(true) {}
+			plane(nor n, pos d) : normal(n.normalized()), d(-dot(vec(d), vec(normal))), keep(true) {}
 			pos intersect(pos p1, pos p2) {
 				float t = -eval(p1) / dot(nor(p2 - p1), normal);
 				return p1 + t*(p2 - p1);
@@ -268,43 +288,44 @@ int main() {
 		};
 
 		vector<vertex> building_tmp = building_verts;
-		building_verts.clear();
-
-		//for (auto& p : voronoi_points)
+		/*building_verts.clear();
+		
+		for (auto& p : voronoi_points)
+		//for (auto kk = 0; kk < 2; ++kk)
 		{
-			auto& p = voronoi_points[0];
+			//auto& p = voronoi_points[kk];
 			vector<pos> tmp_pts = voronoi_points;
 			vector<std::pair<plane, pos>> planes; planes.reserve(voronoi_points.size());
-			
-			for (auto& t : tmp_pts)
-				if ((t - p).sqlen()>.01f)
-					planes.push_back(std::make_pair(plane(nor(t - p), t), t));
-			/*
-			for (int j = 0; j < planes.size(); ++j) {
-				for (int i = 0; i < planes.size(); ++i) {
-					if (j == i)
-						continue;
 
-					if (planes[j].first.eval(planes[i].second) > .0f) {
-						planes[i].first.keep = false;
-					}
-				}
+			for (auto& t : tmp_pts)
+				if ((t - p).sqlen() > .00001f)
+					planes.push_back(std::make_pair(plane(nor(t - p), t), t));
+			
+			for (int j = 0; j < planes.size(); ++j) {
+			for (int i = 0; i < planes.size(); ++i) {
+			if (j == i)
+			continue;
+
+			if (planes[j].first.eval(planes[i].second) > .0f) {
+			planes[i].first.keep = false;
+			}
+			}
 			}
 			auto iter = planes.begin();
 			while (iter != planes.end()) {
-				if (!iter->first.keep)
-					iter = planes.erase(iter);
-				else
-					++iter;
+			if (!iter->first.keep)
+			iter = planes.erase(iter);
+			else
+			++iter;
 			}
-			*/
+			
 			for (auto& pl : planes) {
-				pl.first.d = -dot(pl.first.normal, nor(.5f*(p+pl.second)));
+				pl.first.d = -dot(pl.first.normal, nor(.5f*(p + pl.second)));
 			}
 			vector<vertex> cut_mesh = building_tmp;
 			for (auto& pl : planes) {
 				vector<vertex> next_iter; next_iter.reserve(1000);
-				vector<std::pair<pos,pos>> border; border.reserve(1000);
+				vector<std::pair<pos, pos>> border; border.reserve(1000);
 				for (int i = 0; i < cut_mesh.size(); i += 3) { // tri by tri
 					if (pl.first.eval(cut_mesh[i + 0].position) < .0f &&
 						pl.first.eval(cut_mesh[i + 1].position) < .0f &&
@@ -313,8 +334,7 @@ int main() {
 						next_iter.push_back(cut_mesh[i + 0]); // keep this, it's good
 						next_iter.push_back(cut_mesh[i + 1]);
 						next_iter.push_back(cut_mesh[i + 2]);
-					}
-					else if (
+					} else if (
 						pl.first.eval(cut_mesh[i + 0].position) < .0f &&
 						pl.first.eval(cut_mesh[i + 1].position) < .0f) {
 
@@ -329,8 +349,7 @@ int main() {
 						next_iter.push_back(new_two);
 						next_iter.push_back(new_one);
 						border.push_back(std::make_pair(new_one.position, new_two.position));
-					}
-					else if (
+					} else if (
 						pl.first.eval(cut_mesh[i + 1].position) < .0f &&
 						pl.first.eval(cut_mesh[i + 2].position) < .0f) {
 
@@ -345,8 +364,7 @@ int main() {
 						next_iter.push_back(new_two);
 						next_iter.push_back(new_one);
 						border.push_back(std::make_pair(new_one.position, new_two.position));
-					}
-					else if (
+					} else if (
 						pl.first.eval(cut_mesh[i + 2].position) < .0f &&
 						pl.first.eval(cut_mesh[i + 0].position) < .0f) {
 
@@ -361,18 +379,16 @@ int main() {
 						next_iter.push_back(new_two);
 						next_iter.push_back(new_one);
 						border.push_back(std::make_pair(new_one.position, new_two.position));
-					}
-					else if (pl.first.eval(cut_mesh[i + 0].position) < .0f) {
+					} else if (pl.first.eval(cut_mesh[i + 0].position) < .0f) {
 						vertex new_one, new_two;
 						new_one.position = pl.first.intersect(cut_mesh[i + 1].position, cut_mesh[i + 0].position);
 						new_two.position = pl.first.intersect(cut_mesh[i + 2].position, cut_mesh[i + 0].position);
-						
+
 						next_iter.push_back(cut_mesh[i + 0]);
 						next_iter.push_back(new_one);
 						next_iter.push_back(new_two);
 						border.push_back(std::make_pair(new_two.position, new_one.position));
-					}
-					else if (pl.first.eval(cut_mesh[i + 1].position) < .0f) {
+					} else if (pl.first.eval(cut_mesh[i + 1].position) < .0f) {
 						vertex new_one, new_two;
 						new_one.position = pl.first.intersect(cut_mesh[i + 2].position, cut_mesh[i + 1].position);
 						new_two.position = pl.first.intersect(cut_mesh[i + 0].position, cut_mesh[i + 1].position);
@@ -381,8 +397,7 @@ int main() {
 						next_iter.push_back(new_one);
 						next_iter.push_back(new_two);
 						border.push_back(std::make_pair(new_two.position, new_one.position));
-					}
-					else if (pl.first.eval(cut_mesh[i + 2].position) < .0f) {
+					} else if (pl.first.eval(cut_mesh[i + 2].position) < .0f) {
 						vertex new_one, new_two;
 						new_one.position = pl.first.intersect(cut_mesh[i + 0].position, cut_mesh[i + 2].position);
 						new_two.position = pl.first.intersect(cut_mesh[i + 1].position, cut_mesh[i + 2].position);
@@ -393,7 +408,7 @@ int main() {
 						border.push_back(std::make_pair(new_two.position, new_one.position));
 					}
 				}
-				
+
 				//for (auto& b : border)
 				//	b = make_pair(b.second, b.first);
 
@@ -412,9 +427,10 @@ int main() {
 					}
 				}
 
+#if 0
 				while (border.size() > 2) {
 					auto iter = border.begin();
-					bool changes = false;
+
 					while (iter != border.end()) {
 						auto next = iter + 1;
 						if (next == border.end() || (next->first - iter->second).sqlen() > .0f)
@@ -436,18 +452,119 @@ int main() {
 								break;
 							if (iter == border.end())
 								iter = border.begin();
-							changes = true;
 						}
 						++iter;
 					}
 					//if (!changes)
 					//	break;
 				}
+#endif
+
+				if (border.size() > 0) {
+
+					vector<vector<std::pair<pos, pos>>> borders;
+
+					int border_id = 0;
+					borders.push_back(vector<std::pair<pos, pos>>());
+					borders[0].push_back(border[0]);
+
+					for (int i = 1; i < border.size(); ++i) {
+						if ((borders[border_id][0].first - border[i].second).sqlen() <.000001f) {
+							borders[border_id].push_back(border[i]);
+							if (i < border.size() - 1) {
+								borders.push_back(vector<std::pair<pos, pos>>());
+								++border_id;
+								borders[border_id].push_back(border[i + 1]);
+								++i;
+							}
+						} else
+							//if ((border[i].first - border[i].second).sqlen()<.01f)
+								borders[border_id].push_back(border[i]);
+					}
+
+					for (auto& border_i : borders) {
+						
+						//if (border_i.size() == 0 || (border_i[0].first - border_i[border_i.size()-1].second).sqlen()>.0f)
+						//	_CrtDbgBreak();
+						
+						while (border_i.size() > 2) {
+
+							if (border_i.size() == 3) {
+
+								auto& a = border_i[0].first;
+								auto& b = border_i[0].first;
+								auto& c = border_i[0].first;
+
+								vec n = (vec)cross(b - a, c - a);
+								float dotti = -dot(pl.first.normal, (nor)n);
+								next_iter.push_back(vertex(a));
+								if(dotti>.0f)
+									next_iter.push_back(vertex(b));
+								next_iter.push_back(vertex(c));
+								if (dotti <= .0f)
+									next_iter.push_back(vertex(b));
+								break;
+							}
+							bool changes = false;
+							for (auto iter = border_i.begin(); iter != border_i.end(); ++iter) {
+								auto& a = iter->first;
+								auto& b = iter->second;
+
+								auto next = std::next(iter, 1);
+
+								//if (next == border_i.end() && (border_i.begin()->first - iter->second).sqlen() > .0f)
+								//	_CrtDbgBreak();
+								if (next == border_i.end()) {
+
+									if (iter == border_i.begin())
+										break;
+
+									next = border_i.begin();
+
+									//if ((next->first - iter->second).sqlen() > .0f) {
+								//		_CrtDbgBreak();
+									//	}
+								}
+								//if ((next->first - iter->second).sqlen() > .01f)
+								//	_CrtDbgBreak();
+
+								auto& b2 = next->first;
+								auto& c = next->second;
+
+								vec n = (vec)cross(b - a, c - a);
+								float dotti = -dot(pl.first.normal, (nor)n);
+								bool same_side = dotti > .0f;
+
+								if (same_side) {
+									next_iter.push_back(vertex(a));
+									next_iter.push_back(vertex(b));
+									next_iter.push_back(vertex(c));
+								}
+
+								//printf("dotti: %f\n", dotti);
+
+								if (same_side || abs(dotti) < 0.0001f) {
+									//if (dotti == 0.0f) {
+									//	printf("0.0f! %d\n", border_i.size());
+									//}
+									b2 = a;
+									changes = true;
+									border_i.erase(iter);
+									break;
+								}
+							}
+							if (!changes)
+								break;
+						}
+					}
+				}
 				cut_mesh = next_iter;
-				cout << "plane done" << endl;
+				//cout << "plane done" << endl;
 			}
+
+
 			building_verts.insert(building_verts.end(), cut_mesh.begin(), cut_mesh.end());
-		}
+		}*/
 
 		for (auto& b : building_verts)
 			b.position = model_to_world(b.position);
@@ -482,21 +599,15 @@ int main() {
 		glBeginQuery(GL_TIME_ELAPSED, query);
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		glPolygonMode(GL_FRONT, GL_LINE);
-
-		if (win.keyHit[VK_SPACE]) {
-			flymode = !flymode;
-			if (flymode) {
-				set_mouse();
-				ShowCursor(0);
-			}
-			else
-				ShowCursor(1);
+		if (win.mouseLeft) {
+			flymode = true;
+			//ShowCursor(0);
+		} else {
+			//ShowCursor(1);
+			flymode = false;
 		}
 
 		if (flymode) {
-
 			auto a = set_mouse();
 			dirx += -.01f*a.first;
 			diry += -.01f*a.second;
