@@ -169,7 +169,7 @@ int window::loop() {
 	while(PeekMessage(&message, 0, 0, 0, PM_REMOVE)) {
 		TranslateMessage(&message);
 		DispatchMessage(&message);
-		if(message.message == WM_QUIT || message.message == WM_KEYDOWN && message.wParam == VK_ESCAPE)
+		if(message.message == WM_QUIT || message.message == WM_DESTROY || message.message == WM_KEYDOWN && message.wParam == VK_ESCAPE)
 			return 0;
 		if(message.message==WM_KEYDOWN)
 			keyHit[message.wParam] = keyDown[message.wParam] = true;

@@ -81,6 +81,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="box.shader" />
     <None Include="ClassDiagram.cd" />
     <None Include="display.shader" />
     <None Include="simple.shader" />

@@ -453,7 +453,7 @@ public:
 			p.x*m.m[1][0] + p.y*m.m[1][1] + p.z*m.m[1][2] + m.m[1][3],
 			p.x*m.m[2][0] + p.y*m.m[2][1] + p.z*m.m[2][2] + m.m[2][3]);
 		float w = p.x*m.m[3][0] + p.y*m.m[3][1] + p.z*m.m[3][2] + m.m[3][3];
-		if (w != 1.0) r /= w;
+		if (w != 1.0 && w != .0) r /= w;
 		return r;
 	}
 	inline pos operator()(const pos& p, vec& r) const {
