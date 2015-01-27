@@ -114,7 +114,7 @@ int main() {
 
 	mesh quad(QUAD);
 
-	song track(L"slowbeat_2.mp3");
+	song track(L"musa.mp3");
 
 	double dirx = .0, diry = .0;
 	pos camera;
@@ -229,19 +229,20 @@ int main() {
 
 			for (int j = 0; j < 6 * 6; ++j) {
 				vertex b = box_corners[j];
-				if (b.position.y < .4f) {
-					b.position.y = cur_height;
-					b.position.x *= cur_scale;
-					b.position.z *= cur_scale;
+				if (abs(b.normal.y) < .01f || (b.normal.y > .0f && k == floors - 1) || (b.normal.y<.0f && k==0)) {
+					if (b.position.y < .4f) {
+						b.position.y = cur_height;
+						b.position.x *= cur_scale;
+						b.position.z *= cur_scale;
+					} else {
+						b.position.y = cur_height + floor_height;
+						b.position.x *= next_scale;
+						b.position.z *= next_scale;
+					}
+					max_pos = pos(max(max_pos.x, b.position.x), max(max_pos.y, b.position.y), max(max_pos.z, b.position.z));
+					min_pos = pos(min(min_pos.x, b.position.x), min(min_pos.y, b.position.y), min(min_pos.z, b.position.z));
+					building_verts.push_back(b);
 				}
-				else {
-					b.position.y = cur_height + floor_height;
-					b.position.x *= next_scale;
-					b.position.z *= next_scale;
-				}
-				max_pos = pos(max(max_pos.x, b.position.x), max(max_pos.y, b.position.y), max(max_pos.z, b.position.z));
-				min_pos = pos(min(min_pos.x, b.position.x), min(min_pos.y, b.position.y), min(min_pos.z, b.position.z));
-				building_verts.push_back(b);
 			}
 			cur_height += floor_height;
 			cur_scale = next_scale;
@@ -274,16 +275,18 @@ int main() {
 			auto& p = voronoi_points[0];
 			vector<pos> tmp_pts = voronoi_points;
 			vector<std::pair<plane, pos>> planes; planes.reserve(voronoi_points.size());
+			
 			for (auto& t : tmp_pts)
 				if ((t - p).sqlen()>.01f)
 					planes.push_back(std::make_pair(plane(nor(t - p), t), t));
+			/*
 			for (int j = 0; j < planes.size(); ++j) {
-				for (int i = 0; i < j; ++i) {
+				for (int i = 0; i < planes.size(); ++i) {
+					if (j == i)
+						continue;
+
 					if (planes[j].first.eval(planes[i].second) > .0f) {
 						planes[i].first.keep = false;
-					}
-					else if (planes[i].first.eval(planes[j].second) > .0f) {
-						planes[j].first.keep = false;
 					}
 				}
 			}
@@ -294,7 +297,7 @@ int main() {
 				else
 					++iter;
 			}
-
+			*/
 			for (auto& pl : planes) {
 				pl.first.d = -dot(pl.first.normal, nor(.5f*(p+pl.second)));
 			}
@@ -479,6 +482,8 @@ int main() {
 		glBeginQuery(GL_TIME_ELAPSED, query);
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		glPolygonMode(GL_FRONT, GL_LINE);
 
 		if (win.keyHit[VK_SPACE]) {
 			flymode = !flymode;
